@@ -47,10 +47,12 @@ char **ft_make_map(t_list **head, int amount)
 	}
 	i = 0;
 	ft_lstclear(head, &free);
+	/*
 	while (map[i])
 	{
 		ft_putendl_fd(map[i++], 1);
 	}
+	*/
 	return (map);
 }
 
@@ -189,13 +191,13 @@ void draw_screen(t_all *all)
 int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
-	if (key == 13)
-		all->plr->y -=1;
-	if (key == 1)
-		all->plr->y +=1;
-	if (key == 0)
+	if (key == 119)
+		all->plr->y -= 1;
+	if (key == 115)
+		all->plr->y += 1;
+	if (key == 97)
 		all->plr->x -= 1;
-	if (key == 2)
+	if (key == 100)
 		all->plr->x += 1;
 	if (key == 53)
 		exit(0);
@@ -246,7 +248,7 @@ int main(int argc, char *argv[])
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, 640, 480, "cubik");
 	win.img = mlx_new_image(win.mlx, 640, 480);
-	win.addr = mlx_get_data_addr(win.addr, &win.bpp, &win.line_l, &win.en);
+	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;
 	all.win = &win;
 	draw_screen(&all);
