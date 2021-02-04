@@ -63,6 +63,46 @@ void ft_draw_player(t_win *win, t_plr *pl)
 	}
 }
 
+void draw_ray_y(t_all *all)
+{
+	int ray_y;
+
+	ray_y = all->plr->y / SCALE;
+	int ray_x = all->plr->x / SCALE;
+
+	int i = 0;
+	while (all->map[ray_y][ray_x] != '1')
+	{
+		//printf("%d", ray_x);
+		//printf("=>%c<=%d<=%d\n",all->map[0][0], 0, 0);
+		printf("=>%c<=%d<=%d",all->map[ray_y][ray_x], ray_y, ray_x);
+		while (i++ < SCALE){
+			printf(" work");
+			mlx_pixel_put(all->win->mlx, all->win->win, all->plr->x, (ray_y * SCALE) + i, 0x00FF0000);
+		}
+		printf("\n");
+		ray_y--;
+		i = 0;
+	}
+}
+
+void draw_ray_x(t_all *all)
+{
+	int ray_y;
+
+	ray_y = all->plr->y / SCALE;
+	int ray_x = all->plr->x / SCALE;
+
+	int i = 0;
+	while (all->map[ray_y][ray_x] != '1')
+	{
+		while (i++ < SCALE)
+			mlx_pixel_put(all->win->mlx, all->win->win, (ray_x * SCALE) + i, all->plr->y, 0x00FF0000);
+		ray_x--;
+		i = 0;
+	}
+}
+
 void draw_screen(t_all *all)
 {
 	t_point point;
@@ -80,6 +120,8 @@ void draw_screen(t_all *all)
 		point.y++;
 	}
 	ft_draw_player(all->win, all->plr);
+	draw_ray_y(all);
+	draw_ray_x(all);
 }
 
 
@@ -131,12 +173,11 @@ int key_press(int key, t_all *all)
 		all->plr->x -= 1;
 	if (key == 100)
 		all->plr->x += 1;
-	if (key == 53)
+	if (key == 65307)
 		exit(0);
 	draw_screen(all);
 	return (0);
 }
-
 
 int		main(int argc, char **argv)
 {
@@ -154,7 +195,7 @@ int		main(int argc, char **argv)
 	ft_init_player(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, 640, 480, "cubik");
-	win.img = mlx_new_image(win.mlx, 640, 480);
+	//win.img = mlx_new_image(win.mlx, 640, 480);
 	//win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;
 	all.win = &win;
