@@ -3,8 +3,9 @@
 #include "cub3D.h"
 #include <fcntl.h>
 #include <mlx.h>
+#include <math.h>
 
-void ft_init_player(char **map, t_plr *plr)
+void ft_init_plr(char **map, t_plr *plr)
 {
 	t_point pos;
 
@@ -18,6 +19,7 @@ void ft_init_player(char **map, t_plr *plr)
 			{
 				plr->x = pos.x * SCALE;
 				plr->y = pos.y * SCALE;
+				plr->dir = 3 * M_PI_2;
 			}
 			pos.x++;
 		}
@@ -45,7 +47,7 @@ void ft_scale_img(t_win *win, t_point point)
 }
 
 
-void ft_draw_player(t_win *win, t_plr *pl)
+void ft_draw_plr(t_win *win, t_plr *pl)
 {
 	t_point end;
 	t_plr plr = *pl;
@@ -75,33 +77,41 @@ void draw_ray_y(t_all *all)
 	{
 		//printf("%d", ray_x);
 		//printf("=>%c<=%d<=%d\n",all->map[0][0], 0, 0);
-		printf("=>%c<=%d<=%d",all->map[ray_y][ray_x], ray_y, ray_x);
+		//printf("=>%c<=%d<=%d",all->map[ray_y][ray_x], ray_y, ray_x);
 		while (i++ < SCALE){
-			printf(" work");
+			//printf(" work");
 			mlx_pixel_put(all->win->mlx, all->win->win, all->plr->x, (ray_y * SCALE) + i, 0x00FF0000);
 		}
-		printf("\n");
+		//printf("*\n");
 		ray_y--;
 		i = 0;
 	}
 }
 
+
+/*
 void draw_ray_x(t_all *all)
 {
-	int ray_y;
+	double ray_y;
+	double ray_x;
 
 	ray_y = all->plr->y / SCALE;
-	int ray_x = all->plr->x / SCALE;
+	ray_x = all->plr->x / SCALE;
 
 	int i = 0;
-	while (all->map[ray_y][ray_x] != '1')
+	while (all->map[(int)ray_y][(int)ray_x] != '1')
 	{
-		while (i++ < SCALE)
-			mlx_pixel_put(all->win->mlx, all->win->win, (ray_x * SCALE) + i, all->plr->y, 0x00FF0000);
-		ray_x--;
+		printf("=>%c<=%f<=%f<=%d<=%f=<%f\n\n",all->map[(int)ray_y][(int)ray_x], ray_y, ray_x, (int)ray_x, (sin(M_PI/3) / cos(M_PI/3)), sin(M_PI/3));
+		ray_y -= 1;
+		ray_x -= (sin(M_PI/3) / cos(M_PI/3));
+		while (i++ < SCALE){
+			mlx_pixel_put(all->win->mlx, all->win->win, ((int)ray_x * SCALE) - i, ((int)ray_y * SCALE) - i, 0x00FF0000);
+		}
 		i = 0;
 	}
-}
+}*/
+
+
 
 void draw_screen(t_all *all)
 {
@@ -119,9 +129,10 @@ void draw_screen(t_all *all)
 		}
 		point.y++;
 	}
-	ft_draw_player(all->win, all->plr);
+	//ft_draw_plr(all->win, all->plr);
 	draw_ray_y(all);
-	draw_ray_x(all);
+	ray_trace_x(all);
+	ray_trace_y(all);
 }
 
 
@@ -165,6 +176,23 @@ char **ft_read_map(char *argv1)
 int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
+	if (key == 100)
+		all->plr->dir += 0.1;
+	if (key == 97)
+		all->plr->dir -= 0.1;
+	if (key == 119)
+	{
+		all->plr->y += sin(all->plr->dir) * 4;
+		all->plr->x += cos(all->plr->dir) * 4;
+	}
+	if (key == 115)
+	{
+		all->plr->y -= sin(all->plr->dir) * 4;
+		all->plr->x -= cos(all->plr->dir) * 4;
+	}
+	if (key == 65307)
+		exit(0);
+		/*
 	if (key == 119)
 		all->plr->y -= 1;
 	if (key == 115)
@@ -174,7 +202,7 @@ int key_press(int key, t_all *all)
 	if (key == 100)
 		all->plr->x += 1;
 	if (key == 65307)
-		exit(0);
+		exit(0);*/
 	draw_screen(all);
 	return (0);
 }
@@ -192,7 +220,7 @@ int		main(int argc, char **argv)
 		ft_putendl_fd("need map", 2);
 		return (-1);
 	}
-	ft_init_player(all.map, &plr);
+	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, 640, 480, "cubik");
 	//win.img = mlx_new_image(win.mlx, 640, 480);

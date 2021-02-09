@@ -1,7 +1,13 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#define SCALE 13 // условный размер каждого квадратика в карте
+#include "./libft/libft.h"
+#include "./get_next_line/get_next_line.h"
+#include <fcntl.h>
+#include <mlx.h>
+#include <math.h>
+
+# define SCALE		13 // условный размер каждого квадратика в карте
 
 typedef struct	s_win //структура для окна
 {
@@ -35,5 +41,9 @@ typedef struct	s_all // структура для всего вместе
 	t_plr		*plr;
 	char		**map;
 }				t_all;
+
+void	ray_trace_y(t_all *all);
+void	ray_trace_x(t_all *all);
+void	ft_draw_pixel_ray(t_win *window, int i, int j, int color);
 
 #endif
