@@ -65,52 +65,17 @@ void ft_draw_plr(t_win *win, t_plr *pl)
 	}
 }
 
-void draw_ray_y(t_all *all)
+void	ft_draw_pixel(t_win *win, int i, int j, int color)
 {
-	int ray_y;
-
-	ray_y = all->plr->y / SCALE;
-	int ray_x = all->plr->x / SCALE;
-
-	int i = 0;
-	while (all->map[ray_y][ray_x] != '1')
+	int	cnt_x = 0;
+	int	cnt_y = 0;
+	while (cnt_y++ < SCALE)
 	{
-		//printf("%d", ray_x);
-		//printf("=>%c<=%d<=%d\n",all->map[0][0], 0, 0);
-		//printf("=>%c<=%d<=%d",all->map[ray_y][ray_x], ray_y, ray_x);
-		while (i++ < SCALE){
-			//printf(" work");
-			mlx_pixel_put(all->win->mlx, all->win->win, all->plr->x, (ray_y * SCALE) + i, 0x00FF0000);
-		}
-		//printf("*\n");
-		ray_y--;
-		i = 0;
+		cnt_x = 0;
+		while (cnt_x++ < SCALE)
+			mlx_pixel_put(win->mlx, win->win, i + cnt_x, j + cnt_y, color);
 	}
 }
-
-
-/*
-void draw_ray_x(t_all *all)
-{
-	double ray_y;
-	double ray_x;
-
-	ray_y = all->plr->y / SCALE;
-	ray_x = all->plr->x / SCALE;
-
-	int i = 0;
-	while (all->map[(int)ray_y][(int)ray_x] != '1')
-	{
-		printf("=>%c<=%f<=%f<=%d<=%f=<%f\n\n",all->map[(int)ray_y][(int)ray_x], ray_y, ray_x, (int)ray_x, (sin(M_PI/3) / cos(M_PI/3)), sin(M_PI/3));
-		ray_y -= 1;
-		ray_x -= (sin(M_PI/3) / cos(M_PI/3));
-		while (i++ < SCALE){
-			mlx_pixel_put(all->win->mlx, all->win->win, ((int)ray_x * SCALE) - i, ((int)ray_y * SCALE) - i, 0x00FF0000);
-		}
-		i = 0;
-	}
-}*/
-
 
 
 void draw_screen(t_all *all)
@@ -129,10 +94,7 @@ void draw_screen(t_all *all)
 		}
 		point.y++;
 	}
-	//ft_draw_plr(all->win, all->plr);
-	draw_ray_y(all);
-	ray_trace_x(all);
-	ray_trace_y(all);
+	ft_draw_player2(all, all->plr);
 }
 
 
@@ -150,9 +112,6 @@ char	**make_map(t_list **head, int size)
 	}
 	ft_lstclear(head, &free);
 	i = -1;
-	//printf("HI");
-	//while (map[++i])
-	//	ft_putendl_fd(map[i],1);
 	return (map);
 }
 
@@ -192,17 +151,6 @@ int key_press(int key, t_all *all)
 	}
 	if (key == 65307)
 		exit(0);
-		/*
-	if (key == 119)
-		all->plr->y -= 1;
-	if (key == 115)
-		all->plr->y += 1;
-	if (key == 97)
-		all->plr->x -= 1;
-	if (key == 100)
-		all->plr->x += 1;
-	if (key == 65307)
-		exit(0);*/
 	draw_screen(all);
 	return (0);
 }

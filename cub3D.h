@@ -42,8 +42,8 @@ typedef struct	s_all // структура для всего вместе
 	char		**map;
 }				t_all;
 
-void	ray_trace_y(t_all *all);
-void	ray_trace_x(t_all *all);
 void	ft_draw_pixel_ray(t_win *window, int i, int j, int color);
+void	pixel_put(t_win *win, int x, int y, int color);
+void	ft_draw_player2(t_all *all, t_plr *pl);
 
 #endif
