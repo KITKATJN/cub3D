@@ -39,9 +39,9 @@ void ft_scale_img(t_win *win, t_point point)
 	{
 		while (point.x < end.x)
 		{
-			mlx_pixel_put(win->mlx, win->win, point.x++, point.y, 0xFFFFFF);
+			mlx_pixel_put(win->mlx, win->win, point.x++, point.y, 0x00FF0000);
 		}
-		point.x -= SCALE;
+		point.x -= 3;
 		point.y++;
 	}
 }
@@ -83,6 +83,7 @@ void draw_screen(t_all *all)
 	t_point point;
 
 	ft_bzero(&point, sizeof(t_point));
+	ft_draw_player2(all, all->plr);
 	while (all->map[point.y])
 	{
 		point.x = 0;
@@ -94,7 +95,6 @@ void draw_screen(t_all *all)
 		}
 		point.y++;
 	}
-	ft_draw_player2(all, all->plr);
 }
 
 
@@ -143,11 +143,22 @@ int key_press(int key, t_all *all)
 	{
 		all->plr->y += sin(all->plr->dir) * 4;
 		all->plr->x += cos(all->plr->dir) * 4;
+		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		{
+			all->plr->y -= sin(all->plr->dir) * 4;
+			all->plr->x -= cos(all->plr->dir) * 4;
+		}
 	}
 	if (key == 115)
 	{
 		all->plr->y -= sin(all->plr->dir) * 4;
 		all->plr->x -= cos(all->plr->dir) * 4;
+		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
+		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		{
+			all->plr->y += sin(all->plr->dir) * 4;
+			all->plr->x += cos(all->plr->dir) * 4;
+		}
 	}
 	if (key == 65307)
 		exit(0);
