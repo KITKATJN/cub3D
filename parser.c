@@ -17,8 +17,10 @@ void ft_init_plr(char **map, t_plr *plr)
 		{
 			if (ft_strchr("WENS",map[pos.y][pos.x]))
 			{
-				plr->x = pos.x * SCALE;
-				plr->y = pos.y * SCALE;
+				//plr->x = pos.x * SCALE;
+				//plr->y = pos.y * SCALE;
+				plr->x = 332;
+				plr->y = 213;
 				plr->dir = 3 * M_PI_2;
 			}
 			pos.x++;
@@ -41,7 +43,7 @@ void ft_scale_img(t_win *win, t_point point)
 		{
 			mlx_pixel_put(win->mlx, win->win, point.x++, point.y, 0x00FF0000);
 		}
-		point.x -= 3;
+		point.x -= SCALE;
 		point.y++;
 	}
 }
@@ -81,6 +83,37 @@ void	ft_draw_pixel(t_win *win, int i, int j, int color)
 void draw_screen(t_all *all)
 {
 	t_point point;
+
+	point.y = 0;
+	int i = 0;
+		while (all->map[point.y])
+	{
+		point.x = 0;
+		while (all->map[point.y][point.x])
+		{
+			i = 0;
+			while (i++ < SCALE)
+				mlx_pixel_put(all->win->mlx, all->win->win, point.x * SCALE + i, point.y * SCALE, 0xEEEEEEEE);
+			point.x++;
+			i++;
+		}
+		point.y++;
+	}
+
+	point.y = 0;i = 0;
+		while (all->map[point.y])
+	{
+		point.x = 0;
+		while (all->map[point.y][point.x])
+		{
+			i = 0;
+			while (i++ < SCALE)
+				mlx_pixel_put(all->win->mlx, all->win->win, point.x * SCALE, point.y * SCALE + i, 0xEEEEEEEE);
+			point.x++;
+			i++;
+		}
+		point.y++;
+	}
 
 	ft_bzero(&point, sizeof(t_point));
 	ft_draw_player2(all, all->plr);

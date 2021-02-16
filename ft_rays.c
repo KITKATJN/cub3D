@@ -30,10 +30,10 @@ void	ft_draw_wall(t_all *all, int distToWall, int cor_x)
 
 	if (distToWall == 0)
 		distToWall = 1;
-	y = 240 - (5 * 480 / distToWall) / 2;
+	y = 240 - ( 480 / distToWall) / 2;
 	//while (j < 8)
 	//{
-		while(i < (5 * 480 / distToWall))
+		while(i < ( 480 / distToWall))
 		{
 			if (distToWall < 5)
 				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xFFFFFFFF);
@@ -62,32 +62,72 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 	float curr_dir = 3 * M_PI_2;
 	plr.x = pl->x;
 	plr.y = pl->y;
-
 	while (plr.start < plr.end)
 	{
 		plr.x = pl->x;
 		plr.y = pl->y;
+
 		while (all->map[(int)(plr.y / SCALE)][(int)(plr.x / SCALE)] != '1')
 		{
 			plr.x += cos(plr.start);
 			plr.y += sin(plr.start);
-			distToWall++;
-			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x990099);
+			distToWall += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
+			//ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x990099);
 		}
-		printf("%f===", distToWall);
-		if ((5 / 4) * M_PI <= plr.dir && plr.dir < (7 / 4) * M_PI)//up
+
+		//printf("%f===", distToWall);
+		if ((cos((5 / 4) * M_PI) <= cos(plr.dir) && cos(plr.dir) < cos((7 / 4) * M_PI)) || cos(plr.dir) < cos(M_PI_2 / 2))//up
 			curr_dir = 3 * M_PI_2;
 		//else if ((((7 / 4) * M_PI < plr.dir) && (plr.dir < (8 / 4) * M_PI)))//right
 		//	curr_dir = 2 * M_PI;
-		else if ((1 / 4) * M_PI <= plr.dir && plr.dir < (3 / 4) * M_PI)//down
+		else if (cos((1 / 4) * M_PI) <= cos(plr.dir) && cos(plr.dir) < cos((3 / 4) * M_PI))//down
 			curr_dir = M_PI_2;
-		else if ((3 / 4) * M_PI <= plr.dir && plr.dir < (5 / 4) * M_PI)//left
+		else if (cos((3 / 4) * M_PI) <= cos(plr.dir) && cos(plr.dir) < cos((5 / 4) * M_PI))//left
 			curr_dir = M_PI;
 		distToWall *= fabs(cos(curr_dir - plr.start));
-		printf("%f==%f==cur%f==plr.dir%f\n", distToWall, fabs(cos(plr.dir - plr.start)), curr_dir, plr.dir);
-		ft_draw_wall(all, distToWall, cor_x);
+		//printf("%f==cos%f==cur%f==plr.dir%f\n", distToWall, fabs(cos(plr.dir - plr.start)), curr_dir, plr.dir);
+		//ft_draw_wall(all, distToWall, cor_x);
 		distToWall = 0;
 		cor_x++;
 		plr.start += M_PI_2 / 640;
 	}
+
+	vert_intersaction(all);
+}
+
+void ft_scale_img2(t_win *win, int x, int y, int color)
+{
+	t_point end;
+
+	end.x = (x + 5) * 1;
+	end.y = (y + 5) * 1;
+	x *= 1;
+	y *= 1;
+	while (y < end.y)
+	{
+		while (x < end.x)
+		{
+			mlx_pixel_put(win->mlx, win->win, x++, y, color);
+		}
+		x -= 5;
+		y++;
+	}
+}
+
+void vert_intersaction(t_all *all)
+{
+	t_inter inter;
+	int x;
+
+	x = (int)ceilf(all->plr->x / SCALE);
+	printf("x = %d %f ", x, fabsf(all->plr->x / SCALE - (float)x));
+	inter.x = all->plr->x + fabsf(all->plr->x / SCALE - (float)x) * SCALE;
+	printf("inter x =%f ", inter.x);
+	inter.y = all->plr->y + all->plr->dir * fabsf(all->plr->x / SCALE - (float)x) * tanf(M_PI / 6) *SCALE;
+	printf("inter x =%f ", inter.y);
+	ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
+	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x000000FF);
+	ft_scale_img2(all->win, all->plr->x, all->plr->y, 0xFFFF00FF);
+	//mlx_pixel_put(all->win->mlx, all->win->win, all->plr->x, all->plr->y, 0xFFFF00FF);
+	printf(" real %f %f\n", all->plr->x, all->plr->y);
 }

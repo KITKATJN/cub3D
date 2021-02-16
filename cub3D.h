@@ -7,7 +7,7 @@
 #include <mlx.h>
 #include <math.h>
 
-# define SCALE		3 // условный размер каждого квадратика в карте
+# define SCALE		16 // условный размер каждого квадратика в карте
 
 typedef struct	s_win //структура для окна
 {
@@ -26,6 +26,11 @@ typedef struct	s_point // структура для точки
 	int			y;
 }				t_point;
 
+typedef struct	s_inter // структура для точки
+{
+	float		x;
+	float		y;
+}				t_inter;
 typedef struct	s_plr //структура для игрока и луча
 {
 	float		x;
@@ -45,5 +50,6 @@ typedef struct	s_all // структура для всего вместе
 void	ft_draw_pixel_ray(t_win *window, int i, int j, int color);
 void	pixel_put(t_win *win, int x, int y, int color);
 void	ft_draw_player2(t_all *all, t_plr *pl);
+void	vert_intersaction(t_all *all);
 
 #endif
