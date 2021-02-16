@@ -118,12 +118,20 @@ void vert_intersaction(t_all *all)
 {
 	t_inter inter;
 	int x;
+	int minus;
 
-	x = (int)ceilf(all->plr->x / SCALE);
+	minus = 1;
+	if (cos(all->plr->dir) >= 0)
+		x = (int)ceilf(all->plr->x / SCALE);
+	else
+	{
+		x = (int)floorf(all->plr->x / SCALE);
+		minus *= -1;
+	}
 	printf("x = %d %f ", x, fabsf(all->plr->x / SCALE - (float)x));
-	inter.x = all->plr->x + fabsf(all->plr->x / SCALE - (float)x) * SCALE;
+	inter.x = all->plr->x + minus * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
 	printf("inter x =%f ", inter.x);
-	inter.y = all->plr->y + fabsf(all->plr->x / SCALE - (float)x) * tanf(M_PI / 6) *SCALE;
+	inter.y = all->plr->y + minus * fabsf(all->plr->x / SCALE - (float)x) * tanf(M_PI / 6) *SCALE;
 	printf("inter x =%f ", inter.y);
 	ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x000000FF);
