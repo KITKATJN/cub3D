@@ -93,6 +93,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 	}
 
 	vert_intersaction(all);
+	horizontal_intersaction(all);
 }
 
 void ft_scale_img2(t_win *win, int x, int y, int color)
@@ -114,6 +115,30 @@ void ft_scale_img2(t_win *win, int x, int y, int color)
 	}
 }
 
+void horizontal_intersaction(t_all *all)
+{
+	t_inter inter;
+	int y;
+	int minus;
+
+	minus = 1;
+	if (sin(all->plr->dir) >= 0)
+	{
+		y = (int)ceilf(all->plr->y / SCALE);//смотри вниз
+	}
+	else
+	{
+		y = (int)floorf(all->plr->y / SCALE);
+		minus *= -1;
+	}
+	printf(" real %f %f", all->plr->x, all->plr->y);
+	inter.y = all->plr->y + minus * fabsf(all->plr->y / SCALE - (float)y) * SCALE;
+	inter.x = all->plr->x + minus * fabsf(all->plr->y / SCALE - (float)y) / tanf(M_PI / 6) * SCALE;
+	printf("inter x =%f inter.y = %f\n", inter.x, inter.y);
+	ft_scale_img2(all->win, inter.x, inter.y, 0x0000FF00);
+	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x0000FF00);
+}
+
 void vert_intersaction(t_all *all)
 {
 	t_inter inter;
@@ -128,14 +153,14 @@ void vert_intersaction(t_all *all)
 		x = (int)floorf(all->plr->x / SCALE);
 		minus *= -1;
 	}
-	printf("x = %d %f ", x, fabsf(all->plr->x / SCALE - (float)x));
+	//printf("x = %d %f ", x, fabsf(all->plr->x / SCALE - (float)x));
 	inter.x = all->plr->x + minus * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
-	printf("inter x =%f ", inter.x);
+	//printf("inter x =%f ", inter.x);
 	inter.y = all->plr->y + minus * fabsf(all->plr->x / SCALE - (float)x) * tanf(M_PI / 6) *SCALE;
-	printf("inter x =%f ", inter.y);
+	//printf("inter x =%f ", inter.y);
 	ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x000000FF);
 	ft_scale_img2(all->win, all->plr->x, all->plr->y, 0xFFFF00FF);
 	//mlx_pixel_put(all->win->mlx, all->win->win, all->plr->x, all->plr->y, 0xFFFF00FF);
-	printf(" real %f %f\n", all->plr->x, all->plr->y);
+	//printf(" real %f %f\n", all->plr->x, all->plr->y);
 }

@@ -51,5 +51,6 @@ void	ft_draw_pixel_ray(t_win *window, int i, int j, int color);
 void	pixel_put(t_win *win, int x, int y, int color);
 void	ft_draw_player2(t_all *all, t_plr *pl);
 void	vert_intersaction(t_all *all);
+void	horizontal_intersaction(t_all *all);
 
 #endif
