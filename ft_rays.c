@@ -99,8 +99,8 @@ void ft_scale_img2(t_win *win, int x, int y, int color)
 {
 	t_point end;
 
-	end.x = (x + 5) * 1;
-	end.y = (y + 5) * 1;
+	end.x = (x + 2) * 1;
+	end.y = (y + 2) * 1;
 	x *= 1;
 	y *= 1;
 	while (y < end.y)
@@ -109,7 +109,7 @@ void ft_scale_img2(t_win *win, int x, int y, int color)
 		{
 			mlx_pixel_put(win->mlx, win->win, x++, y, color);
 		}
-		x -= 5;
+		x -= 1;
 		y++;
 	}
 }
@@ -123,7 +123,7 @@ void vert_intersaction(t_all *all)
 	printf("x = %d %f ", x, fabsf(all->plr->x / SCALE - (float)x));
 	inter.x = all->plr->x + fabsf(all->plr->x / SCALE - (float)x) * SCALE;
 	printf("inter x =%f ", inter.x);
-	inter.y = all->plr->y + all->plr->dir * fabsf(all->plr->x / SCALE - (float)x) * tanf(M_PI / 6) *SCALE;
+	inter.y = all->plr->y + fabsf(all->plr->x / SCALE - (float)x) * tanf(M_PI / 6) *SCALE;
 	printf("inter x =%f ", inter.y);
 	ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x000000FF);
