@@ -159,12 +159,12 @@ void vert_intersaction(t_all *all, float curr_ray)
 
 	if (cos(curr_ray) < 0)
 	{
-		x = (int)ceilf(all->plr->x / SCALE);
+		x = (int)floorf(all->plr->x / SCALE);
+		minus_x *= -1;
 	}
 	else
 	{
-		x = (int)floorf(all->plr->x / SCALE);
-		minus_x *= -1;
+		x = (int)ceilf(all->plr->x / SCALE);
 	}
 	if (sin(curr_ray) > 0)
 	{
@@ -173,9 +173,6 @@ void vert_intersaction(t_all *all, float curr_ray)
 
 	inter.x = all->plr->x + minus_x * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
 	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * tanf(fabsf(curr_ray - all->plr->dir)) * SCALE;
-	ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
-	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x000000FF);
-	ft_scale_img2(all->win, all->plr->x, all->plr->y, 0xFFFF00FF);
 	int i = 1;
 	while ((int)inter.y > 0 && (int)inter.y < 20 * SCALE)
 	{
