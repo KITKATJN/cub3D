@@ -91,7 +91,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		*/
 
 		vert_intersaction(all, plr.start);
-		horizontal_intersaction(all, plr.start);
+		//horizontal_intersaction(all, plr.start);
 		plr.start += M_PI_2 / 640;
 	}
 }
@@ -176,7 +176,7 @@ void vert_intersaction(t_all *all, float curr_ray)
 	}
 
 	inter.x = all->plr->x + minus_x * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
-	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * tanf(fabsf(curr_ray - all->plr->dir)) * SCALE;
+	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * tanf((curr_ray )) * SCALE;
 	int i = 1;
 	while ((int)inter.y > 0 && (int)inter.y < 20 * SCALE)
 	{
@@ -184,7 +184,7 @@ void vert_intersaction(t_all *all, float curr_ray)
 			break ;
 		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 		inter.x += minus_x * SCALE;
-		inter.y += minus_y * SCALE * tanf(fabsf(curr_ray - all->plr->dir));
+		inter.y += minus_y * SCALE * tanf((curr_ray));
 		i++;
 	}
 		//printf("vert = %d\n", i);
