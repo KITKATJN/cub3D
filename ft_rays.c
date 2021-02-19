@@ -91,7 +91,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		*/
 
 		vert_intersaction(all, plr.start);
-		//horizontal_intersaction(all, plr.start);
+		horizontal_intersaction(all, plr.start);
 		plr.start += M_PI_2 / 640;
 	}
 }
@@ -120,7 +120,9 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 	t_inter inter;
 	int y;
 	int minus_y;
+	int minus_x;
 
+	minus_x = 1;
 	minus_y = 1;
 	if (sin(curr_ray) < 0)
 	{
@@ -131,23 +133,18 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 		y = (int)floorf(all->plr->y / SCALE);
 		minus_y *= -1;
 	}
-	//printf(" real %f %f", all->plr->x, all->plr->y);
+	if (cos(curr_ray) > 0)
+		minus_x *= -1;
 	inter.y = all->plr->y + minus_y * fabsf(all->plr->y / SCALE - (float)y) * SCALE;
-	inter.x = all->plr->x + minus_y * fabsf(all->plr->y / SCALE - (float)y) / tanf(curr_ray - all->plr->dir) * SCALE;
-	//printf("inter x =%f inter.y = %f\n", inter.x, inter.y);
-	if ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]))
-		ft_scale_img2(all->win, inter.x, inter.y, 0x00FFFF00);
-	int i = 1;
+	inter.x = all->plr->x + minus_x * fabsf(all->plr->y / SCALE - (float)y) / tanf(fabsf(curr_ray - all->plr->dir)) * SCALE;
 	while ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]) * SCALE)
 	{
 		ft_scale_img2(all->win, inter.x, inter.y, 0xF0FFFF0F);
 		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
 			break ;
 		inter.y += minus_y * SCALE;
-		inter.x += minus_y * SCALE / tanf(curr_ray - all->plr->dir);
-		i++;
+		inter.x += minus_x * SCALE / tanf(fabsf(curr_ray - all->plr->dir));
 	}
-		//printf("hor = %d ", i);
 }
 
 void vert_intersaction(t_all *all, float curr_ray)
