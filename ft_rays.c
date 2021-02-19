@@ -62,15 +62,15 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 	{
 		plr.x = pl->x;
 		plr.y = pl->y;
-/*
+
 		while (all->map[(int)(plr.y / SCALE)][(int)(plr.x / SCALE)] != '1')
 		{
-			plr.x += cos(plr.start);
-			plr.y += sin(plr.start);
+			plr.x += cos(plr.dir);
+			plr.y += sin(plr.dir);
 			//distToWall += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
-			//ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x990099);
+			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x990099);
 		}
-		*/
+
 
 
 /*
@@ -122,7 +122,7 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 	int minus;
 
 	minus = 1;
-	if (sin(all->plr->dir) >= 0)
+	if (sin(curr_ray) >= 0)
 	{
 		y = (int)ceilf(all->plr->y / SCALE);//смотри вниз
 	}
@@ -136,11 +136,11 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 	inter.x = all->plr->x + minus * fabsf(all->plr->y / SCALE - (float)y) / tanf(curr_ray - all->plr->dir) * SCALE;
 	//printf("inter x =%f inter.y = %f\n", inter.x, inter.y);
 	if ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]))
-		ft_scale_img2(all->win, inter.x, inter.y, 0x0000FF00);
+		ft_scale_img2(all->win, inter.x, inter.y, 0x00FFFF00);
 	int i = 1;
 	while ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]) * SCALE)
 	{
-		ft_scale_img2(all->win, inter.x, inter.y, 0x0000FF00);
+		ft_scale_img2(all->win, inter.x, inter.y, 0xF0FFFF0F);
 		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
 			break ;
 		inter.y += minus * SCALE;
@@ -157,15 +157,17 @@ void vert_intersaction(t_all *all, float curr_ray)
 	int minus;
 
 	minus = 1;
-	if (cos(all->plr->dir) >= 0)
+	if (cos(curr_ray) >= 0)
+	{
 		x = (int)ceilf(all->plr->x / SCALE);
+	}
 	else
 	{
 		x = (int)floorf(all->plr->x / SCALE);
 		minus *= -1;
 	}
 	inter.x = all->plr->x + minus * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
-	inter.y = all->plr->y + minus * fabsf(all->plr->x / SCALE - (float)x) * tanf(curr_ray - all->plr->dir) * SCALE;
+	inter.y = all->plr->y - fabsf(all->plr->x / SCALE - (float)x) * tanf(curr_ray - all->plr->dir) * SCALE;
 	ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 	mlx_pixel_put(all->win->mlx, all->win->win, inter.x , inter.y, 0x000000FF);
 	ft_scale_img2(all->win, all->plr->x, all->plr->y, 0xFFFF00FF);
@@ -175,8 +177,8 @@ void vert_intersaction(t_all *all, float curr_ray)
 		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
 			break ;
-		inter.x += minus * SCALE;
-		inter.y += minus * SCALE * tanf(curr_ray - all->plr->dir);
+		inter.x -= minus * SCALE;
+		inter.y -=  SCALE * tanf(curr_ray - all->plr->dir);
 		i++;
 	}
 		printf("vert = %d\n", i);
