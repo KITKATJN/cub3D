@@ -157,6 +157,10 @@ void vert_intersaction(t_all *all, float curr_ray)
 	minus_x = 1;
 	minus_y = 1;
 
+	if (curr_ray > 2 * M_PI)
+		curr_ray -= 2 * M_PI;
+	if (curr_ray < 0)
+		curr_ray += 2 * M_PI;
 	if (cos(curr_ray) < 0)
 	{
 		x = (int)floorf(all->plr->x / SCALE);
