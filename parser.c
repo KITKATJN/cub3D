@@ -21,7 +21,7 @@ void ft_init_plr(char **map, t_plr *plr)
 				//plr->y = pos.y * SCALE;
 				plr->x = 332;
 				plr->y = 213;
-				plr->dir = 3 * M_PI_2;
+				plr->dir = 1 * M_PI_2;
 			}
 			pos.x++;
 		}
@@ -177,28 +177,28 @@ int key_press(int key, t_all *all)
 	if (key == 97)
 	{
 		all->plr->dir -= 0.1;
-		if (all->plr->dir < 2 * M_PI)
+		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
 	if (key == 119)
 	{
-		all->plr->y += sin(all->plr->dir) * 4;
-		all->plr->x += cos(all->plr->dir) * 4;
-		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
-		{
-			all->plr->y -= sin(all->plr->dir) * 4;
-			all->plr->x -= cos(all->plr->dir) * 4;
-		}
-	}
-	if (key == 115)
-	{
 		all->plr->y -= sin(all->plr->dir) * 4;
 		all->plr->x -= cos(all->plr->dir) * 4;
-		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
 			all->plr->y += sin(all->plr->dir) * 4;
 			all->plr->x += cos(all->plr->dir) * 4;
+		}
+	}
+	if (key == 115)
+	{
+		all->plr->y += sin(all->plr->dir) * 4;
+		all->plr->x += cos(all->plr->dir) * 4;
+		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
+		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		{
+			all->plr->y -= sin(all->plr->dir) * 4;
+			all->plr->x -= cos(all->plr->dir) * 4;
 		}
 	}
 	if (key == 65307)
