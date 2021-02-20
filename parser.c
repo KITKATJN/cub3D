@@ -168,20 +168,20 @@ int key_press(int key, t_all *all)
 	mlx_clear_window(all->win->mlx, all->win->win);
 	if (key == 100)
 	{
-		all->plr->dir += 0.1;
+		all->plr->dir -= 0.1;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
 	if (key == 97)
 	{
-		all->plr->dir -= 0.1;
+		all->plr->dir += 0.1;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
 	if (key == 119)
 	{
-		all->plr->y -= sin(all->plr->dir) * 4;
-		all->plr->x -= cos(all->plr->dir) * 4;
+		all->plr->y -= sin(all->plr->dir ) * 4;
+		all->plr->x += cos(all->plr->dir) * 4;
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
 			all->plr->y += sin(all->plr->dir) * 4;
@@ -191,7 +191,7 @@ int key_press(int key, t_all *all)
 	if (key == 115)
 	{
 		all->plr->y += sin(all->plr->dir) * 4;
-		all->plr->x += cos(all->plr->dir) * 4;
+		all->plr->x -= cos(all->plr->dir) * 4;
 		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{

@@ -9,17 +9,6 @@ void	pixel_put(t_win *win, int x, int y, int color)
 	*(int *)dst = color;
 }
 
-void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
-{
-	int	cnt_x = 0;
-	int	cnt_y = 0;
-	while (cnt_y++ < 1)
-	{
-		cnt_x = 0;
-		while (cnt_x++ < 1)
-			mlx_pixel_put(win->mlx, win->win, i + cnt_x, j + cnt_y, color);
-	}
-}
 
 void	ft_draw_wall(t_all *all, int distToWall, int cor_x)
 {
@@ -49,6 +38,18 @@ void	ft_draw_wall(t_all *all, int distToWall, int cor_x)
 	//}
 }
 
+void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
+{
+	int	cnt_x = 0;
+	int	cnt_y = 0;
+	while (cnt_y++ < 1)
+	{
+		cnt_x = 0;
+		while (cnt_x++ < 1)
+			mlx_pixel_put(win->mlx, win->win, i + cnt_x, j + cnt_y, color);
+	}
+}
+
 void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
@@ -65,10 +66,10 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 
 		while (all->map[(int)(plr.y / SCALE)][(int)(plr.x / SCALE)] != '1')
 		{
-			plr.x -= cos(plr.dir);
+			plr.x += cos(plr.dir);
 			plr.y -= sin(plr.dir);
 			//distToWall += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
-			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x990099);
+			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}
 
 
@@ -91,7 +92,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		*/
 
 		vert_intersaction(all, plr.start);
-		//horizontal_intersaction(all, plr.start);
+		horizontal_intersaction(all, plr.start);
 		plr.start += M_PI_2 / 640;
 	}
 }
@@ -185,9 +186,10 @@ void vert_intersaction(t_all *all, float curr_ray)
 		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 		inter.x += minus_x * SCALE;
 		inter.y += minus_y * SCALE * fabsf(tanf((curr_ray)));
-		if (minus_y * SCALE * tanf((curr_ray)) > 0)
-			printf("%f %d %f\n", curr_ray, minus_y, tanf((curr_ray)));
+		//if (minus_y * SCALE * fabsf(tanf((curr_ray ))) > 0)
+		//	printf("%f %d %f dir = %f\n", curr_ray, minus_y, tanf((curr_ray)), all->plr->dir);
 		i++;
 	}
+	printf("%f\n", all->plr->dir);
 		//printf("vert = %d\n", i);
 }
