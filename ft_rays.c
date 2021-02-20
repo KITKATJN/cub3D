@@ -133,17 +133,17 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 		y = (int)floorf(all->plr->y / SCALE);
 		minus_y *= -1;
 	}
-	if (cos(curr_ray) > 0)
+	if (cos(curr_ray) < 0)
 		minus_x *= -1;
 	inter.y = all->plr->y + minus_y * fabsf(all->plr->y / SCALE - (float)y) * SCALE;
-	inter.x = all->plr->x + minus_x * fabsf(all->plr->y / SCALE - (float)y) / tanf(fabsf(curr_ray - all->plr->dir)) * SCALE;
+	inter.x = all->plr->x + minus_x * fabsf(all->plr->y / SCALE - (float)y) / fabsf(tanf(curr_ray)) * SCALE;
 	while ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]) * SCALE)
 	{
 		ft_scale_img2(all->win, inter.x, inter.y, 0xF0FFFF0F);
 		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
 			break ;
 		inter.y += minus_y * SCALE;
-		inter.x += minus_x * SCALE / tanf(fabsf(curr_ray - all->plr->dir));
+		inter.x += minus_x * SCALE / fabsf(tanf(curr_ray));
 	}
 }
 
@@ -176,7 +176,7 @@ void vert_intersaction(t_all *all, float curr_ray)
 	}
 
 	inter.x = all->plr->x + minus_x * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
-	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * tanf((curr_ray )) * SCALE;
+	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray ))) * SCALE;
 	int i = 1;
 	while ((int)inter.y > 0 && (int)inter.y < 20 * SCALE)
 	{
@@ -184,7 +184,9 @@ void vert_intersaction(t_all *all, float curr_ray)
 			break ;
 		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 		inter.x += minus_x * SCALE;
-		inter.y += minus_y * SCALE * tanf((curr_ray));
+		inter.y += minus_y * SCALE * fabsf(tanf((curr_ray)));
+		if (minus_y * SCALE * tanf((curr_ray)) > 0)
+			printf("%f %d %f\n", curr_ray, minus_y, tanf((curr_ray)));
 		i++;
 	}
 		//printf("vert = %d\n", i);

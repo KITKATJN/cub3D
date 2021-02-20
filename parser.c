@@ -17,10 +17,8 @@ void ft_init_plr(char **map, t_plr *plr)
 		{
 			if (ft_strchr("WENS",map[pos.y][pos.x]))
 			{
-				//plr->x = pos.x * SCALE;
-				//plr->y = pos.y * SCALE;
-				plr->x = 332;
-				plr->y = 213;
+				plr->x = pos.x * SCALE + SCALE / 2;
+				plr->y = pos.y * SCALE + SCALE / 2;
 				plr->dir = 1 * M_PI_2;
 			}
 			pos.x++;
@@ -222,7 +220,7 @@ int		main(int argc, char **argv)
 	}
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
-	win.win = mlx_new_window(win.mlx, 640, 480, "cubik");
+	win.win = mlx_new_window(win.mlx, 800, 600, "cubik");
 	//win.img = mlx_new_image(win.mlx, 640, 480);
 	//win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;

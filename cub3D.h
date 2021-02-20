@@ -7,7 +7,7 @@
 #include <mlx.h>
 #include <math.h>
 
-# define SCALE		16 // условный размер каждого квадратика в карте
+# define SCALE		24 // условный размер каждого квадратика в карте
 
 typedef struct	s_win //структура для окна
 {
