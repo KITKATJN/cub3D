@@ -177,7 +177,7 @@ t_inter vert_intersaction(t_all *all, float curr_ray)
 	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray ))) * SCALE;
 	while ((int)inter.y > 0 && (int)inter.y < 20 * SCALE)
 	{
-		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
+		if (all->map[(int)(inter.y) / SCALE][(int)(inter.x) / SCALE] == '1')
 			break ;
 		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 		inter.x += minus_x * SCALE;
