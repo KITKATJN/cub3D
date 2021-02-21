@@ -21,7 +21,7 @@ void	ft_draw_wall(t_all *all, t_inter inter, int cor_x)
 	if (height > RES_Y)
 		height = RES_Y;
 	y = (RES_Y - height) / 2;
-	printf("y = %f height = %f vert = %f hor = %f\n", y, height, inter.vert_dist, inter.hor_dist);
+	//printf("y = %f height = %f vert = %f hor = %f\n", y, height, inter.vert_dist, inter.hor_dist);
 	height += y;
 	while(y < height)
 	{
@@ -57,7 +57,6 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;
-	//i = 0;
 	while (plr.start < plr.end)
 	{
 		plr.x = pl->x;
@@ -70,9 +69,13 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			//height += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
 			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}
-		inter = vert_intersaction(all, plr.start);
 		inter = horizontal_intersaction(all, plr.start);
+		printf("hor1 = %f", inter.hor_dist);
+		inter = vert_intersaction(all, plr.start, inter.hor_dist);
+		printf("hor2 = %f\n", inter.hor_dist);
 		ft_draw_wall(all, inter, i--);
+		if (inter.hor_dist < -100)
+			printf("delete this\n");
 		plr.start += M_PI_2 / RES_X;
 	}
 }
@@ -112,46 +115,44 @@ t_inter horizontal_intersaction(t_all *all, float curr_ray)
 	if (sin(curr_ray) < 0)
 	{
 		y = (int)ceilf(all->plr->y / SCALE);//смотри вниз
+		inter.y_error = (float)0;
 	}
 	else
 	{
 		y = (int)floorf(all->plr->y / SCALE);
+		inter.y_error = (float)(-0.001);
 		minus_y *= -1;
 	}
 	if (cos(curr_ray) < 0)
 		minus_x *= -1;
-	inter.y = all->plr->y + minus_y * fabsf(all->plr->y / SCALE - (float)y) * SCALE;
-	inter.x = all->plr->x + minus_x * fabsf(all->plr->y / SCALE - (float)y) / fabsf(tanf(curr_ray)) * SCALE;
-	while ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]) * SCALE)
+	inter.y = all->plr->y / SCALE + minus_y * fabsf(all->plr->y / SCALE - (float)y);
+	inter.x = all->plr->x / SCALE + minus_x * fabsf(all->plr->y / SCALE - (float)y) / fabsf(tanf(curr_ray));
+	while ((int)inter.x > 0 && (int)inter.x < (int)ft_strlen(all->map[0]))
 	{
-		ft_scale_img2(all->win, inter.x, inter.y, 0xF0FFFF0F);
-		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
+		ft_scale_img2(all->win, inter.x * SCALE, inter.y * SCALE, 0xF0FFFF0F);
+		if (all->map[(int)(inter.y + inter.y_error)][(int)inter.x] == '1')
 			break ;
-		inter.y += minus_y * SCALE;
-		inter.x += minus_x * SCALE / fabsf(tanf(curr_ray));
+		inter.y += minus_y;
+		inter.x += minus_x / fabsf(tanf(curr_ray));
 	}
 
-
 	float my_dist;
-	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
+	my_dist = sqrtf(powf((all->plr->x / SCALE - inter.x), 2) + powf((all->plr->y / SCALE - inter.y), 2));
 	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
 
-	inter.hor_dist = ((inter.x - all->plr->x) / SCALE) * (cosf(all->plr->dir)) + ((all->plr->y - inter.y) / SCALE) * (sinf(all->plr->dir));
-	//printf("my = %f wolf = %f\n", my_dist, inter.dist);
-	if (inter.hor_dist < 0)
-		printf("my = %f wolf = %f cos = %f dx = %f  sin = %f dy = %f\n", my_dist, inter.hor_dist, cosf(all->plr->dir), (inter.x - all->plr->x) / SCALE, sinf(all->plr->dir), ((inter.y - all->plr->y) / SCALE));
-	//if ((int)(my_dist * 100) != (int)(inter.hor_dist * 100))
-	//	printf("my = %f wolf = %f\n", my_dist, inter.hor_dist);
+	inter.hor_dist = ((inter.x - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter.y)) * (sinf(all->plr->dir));
+	//printf("dist = %f my dist = %f\n", inter.hor_dist, my_dist);
 	return (inter);
 }
 
-t_inter vert_intersaction(t_all *all, float curr_ray)
+t_inter vert_intersaction(t_all *all, float curr_ray, float hor_dist)
 {
 	t_inter inter;
 	int x;
 	int minus_x;
 	int minus_y;
 
+	inter.hor_dist = hor_dist;
 	minus_x = 1;
 	minus_y = 1;
 
@@ -173,21 +174,22 @@ t_inter vert_intersaction(t_all *all, float curr_ray)
 		minus_y *= -1;
 	}
 
-	inter.x = all->plr->x + minus_x * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
-	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray ))) * SCALE;
-	while ((int)inter.y > 0 && (int)inter.y < 20 * SCALE)
+	inter.x = all->plr->x / SCALE + minus_x * fabsf(all->plr->x / SCALE - (float)x);
+	inter.y = all->plr->y / SCALE + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray )));
+	while ((int)inter.y > 0 && (int)inter.y < 20) //вместо 20 должно быть ограничение по высоте карты или тип того
 	{
-		if (all->map[(int)(inter.y) / SCALE][(int)(inter.x) / SCALE] == '1')
+		if (all->map[(int)(inter.y)][(int)(inter.x)] == '1')
 			break ;
-		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
-		inter.x += minus_x * SCALE;
-		inter.y += minus_y * SCALE * fabsf(tanf((curr_ray)));
+		ft_scale_img2(all->win, inter.x * SCALE, inter.y * SCALE, 0x000000FF);
+		inter.x += minus_x ;
+		inter.y += minus_y * fabsf(tanf((curr_ray)));
 	}
 
 	float my_dist;
-	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
+	my_dist = sqrtf(powf((all->plr->x / SCALE - inter.x), 2) + powf((all->plr->y / SCALE - inter.y), 2));
 	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
 
-	inter.vert_dist = ((inter.x - all->plr->x) / SCALE) * (cosf(all->plr->dir)) + ((all->plr->y -inter.y) / SCALE) * (sinf(all->plr->dir));
+	inter.vert_dist = ((inter.x - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter.y)) * (sinf(all->plr->dir));
+	//printf("vert dist = %f my dist = %f\n", inter.vert_dist, my_dist);
 	return (inter);
 }
