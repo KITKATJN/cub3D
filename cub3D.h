@@ -7,7 +7,7 @@
 #include <mlx.h>
 #include <math.h>
 
-# define SCALE	4 // условный размер каждого квадратика в карте
+# define SCALE	8 // условный размер каждого квадратика в карте
 # define RES_X	800
 # define RES_Y	600
 

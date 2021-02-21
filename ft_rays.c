@@ -11,30 +11,30 @@ void	pixel_put(t_win *win, int x, int y, int color)
 
 void	ft_draw_wall(t_all *all, t_inter inter, int cor_x)
 {
-	int y;
-	float distToWall;
-	int height;
+	float y;
+	float height;
 
 	//int j = 0;
 
-	distToWall = (inter.hor_dist > inter.vert_dist) ? inter.vert_dist : inter.hor_dist;
-	height = (int)(RES_Y / distToWall);
+	height = (inter.hor_dist > inter.vert_dist) ? inter.vert_dist : inter.hor_dist;
+	height = (int)(RES_Y / height);
+	if (height > RES_Y)
+		height = RES_Y;
 	y = (RES_Y - height) / 2;
-	//while (j < 8)
-	//{
-		while(y < height)
-		{
-			if (distToWall < 5)
-				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xFFFFFFFF);
-			if (distToWall >= 5 && distToWall < 15)
-				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xAAAAAAAA);
-			if (distToWall >= 15)
-				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x77777777);
-			y++;
-		}
-		//cor_x++;
-		//j++;
-	//}
+	printf("y = %f height = %f vert = %f hor = %f\n", y, height, inter.vert_dist, inter.hor_dist);
+	height += y;
+	while(y < height)
+	{
+		//if (height < 5)
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xFFFFFFFF);
+			/*
+		if (eight >= 5 && height < 15)
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xAAAAAAAA);
+		if (height >= 15)
+			mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x77777777);
+			*/
+		y++;
+	}
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -53,11 +53,11 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
 	t_inter	inter;
-	int i;
+	int i = RES_X - 1;
 
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;
-	i = 0;
+	//i = 0;
 	while (plr.start < plr.end)
 	{
 		plr.x = pl->x;
@@ -67,12 +67,12 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		{
 			plr.x += cos(plr.dir);
 			plr.y -= sin(plr.dir);
-			//distToWall += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
+			//height += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
 			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}
 		inter = vert_intersaction(all, plr.start);
 		inter = horizontal_intersaction(all, plr.start);
-		ft_draw_wall(all, inter, i++);
+		ft_draw_wall(all, inter, i--);
 		plr.start += M_PI_2 / RES_X;
 	}
 }
@@ -140,8 +140,8 @@ t_inter horizontal_intersaction(t_all *all, float curr_ray)
 	//printf("my = %f wolf = %f\n", my_dist, inter.dist);
 	if (inter.hor_dist < 0)
 		printf("my = %f wolf = %f cos = %f dx = %f  sin = %f dy = %f\n", my_dist, inter.hor_dist, cosf(all->plr->dir), (inter.x - all->plr->x) / SCALE, sinf(all->plr->dir), ((inter.y - all->plr->y) / SCALE));
-	if ((int)(my_dist * 100) != (int)(inter.hor_dist * 100))
-		printf("my = %f wolf = %f\n", my_dist, inter.hor_dist);
+	//if ((int)(my_dist * 100) != (int)(inter.hor_dist * 100))
+	//	printf("my = %f wolf = %f\n", my_dist, inter.hor_dist);
 	return (inter);
 }
 
