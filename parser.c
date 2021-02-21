@@ -220,7 +220,7 @@ int		main(int argc, char **argv)
 	}
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
-	win.win = mlx_new_window(win.mlx, 800, 600, "cubik");
+	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cubik");
 	//win.img = mlx_new_image(win.mlx, 640, 480);
 	//win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;

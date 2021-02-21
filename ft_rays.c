@@ -1,5 +1,4 @@
 #include "cub3D.h"
-#include <math.h>
 
 void	pixel_put(t_win *win, int x, int y, int color)
 {
@@ -10,19 +9,20 @@ void	pixel_put(t_win *win, int x, int y, int color)
 }
 
 
-void	ft_draw_wall(t_all *all, int distToWall, int cor_x)
+void	ft_draw_wall(t_all *all, t_inter inter, int cor_x)
 {
-	int i = 0;
 	int y;
+	float distToWall;
+	int height;
+
 	//int j = 0;
 
-
-	if (distToWall == 0)
-		distToWall = 1;
-	y = 240 - ( 480 / distToWall) / 2;
+	distToWall = (inter.hor_dist > inter.vert_dist) ? inter.vert_dist : inter.hor_dist;
+	height = (int)(RES_Y / distToWall);
+	y = (RES_Y - height) / 2;
 	//while (j < 8)
 	//{
-		while(i < ( 480 / distToWall))
+		while(y < height)
 		{
 			if (distToWall < 5)
 				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xFFFFFFFF);
@@ -30,7 +30,6 @@ void	ft_draw_wall(t_all *all, int distToWall, int cor_x)
 				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xAAAAAAAA);
 			if (distToWall >= 15)
 				mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x77777777);
-			i++;
 			y++;
 		}
 		//cor_x++;
@@ -53,12 +52,12 @@ void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
 void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
+	t_inter	inter;
+	int i;
 
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;
-
-	plr.x = pl->x;
-	plr.y = pl->y;
+	i = 0;
 	while (plr.start < plr.end)
 	{
 		plr.x = pl->x;
@@ -71,29 +70,10 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			//distToWall += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
 			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}
-
-
-
-/*
-		//printf("%f===", distToWall);
-		if ((cos((5 / 4) * M_PI) <= cos(plr.dir) && cos(plr.dir) < cos((7 / 4) * M_PI)) || cos(plr.dir) < cos(M_PI_2 / 2))//up
-			curr_dir = 3 * M_PI_2;
-		//else if ((((7 / 4) * M_PI < plr.dir) && (plr.dir < (8 / 4) * M_PI)))//right
-		//	curr_dir = 2 * M_PI;
-		else if (cos((1 / 4) * M_PI) <= cos(plr.dir) && cos(plr.dir) < cos((3 / 4) * M_PI))//down
-			curr_dir = M_PI_2;
-		else if (cos((3 / 4) * M_PI) <= cos(plr.dir) && cos(plr.dir) < cos((5 / 4) * M_PI))//left
-			curr_dir = M_PI;
-		distToWall *= fabs(cos(curr_dir - plr.start));
-		//printf("%f==cos%f==cur%f==plr.dir%f\n", distToWall, fabs(cos(plr.dir - plr.start)), curr_dir, plr.dir);
-		//ft_draw_wall(all, distToWall, cor_x);
-		distToWall = 0;
-		cor_x++;
-		*/
-
-		vert_intersaction(all, plr.start);
-		horizontal_intersaction(all, plr.start);
-		plr.start += M_PI_2 / 640;
+		inter = vert_intersaction(all, plr.start);
+		inter = horizontal_intersaction(all, plr.start);
+		ft_draw_wall(all, inter, i++);
+		plr.start += M_PI_2 / RES_X;
 	}
 }
 
@@ -116,7 +96,7 @@ void ft_scale_img2(t_win *win, int x, int y, int color)
 	}
 }
 
-void horizontal_intersaction(t_all *all, float curr_ray)
+t_inter horizontal_intersaction(t_all *all, float curr_ray)
 {
 	t_inter inter;
 	int y;
@@ -125,6 +105,10 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 
 	minus_x = 1;
 	minus_y = 1;
+	if (curr_ray > 2 * M_PI)
+		curr_ray -= 2 * M_PI;
+	if (curr_ray < 0)
+		curr_ray += 2 * M_PI;
 	if (sin(curr_ray) < 0)
 	{
 		y = (int)ceilf(all->plr->y / SCALE);//смотри вниз
@@ -152,11 +136,16 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
 	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
 
-	inter.dist = fabsf((inter.x - all->plr->x) / SCALE) * fabsf(cosf(all->plr->dir)) + fabsf((inter.y - all->plr->y) / SCALE) * fabsf(sinf(all->plr->dir));
-	printf("my = %f wolf = %f\n", my_dist, inter.dist);
+	inter.hor_dist = ((inter.x - all->plr->x) / SCALE) * (cosf(all->plr->dir)) + ((all->plr->y - inter.y) / SCALE) * (sinf(all->plr->dir));
+	//printf("my = %f wolf = %f\n", my_dist, inter.dist);
+	if (inter.hor_dist < 0)
+		printf("my = %f wolf = %f cos = %f dx = %f  sin = %f dy = %f\n", my_dist, inter.hor_dist, cosf(all->plr->dir), (inter.x - all->plr->x) / SCALE, sinf(all->plr->dir), ((inter.y - all->plr->y) / SCALE));
+	if ((int)(my_dist * 100) != (int)(inter.hor_dist * 100))
+		printf("my = %f wolf = %f\n", my_dist, inter.hor_dist);
+	return (inter);
 }
 
-void vert_intersaction(t_all *all, float curr_ray)
+t_inter vert_intersaction(t_all *all, float curr_ray)
 {
 	t_inter inter;
 	int x;
@@ -199,6 +188,6 @@ void vert_intersaction(t_all *all, float curr_ray)
 	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
 	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
 
-	inter.dist = fabsf((inter.x - all->plr->x) / SCALE) * fabsf(cosf(all->plr->dir)) + fabsf((inter.y - all->plr->y) / SCALE) * fabsf(sinf(all->plr->dir));
-	//printf("my = %f wolf = %f\n", my_dist, wolf_dist);
+	inter.vert_dist = ((inter.x - all->plr->x) / SCALE) * (cosf(all->plr->dir)) + ((all->plr->y -inter.y) / SCALE) * (sinf(all->plr->dir));
+	return (inter);
 }
