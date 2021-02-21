@@ -146,6 +146,14 @@ void horizontal_intersaction(t_all *all, float curr_ray)
 		inter.y += minus_y * SCALE;
 		inter.x += minus_x * SCALE / fabsf(tanf(curr_ray));
 	}
+
+
+	float my_dist;
+	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
+	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
+
+	inter.dist = fabsf((inter.x - all->plr->x) / SCALE) * fabsf(cosf(all->plr->dir)) + fabsf((inter.y - all->plr->y) / SCALE) * fabsf(sinf(all->plr->dir));
+	printf("my = %f wolf = %f\n", my_dist, inter.dist);
 }
 
 void vert_intersaction(t_all *all, float curr_ray)
@@ -189,8 +197,8 @@ void vert_intersaction(t_all *all, float curr_ray)
 
 	float my_dist;
 	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
+	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
 
-	float wolf_dist;
-	wolf_dist = fabsf((inter.x - all->plr->x) / SCALE) * fabsf(cosf(all->plr->dir)) + fabsf((inter.y - all->plr->y) / SCALE) * fabsf(sinf(all->plr->dir));
-	printf("my = %f wolf = %f\n", my_dist, wolf_dist);
+	inter.dist = fabsf((inter.x - all->plr->x) / SCALE) * fabsf(cosf(all->plr->dir)) + fabsf((inter.y - all->plr->y) / SCALE) * fabsf(sinf(all->plr->dir));
+	//printf("my = %f wolf = %f\n", my_dist, wolf_dist);
 }

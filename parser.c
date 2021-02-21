@@ -185,7 +185,7 @@ int key_press(int key, t_all *all)
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
 			all->plr->y += sin(all->plr->dir) * 4;
-			all->plr->x += cos(all->plr->dir) * 4;
+			all->plr->x -= cos(all->plr->dir) * 4;
 		}
 	}
 	if (key == 115)
@@ -196,7 +196,7 @@ int key_press(int key, t_all *all)
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
 			all->plr->y -= sin(all->plr->dir) * 4;
-			all->plr->x -= cos(all->plr->dir) * 4;
+			all->plr->x += cos(all->plr->dir) * 4;
 		}
 	}
 	if (key == 65307)
