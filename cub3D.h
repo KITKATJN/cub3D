@@ -30,6 +30,7 @@ typedef struct	s_inter // структура для точки
 {
 	float		x;
 	float		y;
+	float		dist;
 }				t_inter;
 
 typedef struct	s_plr //структура для игрока и луча

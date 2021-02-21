@@ -178,7 +178,6 @@ void vert_intersaction(t_all *all, float curr_ray)
 
 	inter.x = all->plr->x + minus_x * fabsf(all->plr->x / SCALE - (float)x) * SCALE;
 	inter.y = all->plr->y + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray ))) * SCALE;
-	int i = 1;
 	while ((int)inter.y > 0 && (int)inter.y < 20 * SCALE)
 	{
 		if (all->map[(int)inter.y / SCALE][(int)inter.x / SCALE] == '1')
@@ -186,10 +185,12 @@ void vert_intersaction(t_all *all, float curr_ray)
 		ft_scale_img2(all->win, inter.x, inter.y, 0x000000FF);
 		inter.x += minus_x * SCALE;
 		inter.y += minus_y * SCALE * fabsf(tanf((curr_ray)));
-		//if (minus_y * SCALE * fabsf(tanf((curr_ray ))) > 0)
-		//	printf("%f %d %f dir = %f\n", curr_ray, minus_y, tanf((curr_ray)), all->plr->dir);
-		i++;
 	}
-	printf("%f\n", all->plr->dir);
-		//printf("vert = %d\n", i);
+
+	float my_dist;
+	my_dist = sqrtf(powf((all->plr->x - inter.x) / SCALE, 2) + powf((all->plr->y - inter.y) / SCALE, 2));
+
+	float wolf_dist;
+	wolf_dist = fabsf((inter.x - all->plr->x) / SCALE) * fabsf(cosf(all->plr->dir)) + fabsf((inter.y - all->plr->y) / SCALE) * fabsf(sinf(all->plr->dir));
+	printf("my = %f wolf = %f\n", my_dist, wolf_dist);
 }
