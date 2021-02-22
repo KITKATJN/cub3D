@@ -166,7 +166,7 @@ char **ft_read_map(char *argv1)
 int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
-	if (key == 100)
+	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd
 	{
 		all->plr->dir -= 0.1;
 		if (all->plr->dir > 2 * M_PI)

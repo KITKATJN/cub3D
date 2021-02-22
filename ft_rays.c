@@ -13,6 +13,7 @@ void	ft_draw_wall(t_all *all, t_inter inter, int cor_x)
 {
 	float y;
 	float height;
+	float sky;
 
 	//int j = 0;
 
@@ -23,17 +24,26 @@ void	ft_draw_wall(t_all *all, t_inter inter, int cor_x)
 	y = (RES_Y - height) / 2;
 	//printf("y = %f height = %f vert = %f hor = %f\n", y, height, inter.vert_dist, inter.hor_dist);
 	height += y;
+	sky = 0;
+	while (sky++ < y)
+	{
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, sky, 0x0066CCFF);
+	}
+
 	while(y < height)
 	{
-		//if (height < 5)
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xFFFFFFFF);
-			/*
-		if (eight >= 5 && height < 15)
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xAAAAAAAA);
-		if (height >= 15)
-			mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x77777777);
-			*/
+	//	if (height < 250)
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xffeebb);
+		//	if (height >= 250 && height < 350)
+		//mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xAAAAAAAA);
+		//if (height >= 350)
+		//	mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x77777777);
 		y++;
+	}
+
+	while (y++ < RES_Y)
+	{
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x0099ff66);
 	}
 }
 
