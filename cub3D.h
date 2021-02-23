@@ -57,7 +57,7 @@ typedef struct	s_all // структура для всего вместе
 void			ft_draw_pixel_ray(t_win *window, int i, int j, int color);
 void			pixel_put(t_win *win, int x, int y, int color);
 void			ft_draw_player2(t_all *all, t_plr *pl);
-t_inter			vert_intersaction(t_all *all, float curr_ray, float hor_dist);
-t_inter			horizontal_intersaction(t_all *all, float curr_ray);
+void			vert_intersaction(t_all *all, float curr_ray, t_inter *inter);
+void			horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter);
 
 #endif
