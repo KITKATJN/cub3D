@@ -1,9 +1,4 @@
-#include "./libft/libft.h"
-#include "./get_next_line/get_next_line.h"
 #include "cub3D.h"
-#include <fcntl.h>
-#include <mlx.h>
-#include <math.h>
 
 void ft_init_plr(char **map, t_plr *plr)
 {
@@ -43,37 +38,6 @@ void ft_scale_img(t_win *win, t_point point)
 		}
 		point.x -= SCALE;
 		point.y++;
-	}
-}
-
-
-void ft_draw_plr(t_win *win, t_plr *pl)
-{
-	t_point end;
-	t_plr plr = *pl;
-
-	end.x = plr.x + SCALE;
-	end.y = plr.y + SCALE;
-	while (plr.y < end.y)
-	{
-		while (plr.x < end.x)
-		{
-			mlx_pixel_put(win->mlx, win->win, plr.x++, plr.y, 0x119911);
-		}
-		plr.x -= SCALE;
-		plr.y++;
-	}
-}
-
-void	ft_draw_pixel(t_win *win, int i, int j, int color)
-{
-	int	cnt_x = 0;
-	int	cnt_y = 0;
-	while (cnt_y++ < SCALE)
-	{
-		cnt_x = 0;
-		while (cnt_x++ < SCALE)
-			mlx_pixel_put(win->mlx, win->win, i + cnt_x, j + cnt_y, color);
 	}
 }
 
@@ -220,9 +184,10 @@ int		main(int argc, char **argv)
 	}
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
-	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cubik");
-	//win.img = mlx_new_image(win.mlx, 640, 480);
-	//win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
+	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
+	//win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
+	win.img = mlx_xpm_file_to_image(win.mlx, "pictures/6001915.xpm", &win.img_width, &win.img_height);
+	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;
 	all.win = &win;
 	draw_screen(&all);

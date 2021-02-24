@@ -1,11 +1,13 @@
 #include "cub3D.h"
 
-void	pixel_put(t_win *win, int x, int y, int color)
+int	get_color(t_win *win, int x, int y)
 {
-	char *dst;
+	char	*dst;
+	int		color;
 
 	dst = win->addr + (x * (win->bpp / 8) + y * win->line_l);
-	*(int *)dst = color;
+	color = *(unsigned int*)dst;
+	return (color);
 }
 
 
@@ -22,22 +24,13 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	if (height > RES_Y)
 		height = RES_Y;
 	y = (RES_Y - height) / 2;
-	//printf("y = %f height = %f vert = %f hor = %f\n", y, height, inter.vert_dist, inter.hor_dist);
 	height += y;
 	sky = 0;
 	while (sky++ < y)
-	{
 		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, sky, 0x0066CCFF);
-	}
-
 	while(y < height)
 	{
-	//	if (height < 250)
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xffeebb);
-		//	if (height >= 250 && height < 350)
-		//mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0xAAAAAAAA);
-		//if (height >= 350)
-		//	mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x77777777);
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, cor_x, y));
 		y++;
 	}
 
@@ -76,13 +69,10 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		{
 			plr.x += cos(plr.dir);
 			plr.y -= sin(plr.dir);
-			//height += sqrt(cos(plr.start)* cos(plr.start) + sin(plr.start) * sin(plr.start));
 			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}
 		horizontal_intersaction(all, plr.start, &inter);
-		//printf("hor1 = %f", inter->hor_dist);
 		vert_intersaction(all, plr.start, &inter);
-		//printf("hor2 = %f\n", inter->hor_dist);
 		ft_draw_wall(all, &inter, i--);
 		if (inter.hor_dist < -100)
 			printf("delete this\n");
@@ -144,13 +134,7 @@ void horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter)
 		inter->y += minus_y;
 		inter->x += minus_x / fabsf(tanf(curr_ray));
 	}
-
-	float my_dist;
-	my_dist = sqrtf(powf((all->plr->x / SCALE - inter->x), 2) + powf((all->plr->y / SCALE - inter->y), 2));
-	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
-
 	inter->hor_dist = ((inter->x - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y)) * (sinf(all->plr->dir));
-	//printf("dist = %f my dist = %f\n", inter.hor_dist, my_dist);
 }
 
 void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
@@ -192,11 +176,5 @@ void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
 		inter->x += minus_x ;
 		inter->y += minus_y * fabsf(tanf((curr_ray)));
 	}
-
-	float my_dist;
-	my_dist = sqrtf(powf((all->plr->x / SCALE - inter->x), 2) + powf((all->plr->y / SCALE - inter->y), 2));
-	my_dist *= fabsf(cosf(all->plr->dir - curr_ray));
-
 	inter->vert_dist = ((inter->x - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y)) * (sinf(all->plr->dir));
-	//printf("vert dist = %f my dist = %f\n", inter.vert_dist, my_dist);
 }

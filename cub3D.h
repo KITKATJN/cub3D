@@ -17,6 +17,9 @@ typedef struct	s_win //структура для окна
 	void		*win;
 	void		*img;
 	void		*addr;
+	char		*relative_path;
+    int			img_width;
+    int			img_height;
 	int			line_l;
 	int			bpp;
 	int			en;
@@ -59,5 +62,6 @@ void			pixel_put(t_win *win, int x, int y, int color);
 void			ft_draw_player2(t_all *all, t_plr *pl);
 void			vert_intersaction(t_all *all, float curr_ray, t_inter *inter);
 void			horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter);
+int				get_color(t_win *win, int x, int y);
 
 #endif
