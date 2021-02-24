@@ -66,5 +66,6 @@ void			ft_draw_player2(t_all *all, t_plr *pl);
 void			vert_intersaction(t_all *all, float curr_ray, t_inter *inter);
 void			horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter);
 int				get_color(t_win *win, int x, int y);
+void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 
 #endif

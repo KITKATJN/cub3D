@@ -10,6 +10,13 @@ int	get_color(t_win *win, int x, int y)
 	return (color);
 }
 
+void my_mlx_pixel_put(t_win *win, int x, int y, int color)
+{
+	char *dst;
+
+	dst = win->addr + y * win->line_l + x * (win->bpp / 8);
+	*(unsigned int*)dst = color;
+}
 
 void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 {
@@ -35,7 +42,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	height += y;
 	sky = 0;
 	while (sky++ < y)
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, sky, 0x0066CCFF);
+		my_mlx_pixel_put(all->win, cor_x, sky, 0x0066CCFF);
 	float i = 1;
 	while(y++ < height)
 	{
@@ -48,7 +55,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 		i += all->win->img_height / inter->wall_height;
 	}
 	while (y++ < RES_Y)
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x0099ff66);
+		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
