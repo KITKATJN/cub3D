@@ -25,7 +25,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	else
 	{
 		printf("cor_x = %d inter.x = %f   %d\n", cor_x, inter->x_vert, cor_x % 50);
-		inter->x_hor = inter->x_vert;
+		//inter->x_hor = inter->x_vert;
 	}
 	height = (int)(RES_Y / height);
 	if (height >  2 * RES_Y)
@@ -39,7 +39,12 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	float i = 1;
 	while(y++ < height)
 	{
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
+		if (inter->hor_dist < inter->vert_dist)
+			mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
+		else
+		{
+			mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
+		}
 		i += all->win->img_height / inter->wall_height;
 	}
 	while (y++ < RES_Y)
