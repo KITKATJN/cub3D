@@ -41,6 +41,7 @@ typedef struct	s_inter // структура для точки
 	float		hor_dist;
 	float		y_error;
 	float		x_error;
+	float		wall_height;
 }				t_inter;
 
 typedef struct	s_plr //структура для игрока и луча

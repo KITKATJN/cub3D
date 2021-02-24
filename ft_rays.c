@@ -24,13 +24,17 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	if (height > RES_Y)
 		height = RES_Y;
 	y = (RES_Y - height) / 2;
+	inter->wall_height = height;
 	height += y;
 	sky = 0;
 	while (sky++ < y)
 		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, sky, 0x0066CCFF);
-	int i = 1;
+	float i = 1;
 	while(y++ < height)
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, cor_x, i++));
+	{
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, cor_x, i));
+		i += all->win->img_height / inter->wall_height;
+	}
 	while (y++ < RES_Y)
 		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x0099ff66);
 }
