@@ -37,8 +37,6 @@ typedef struct	s_inter // структура для точки
 	float		y_vert;
 	float		x_hor;
 	float		y_hor;
-	float		x;
-	float		y;
 	float		vert_dist;
 	float		hor_dist;
 	float		y_error;

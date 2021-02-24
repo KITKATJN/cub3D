@@ -119,18 +119,19 @@ void horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter)
 	}
 	if (cos(curr_ray) < 0)
 		minus_x *= -1;
-	inter->y = all->plr->y / SCALE + minus_y * fabsf(all->plr->y / SCALE - (float)y);
-	inter->x = all->plr->x / SCALE + minus_x * fabsf(all->plr->y / SCALE - (float)y) / fabsf(tanf(curr_ray));
-	while ((int)inter->x > 0 && (int)inter->x < (int)ft_strlen(all->map[0]))
+	inter->y_hor = all->plr->y / SCALE + minus_y * fabsf(all->plr->y / SCALE - (float)y);
+	inter->x_hor = all->plr->x / SCALE + minus_x * fabsf(all->plr->y / SCALE - (float)y) / fabsf(tanf(curr_ray));
+	while ((int)inter->x_hor > 0 && (int)inter->x_hor < (int)ft_strlen(all->map[0]))
 	{
-		ft_scale_img2(all->win, inter->x * SCALE, inter->y * SCALE, 0xF0FFFF0F);
-		if (all->map[(int)(inter->y + inter->y_error)][(int)inter->x] == '1')
+		ft_scale_img2(all->win, inter->x_hor * SCALE, inter->y_hor * SCALE, 0xF0FFFF0F);
+		if (all->map[(int)(inter->y_hor + inter->y_error)][(int)inter->x_hor] == '1')
 			break ;
-		inter->y += minus_y;
-		inter->x += minus_x / fabsf(tanf(curr_ray));
+		inter->y_hor += minus_y;
+		inter->x_hor += minus_x / fabsf(tanf(curr_ray));
 	}
-	inter->hor_dist = ((inter->x - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y)) * (sinf(all->plr->dir));
+	inter->hor_dist = ((inter->x_hor - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y_hor)) * (sinf(all->plr->dir));
 }
+
 
 void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
 {
@@ -161,15 +162,16 @@ void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
 		minus_y *= -1;
 	}
 
-	inter->x = all->plr->x / SCALE + minus_x * fabsf(all->plr->x / SCALE - (float)x);
-	inter->y = all->plr->y / SCALE + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray )));
-	while ((int)inter->y > 0 && (int)inter->y < 20) //вместо 20 должно быть ограничение по высоте карты или тип того
+	inter->x_vert = all->plr->x / SCALE + minus_x * fabsf(all->plr->x / SCALE - (float)x);
+	inter->y_vert = all->plr->y / SCALE + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray )));
+	while ((int)inter->y_vert > 0 && (int)inter->y_vert < 20) //вместо 20 должно быть ограничение по высоте карты или тип того
 	{
-		if (all->map[(int)(inter->y)][(int)(inter->x + inter->x_error)] == '1')
+		if (all->map[(int)(inter->y_vert)][(int)(inter->x_vert + inter->x_error)] == '1')
 			break ;
-		ft_scale_img2(all->win, inter->x * SCALE, inter->y * SCALE, 0x000000FF);
-		inter->x += minus_x ;
-		inter->y += minus_y * fabsf(tanf((curr_ray)));
+		ft_scale_img2(all->win, inter->x_vert * SCALE, inter->y_vert * SCALE, 0x000000FF);
+		inter->x_vert += minus_x ;
+		inter->y_vert += minus_y * fabsf(tanf((curr_ray)));
 	}
-	inter->vert_dist = ((inter->x - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y)) * (sinf(all->plr->dir));
+	inter->vert_dist = ((inter->x_vert - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y_vert)) * (sinf(all->plr->dir));
 }
+
