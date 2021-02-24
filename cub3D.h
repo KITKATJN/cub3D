@@ -33,6 +33,10 @@ typedef struct	s_point // структура для точки
 
 typedef struct	s_inter // структура для точки
 {
+	float		x_vert;
+	float		y_vert;
+	float		x_hor;
+	float		y_hor;
 	float		x;
 	float		y;
 	float		vert_dist;

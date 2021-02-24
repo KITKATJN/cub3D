@@ -28,16 +28,11 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	sky = 0;
 	while (sky++ < y)
 		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, sky, 0x0066CCFF);
-	while(y < height)
-	{
-		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, cor_x, y));
-		y++;
-	}
-
+	int i = 1;
+	while(y++ < height)
+		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, get_color(all->win, cor_x, i++));
 	while (y++ < RES_Y)
-	{
 		mlx_pixel_put(all->win->mlx, all->win->win, cor_x, y, 0x0099ff66);
-	}
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -74,8 +69,8 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		horizontal_intersaction(all, plr.start, &inter);
 		vert_intersaction(all, plr.start, &inter);
 		ft_draw_wall(all, &inter, i--);
-		if (inter.hor_dist < -100)
-			printf("delete this\n");
+		if (inter.hor_dist < 0 || inter.vert_dist < 0)
+			printf("delete this\n");//
 		plr.start += M_PI_2 / RES_X;
 	}
 }
