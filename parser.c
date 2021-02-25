@@ -43,7 +43,7 @@ void ft_scale_img(t_win *win, t_point point)
 
 
 void draw_screen(t_all *all)
-{
+{/*
 	t_point point;
 
 	point.y = 0;
@@ -78,7 +78,6 @@ void draw_screen(t_all *all)
 	}
 
 	ft_bzero(&point, sizeof(t_point));
-	ft_draw_player2(all, all->plr);
 	while (all->map[point.y])
 	{
 		point.x = 0;
@@ -89,7 +88,9 @@ void draw_screen(t_all *all)
 			point.x++;
 		}
 		point.y++;
-	}
+	}*/
+	ft_draw_player2(all, all->plr);
+	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 }
 
 
@@ -185,12 +186,13 @@ int		main(int argc, char **argv)
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
-	//win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
-	win.img = mlx_xpm_file_to_image(win.mlx, "pictures/6001915.xpm", &win.img_width, &win.img_height);
+	win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
+	win.img = mlx_xpm_file_to_image(win.mlx, "pictures/2.xpm", &win.img_width, &win.img_height);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;
 	all.win = &win;
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
+	//mlx_put_image_to_window(win.mlx, win.win, win.img, 0, 0);
 	mlx_loop(win.mlx);
 }
