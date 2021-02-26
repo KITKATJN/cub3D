@@ -91,6 +91,7 @@ void draw_screen(t_all *all)
 	}*/
 	ft_draw_player2(all, all->plr);
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
+	//mlx_destroy_image(all->win->mlx, all->win->img);
 }
 
 
@@ -187,7 +188,8 @@ int		main(int argc, char **argv)
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
 	win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
-	win.img = mlx_xpm_file_to_image(win.mlx, "pictures/2.xpm", &win.img_width, &win.img_height);
+	win.wall_img = mlx_xpm_file_to_image(win.mlx, "pictures/2.xpm", &win.img_width, &win.img_height);
+	win.wall_addr = mlx_get_data_addr(win.wall_img, &win.wall_bpp, &win.wall_line_length, &win.en);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;
 	all.win = &win;

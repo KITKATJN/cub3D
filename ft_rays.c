@@ -5,7 +5,7 @@ int	get_color(t_win *win, int x, int y)
 	char	*dst;
 	int		color;
 
-	dst = win->addr + (x * (win->bpp / 8) + y * win->line_l);
+	dst = win->wall_addr + (x * (win->wall_bpp / 8) + y * win->wall_line_length);
 	color = *(unsigned int*)dst;
 	return (color);
 }

@@ -16,11 +16,15 @@ typedef struct	s_win //структура для окна
 	void		*mlx;
 	void		*win;
 	void		*img;
+	void		*wall_img;
 	void		*addr;
+	void		*wall_addr;
 	char		*relative_path;
-    int			img_width;
-    int			img_height;
+	int			img_width;
+	int			img_height;
 	int			line_l;
+	int			wall_bpp;
+	int			wall_line_length;
 	int			bpp;
 	int			en;
 }				t_win;
