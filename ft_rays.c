@@ -14,7 +14,10 @@ void my_mlx_pixel_put(t_win *win, int x, int y, int color)
 {
 	char *dst;
 
+//((unsigned*)win->addr)[x + y * win->line_l] = color;
+
 	dst = win->addr + (y * win->line_l + x * (win->bpp / 8));
+	//printf("all = %d  x  = %d bpp = %d y * line_l = %d y = %d line_ l = %d\n", (y * win->line_l + x * (win->bpp / 8)), (x ) , win->bpp, y * win->line_l, y, win->line_l);
 	*(unsigned int*)dst = color;
 }
 
@@ -22,40 +25,47 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 {
 	float y;
 	float height;
-	float sky;
 
 	//int j = 0;
 
 	height = (inter->hor_dist > inter->vert_dist) ? inter->vert_dist : inter->hor_dist;
+
+/*
 	if (height == inter->hor_dist)
 		printf("cor_x = %d inter.x = %f ff = %d\n", cor_x, inter->x_hor, cor_x % 50);
 	else
 	{
 		printf("cor_x = %d inter.x = %f   %d\n", cor_x, inter->x_vert, cor_x % 50);
 		//inter->x_hor = inter->x_vert;
-	}
+	}*/
 	height = (int)(RES_Y / height);
 	if (height >  2 * RES_Y)
 		height = 1.5 * RES_Y;
 	y = (RES_Y - height) / 2;
 	inter->wall_height = height;
 	height += y;
-	sky = 0;
+
+	float sky = 0;
 	while (sky++ < y)
 		my_mlx_pixel_put(all->win, cor_x, sky, 0x0066CCFF);
-	float i = 1;
-	while(y++ < height)
+	float i = 0;
+	while(y < height && y >= 0)
 	{
+		i += all->win->img_height / inter->wall_height;
 		if (inter->hor_dist < inter->vert_dist)
 			my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
 		else
 		{
 			my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
 		}
-		i += all->win->img_height / inter->wall_height;
+		y++;
 	}
-	while (y++ < RES_Y)
+	while (y < RES_Y && y >= 0)
+	{
+		//printf("%f\n", y);
 		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
+		y++;
+	}
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -74,7 +84,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
 	t_inter	inter;
-	int i = RES_X - 1;
+	int i = RES_X;
 
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;
