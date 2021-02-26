@@ -1,27 +1,5 @@
 #include "cub3D.h"
 
-void ft_init_plr(char **map, t_plr *plr)
-{
-	t_point pos;
-
-	ft_bzero(&pos, sizeof(t_point));
-	while (map[pos.y])
-	{
-		pos.x = 0;
-		while (map[pos.y][pos.x])
-		{
-			if (ft_strchr("WENS",map[pos.y][pos.x]))
-			{
-				plr->x = pos.x * SCALE + SCALE / 2;
-				plr->y = pos.y * SCALE + SCALE / 2;
-				plr->dir = 1 * M_PI_2;
-			}
-			pos.x++;
-		}
-		pos.y++;
-	}
-}
-
 void ft_scale_img(t_win *win, t_point point)
 {
 	t_point end;
@@ -90,44 +68,32 @@ void draw_screen(t_all *all)
 		point.y++;
 	}*/
 	ft_draw_player2(all, all->plr);
-	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
+	//mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	//mlx_destroy_image(all->win->mlx, all->win->img);
 }
 
-
-char	**make_map(t_list **head, int size)
+void ft_init_plr(char **map, t_plr *plr)
 {
-	char	  **map = ft_calloc(size + 1, sizeof(char *));
-	int		  i = -1;
-	t_list	*tmp = *head;
+	t_point pos;
 
-
-	while (tmp)
+	ft_bzero(&pos, sizeof(t_point));
+	while (map[pos.y])
 	{
-		map[++i] = ft_strdup(tmp->content);
-		tmp = tmp->next;
+		pos.x = 0;
+		while (map[pos.y][pos.x])
+		{
+			if (ft_strchr("WENS",map[pos.y][pos.x]))
+			{
+				plr->x = pos.x * SCALE + SCALE / 2;
+				plr->y = pos.y * SCALE + SCALE / 2;
+				plr->dir = 1 * M_PI_2;
+			}
+			pos.x++;
+		}
+		pos.y++;
 	}
-	ft_lstclear(head, &free);
-	i = -1;
-	return (map);
 }
 
-char **ft_read_map(char *argv1)
-{
-	char *str = NULL;
-	t_list *head = NULL;
-	const int fd = open(argv1, O_RDONLY);
-
-	while (get_next_line(fd, &str))
-	{
-		ft_lstadd_back(&head, ft_lstnew(str));
-		str = NULL;
-	}
-	close(fd);
-	ft_lstadd_back(&head, ft_lstnew(str));
-	str = NULL;
-	return (make_map(&head, ft_lstsize(head)));
-}
 
 int key_press(int key, t_all *all)
 {

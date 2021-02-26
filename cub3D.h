@@ -71,5 +71,7 @@ void			vert_intersaction(t_all *all, float curr_ray, t_inter *inter);
 void			horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter);
 int				get_color(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
+char			**make_map(t_list **head, int size);
+char			**ft_read_map(char *argv1);
 
 #endif
