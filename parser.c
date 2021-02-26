@@ -68,7 +68,7 @@ void draw_screen(t_all *all)
 		point.y++;
 	}*/
 	ft_draw_player2(all, all->plr);
-	//mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
+	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	//mlx_destroy_image(all->win->mlx, all->win->img);
 }
 
