@@ -92,17 +92,21 @@ void	ft_parcer_map(t_all *all, int i)
 	j = i;
 	while (all->parcer_map[j])
 	{
+		printf("->%s\n", all->parcer_map[j]);
+		//if (all->parcer_map[j][0] != '\0')
 		size++;
 		j++;
 	}
 	//printf("%d %d\n", size, i);
 	map = ft_calloc(size + 1, sizeof(char *));
+	printf("SIZE = %d\n", size);
 	size = -1;
 	while (all->parcer_map[i])
 	{
 		map[++size] = ft_strdup(all->parcer_map[i++]);
 	}
 	//здесь чистим parcer map
+	printf("fsd\n");
 	all->map = map;
 }
 

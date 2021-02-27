@@ -76,6 +76,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	float sky = 0;
 	while (sky++ < y)
 		my_mlx_pixel_put(all->win, cor_x, sky, 0x0066CCFF);
+	printf("RA1\n");
 	float i = 0;
 	while(y < height)
 	{
@@ -88,12 +89,15 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		}
 		y++;
 	}
+	printf("RA2\n");
 	while (y < all->win->res_y)
 	{
 		//printf("%f\n", y);
 		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
 		y++;
 	}
+
+	printf("RA3\n");
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -128,8 +132,11 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}*/
 		horizontal_intersaction(all, plr.start, &inter);
+		printf("11\n");
 		vert_intersaction(all, plr.start, &inter);
+		printf("22\n");
 		ft_draw_wall(all, &inter, i--, plr.start);
+		printf("33\n");
 		if (inter.hor_dist < 0 || inter.vert_dist < 0)
 			printf("delete this\n");//
 		plr.start += M_PI_2 / all->win->res_x;
