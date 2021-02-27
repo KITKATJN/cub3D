@@ -1,8 +1,8 @@
 R 800 600
 NO ./pictures/2.xpm
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+SO ./pictures/bube.xpm
+WE ./pictures/dama_kresti.xpm
+EA ./pictures/piki.xpm
 S ./path_to_the_sprite_texture
 
 F 220,100,0
