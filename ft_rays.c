@@ -48,7 +48,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 		}
 		y++;
 	}
-	while (y < RES_Y )
+	while (y < RES_Y)
 	{
 		//printf("%f\n", y);
 		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);

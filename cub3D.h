@@ -20,6 +20,15 @@ typedef struct	s_win //структура для окна
 	void		*addr;
 	void		*wall_addr;
 	char		*relative_path;
+	int			res_x;
+	int			res_y;
+	char		NO_path;
+	char		SO_path;
+	char		WE_path;
+	char		EA_path;
+	char		S_path;
+	int			F_color;
+	int			C_color;
 	int			img_width;
 	int			img_height;
 	int			line_l;
@@ -73,5 +82,5 @@ int				get_color(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 char			**make_map(t_list **head, int size);
 char			**ft_read_map(char *argv1);
-
+void	ft_parcer(t_all *all);
 #endif

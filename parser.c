@@ -100,35 +100,34 @@ int key_press(int key, t_all *all)
 	mlx_clear_window(all->win->mlx, all->win->win);
 	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd
 	{
-		all->plr->dir -= 0.1;
+		all->plr->dir -= 0.03;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
 	if (key == 97)
 	{
-		all->plr->dir += 0.1;
+		all->plr->dir += 0.03;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
 	if (key == 119)
 	{
-		all->plr->y -= sin(all->plr->dir ) * 4;
-		all->plr->x += cos(all->plr->dir) * 4;
+		all->plr->y -= sin(all->plr->dir ) * 0.4;
+		all->plr->x += cos(all->plr->dir) * 0.4;
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->y += sin(all->plr->dir) * 4;
-			all->plr->x -= cos(all->plr->dir) * 4;
+			all->plr->y += sin(all->plr->dir) * 8;
+			all->plr->x -= cos(all->plr->dir) * 8;
 		}
 	}
 	if (key == 115)
 	{
-		all->plr->y += sin(all->plr->dir) * 4;
-		all->plr->x -= cos(all->plr->dir) * 4;
-		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
+		all->plr->y += sin(all->plr->dir) * 0.4;
+		all->plr->x -= cos(all->plr->dir) * 0.4;
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->y -= sin(all->plr->dir) * 4;
-			all->plr->x += cos(all->plr->dir) * 4;
+			all->plr->y -= sin(all->plr->dir) * 0.4;
+			all->plr->x += cos(all->plr->dir) * 0.4;
 		}
 	}
 	if (key == 65307)
@@ -139,10 +138,14 @@ int key_press(int key, t_all *all)
 
 int		main(int argc, char **argv)
 {
+
 	t_win win;
 	t_plr plr;
 	t_all all;
 
+
+	all.plr = &plr;
+	all.win = &win;
 	if (argc == 2)
 		all.map = ft_read_map(argv[1]);
 	else
@@ -150,17 +153,18 @@ int		main(int argc, char **argv)
 		ft_putendl_fd("need map", 2);
 		return (-1);
 	}
+	ft_parcer(&all);
+	/*
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
 	win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
-	win.wall_img = mlx_xpm_file_to_image(win.mlx, "pictures/2.xpm", &win.img_width, &win.img_height);
+	win.wall_img = mlx_xpm_file_to_image(win.mlx, "pictures/1.xpm", &win.img_width, &win.img_height);
 	win.wall_addr = mlx_get_data_addr(win.wall_img, &win.wall_bpp, &win.wall_line_length, &win.en);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
-	all.plr = &plr;
-	all.win = &win;
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
-	//mlx_put_image_to_window(win.mlx, win.win, win.img, 0, 0);
 	mlx_loop(win.mlx);
+	*/
+return 0;
 }
