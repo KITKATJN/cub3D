@@ -26,10 +26,10 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	float y;
 	float height;
 
-	height = (int)(RES_Y / ((inter->hor_dist > inter->vert_dist) ? inter->vert_dist : inter->hor_dist));
-	if (height >  2 * RES_Y)
-		height = 1.5 * RES_Y;
-	y = (RES_Y - height) / 2;
+	height = (int)(all->win->res_y / ((inter->hor_dist > inter->vert_dist) ? inter->vert_dist : inter->hor_dist));
+	if (height >  2 * all->win->res_y)
+		height = 1.5 * all->win->res_y;
+	y = (all->win->res_y - height) / 2;
 	inter->wall_height = height;
 	height += y;
 
@@ -48,7 +48,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 		}
 		y++;
 	}
-	while (y < RES_Y)
+	while (y < all->win->res_y)
 	{
 		//printf("%f\n", y);
 		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
@@ -72,7 +72,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
 	t_inter	inter;
-	int i = RES_X;
+	int i = all->win->res_x;
 
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;
@@ -92,7 +92,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		ft_draw_wall(all, &inter, i--);
 		if (inter.hor_dist < 0 || inter.vert_dist < 0)
 			printf("delete this\n");//
-		plr.start += M_PI_2 / RES_X;
+		plr.start += M_PI_2 / all->win->res_x;
 	}
 }
 

@@ -116,8 +116,8 @@ int key_press(int key, t_all *all)
 		all->plr->x += cos(all->plr->dir) * 0.4;
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->y += sin(all->plr->dir) * 8;
-			all->plr->x -= cos(all->plr->dir) * 8;
+			all->plr->y += sin(all->plr->dir) * 0.4;
+			all->plr->x -= cos(all->plr->dir) * 0.4;
 		}
 	}
 	if (key == 115)
@@ -154,17 +154,16 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 	ft_parcer(&all);
-	/*
+
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
-	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
-	win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
-	win.wall_img = mlx_xpm_file_to_image(win.mlx, "pictures/1.xpm", &win.img_width, &win.img_height);
+	win.win = mlx_new_window(win.mlx, all.win->res_x, all.win->res_y, "cub3D");
+	win.img = mlx_new_image(win.mlx, all.win->res_x, all.win->res_y);
+	win.wall_img = mlx_xpm_file_to_image(win.mlx, all.win->NO_path, &win.img_width, &win.img_height);
 	win.wall_addr = mlx_get_data_addr(win.wall_img, &win.wall_bpp, &win.wall_line_length, &win.en);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);
-	*/
 return 0;
 }
