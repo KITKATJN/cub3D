@@ -22,11 +22,11 @@ typedef struct	s_win //структура для окна
 	char		*relative_path;
 	int			res_x;
 	int			res_y;
-	char		NO_path;
-	char		SO_path;
-	char		WE_path;
-	char		EA_path;
-	char		S_path;
+	char		*NO_path;
+	char		*SO_path;
+	char		*WE_path;
+	char		*EA_path;
+	char		*S_path;
 	int			F_color;
 	int			C_color;
 	int			img_width;
