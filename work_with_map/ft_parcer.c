@@ -31,33 +31,66 @@ void	ft_parcer_NO(t_all *all, char *str, int start)
 	printf("%s\n", all->win->NO_path);
 }
 
+void	ft_parcer_map(t_all *all, int i)
+{
+	int		size;
+	int		j;
+	char	**map;
+
+	size = 0;
+	j = i;
+	while (all->parcer_map[j])
+	{
+		size++;
+		j++;
+	}
+	//printf("%d %d\n", size, i);
+	map = ft_calloc(size + 1, sizeof(char *));
+	size = -1;
+	while (all->parcer_map[i])
+	{
+		map[++size] = ft_strdup(all->parcer_map[i++]);
+	}
+	//здесь чистим parcer map
+	all->map = map;
+}
+
 void	ft_parcer(t_all *all)
 {
 	int i = -1;
 	int j = 0;
 
-	while (all->map[++i] != 0)
+	while (all->parcer_map[++i] != 0)
 	{
-		while (all->map[i][j]== ' ' || all->map[i][j]== '	' ||
-		all->map[i][j]== '\t' || all->map[i][j]== '\f' ||
-			all->map[i][j]== '\r' || all->map[i][j]== '\v')
+		if (all->parcer_map[i][j] == '\0')
+			continue ;
+		while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
+		all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
+			all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
 			j++;
-		if (all->map[i][j] == 'R')
-			ft_parcer_R(all, all->map[i], j + 1);
-		else if (all->map[i][j] == 'N' && all->map[i][j + 1] == 'O')
-			ft_parcer_NO(all, all->map[i], j + 2);/*
-		else if (all->map[i][j] == 'S' && all->map[i][j + 1] == 'O')
+		if (all->parcer_map[i][j] == 'R')
+			ft_parcer_R(all, all->parcer_map[i], j + 1);
+		else if (all->parcer_map[i][j] == 'N' && all->parcer_map[i][j + 1] == 'O')
+			ft_parcer_NO(all, all->parcer_map[i], j + 2);/*
+		else if (all->parcer_map[i][j] == 'S' && all->parcer_map[i][j + 1] == 'O')
 			ft_parcer_SO(all);
-		else if (all->map[i][j] == 'W' && all->map[i][j + 1] == 'E')
+		else if (all->parcer_map[i][j] == 'W' && all->parcer_map[i][j + 1] == 'E')
 			ft_parcer_NE(all);
-		else if (all->map[i][j] == 'E' && all->map[i][j + 1] == 'A')
+		else if (all->parcer_map[i][j] == 'E' && all->parcer_map[i][j + 1] == 'A')
 			ft_parcer_EA(all);
-		else if (all->map[i][j] == 'S')
+		else if (all->parcer_map[i][j] == 'S')
 			ft_parcer_S(all);
-		else if (all->map[i][j] == 'F')
+		else if (all->parcer_map[i][j] == 'F')
 			ft_parcer_F(all);
-		else if (all->map[i][j] == 'C')
+		else if (all->parcer_map[i][j] == 'C')
 			ft_parcer_C(all);
 			*/
+		else if (all->parcer_map[i][j] == '1')
+		{
+			ft_parcer_map(all, i);
+			break ;
+		}
+		j = 0;
+		//printf("%d  %c\n",i, all->parcer_map[i][j]);
 	}
 }

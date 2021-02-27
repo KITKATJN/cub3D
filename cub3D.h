@@ -71,6 +71,7 @@ typedef struct	s_all // структура для всего вместе
 	t_win		*win;
 	t_plr		*plr;
 	char		**map;
+	char		**parcer_map;
 }				t_all;
 
 void			ft_draw_pixel_ray(t_win *window, int i, int j, int color);
@@ -82,5 +83,5 @@ int				get_color(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 char			**make_map(t_list **head, int size);
 char			**ft_read_map(char *argv1);
-void	ft_parcer(t_all *all);
+void			ft_parcer(t_all *all);
 #endif
