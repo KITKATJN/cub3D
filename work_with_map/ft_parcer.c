@@ -120,48 +120,43 @@ void	ft_parcer(t_all *all)
 	all->win->res_x = 800;
 	all->win->res_y = 600;
 
-	//int i = -1;
-	//int j = 0;
+	int i = -1;
+	int j = 0;
 
-	//while (all->parcer_map[++i])
-	//{
-		//if (all->parcer_map[i][j] == '\0')
-		//	continue ;
-		// while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
-		// all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
-		// 	all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
-		// 	j++;
-		// all->win->res_x = 800;
-		// all->win->res_y = 600;
-		// if (all->parcer_map[i][j] == 'R'){
-		// 	ft_parcer_R(all, all->parcer_map[i], j + 1);
-		// 	return ;
-		// }
-		// else if (all->parcer_map[i][j] == 'N' && all->parcer_map[i][j + 1] == 'O')
-		// 	ft_parcer_NO(all, all->parcer_map[i], j + 2);
-		// else if (all->parcer_map[i][j] == 'S' && all->parcer_map[i][j + 1] == 'O')
-		// 	ft_parcer_SO(all, all->parcer_map[i], j + 2);
-		// else if (all->parcer_map[i][j] == 'W' && all->parcer_map[i][j + 1] == 'E')
-		// 	ft_parcer_WE(all, all->parcer_map[i], j + 2);
-		// else if (all->parcer_map[i][j] == 'E' && all->parcer_map[i][j + 1] == 'A')
-		// {
-		// 	ft_parcer_EA(all, all->parcer_map[i], j + 2);
-		// 	return ;
-		// }
-		// 	/*
-		// else if (all->parcer_map[i][j] == 'S')
-		// 	ft_parcer_S(all);
-		// else if (all->parcer_map[i][j] == 'F')
-		// 	ft_parcer_F(all);
-		// else if (all->parcer_map[i][j] == 'C')
-		// 	ft_parcer_C(all);
+	while (all->parcer_map[++i])
+	{
+		if (all->parcer_map[i][j] == '\0')
+			continue ;
+		while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
+		all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
+			all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
+			j++;
+		if (all->parcer_map[i][j] == 'R')
+			ft_parcer_R(all, all->parcer_map[i], j + 1);
+		else if (all->parcer_map[i][j] == 'N' && all->parcer_map[i][j + 1] == 'O')
+			ft_parcer_NO(all, all->parcer_map[i], j + 2);
+		else if (all->parcer_map[i][j] == 'S' && all->parcer_map[i][j + 1] == 'O')
+			ft_parcer_SO(all, all->parcer_map[i], j + 2);
+		else if (all->parcer_map[i][j] == 'W' && all->parcer_map[i][j + 1] == 'E')
+			ft_parcer_WE(all, all->parcer_map[i], j + 2);
+		else if (all->parcer_map[i][j] == 'E' && all->parcer_map[i][j + 1] == 'A')
+		{
+			ft_parcer_EA(all, all->parcer_map[i], j + 2);
+			return ;
+		}
+			/*
+		else if (all->parcer_map[i][j] == 'S')
+			ft_parcer_S(all);
+		else if (all->parcer_map[i][j] == 'F')
+			ft_parcer_F(all);
+		else if (all->parcer_map[i][j] == 'C')
+			ft_parcer_C(all);
 
-		// else if (all->parcer_map[i][j] == '1')
-		// {
-		// 	ft_parcer_map(all, i);
-		// 	break ;
-		// }*/
-		//j = 0;
-		//printf("%d  %c\n",i, all->parcer_map[i][j]);
-	//}
+		else if (all->parcer_map[i][j] == '1')
+		{
+			ft_parcer_map(all, i);
+			break ;
+		}*/
+		j = 0;
+	}
 }

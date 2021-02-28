@@ -143,22 +143,27 @@ int		main(int argc, char **argv)
 	t_plr plr;
 	t_all all;
 
-	if (argc == 2)
-		all.map = ft_read_map(argv[1]);
+	all.plr = &plr;
+	all.win = &win;
+	if (argc == 3)
+	{
+		all.parcer_map = ft_read_map(argv[1]);
+	}
 	else
 	{
 		ft_putendl_fd("need map", 2);
 		return (-1);
 	}
+	ft_parcer(&all);
+	all.map = ft_read_map(argv[2]);
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
-	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
-	win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
+	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");
+	win.img = mlx_new_image(win.mlx, all.win->res_x , all.win->res_y );
+
 	win.wall_img = mlx_xpm_file_to_image(win.mlx, "pictures/2.xpm", &win.img_width, &win.img_height);
 	win.wall_addr = mlx_get_data_addr(win.wall_img, &win.wall_bpp, &win.wall_line_length, &win.en);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
-	all.plr = &plr;
-	all.win = &win;
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	//mlx_put_image_to_window(win.mlx, win.win, win.img, 0, 0);
