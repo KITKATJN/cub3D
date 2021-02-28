@@ -1,5 +1,5 @@
 R 800 600
-NO ./pictures/2.xpm
+NO ./pictures/2 .xpm
 SO ./pictures/bube.xpm
 WE ./pictures/dama_kresti.xpm
 EA ./pictures/piki.xpm

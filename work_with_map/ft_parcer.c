@@ -101,25 +101,23 @@ void	ft_parcer_map(t_all *all, int i)
 void	ft_parcer_R(t_all *all, char *str, int j)
 {
 	char *ptr;
-	//char *res_x;
+	char *res_x;
 
 	ptr = str;
 	printf("%s %d\n", str, j);
 	all->win->res_x = ft_atoi(ptr + j);
 	printf("%d ", all->win->res_x);
-	//res_x = ft_itoa(all->win->res_x);
 	//printf("res_x = %s!\n", res_x);
-	ptr = ft_strnstr(str, "800", ft_strlen(str));
+	res_x = ft_itoa(all->win->res_x);
+	ptr = ft_strnstr(str, res_x, ft_strlen(str));
 	//printf(" *ptr = %s", ptr);
-	//all->win->res_y = ft_atoi(ptr + ft_strlen(ft_itoa(all->win->res_x)));
+	all->win->res_y = ft_atoi(ptr + ft_strlen(res_x));
+	free(res_x);
 	printf("%d\n", all->win->res_y);
 }
 
 void	ft_parcer(t_all *all)
 {
-	all->win->res_x = 800;
-	all->win->res_y = 600;
-
 	int i = -1;
 	int j = 0;
 
