@@ -87,6 +87,32 @@ void	ft_parcer_F(t_all *all, char *str, int start)
 	printf("%d\n",all->win->F_color);
 }
 
+void	ft_parcer_C(t_all *all, char *str, int start)
+{
+	char	*ptr;
+	char	*ptr_end;
+	char	*color;
+
+	ptr = str;
+	while (str[start]== ' ' || str[start]== '	' ||
+		str[start]== '\t' || str[start]== '\f' ||
+			str[start]== '\r' || str[start]== '\v')
+			start++;
+	ptr_end = ft_strnstr(ptr, ",", ft_strlen(ptr));//если вернул 0, то ошибку выдаем
+	color = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+	all->win->C_color = ft_atoi(color) * 16 * 16 * 16 * 16;
+	free(color);
+	ptr = ptr_end;
+	ptr_end = ft_strnstr(ptr + 1, ",", ft_strlen(ptr));
+	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr) + 1,ft_strlen(ptr));
+	all->win->C_color += ft_atoi(color) * 16 * 16;
+	free(color);
+	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr_end) + 1, ft_strlen(ptr_end));
+	all->win->C_color += ft_atoi(color);
+	free(color);
+	printf("%d\n",all->win->C_color);
+}
+
 
 void	ft_parcer_map(t_all *all, int i)
 {
@@ -156,12 +182,11 @@ void	ft_parcer(t_all *all)
 		}
 		else if (all->parcer_map[i][j] == 'F')
 			ft_parcer_F(all,all->parcer_map[i], j + 1);
+		else if (all->parcer_map[i][j] == 'C')
+			ft_parcer_C(all,all->parcer_map[i], j + 1);
 			/*
 		else if (all->parcer_map[i][j] == 'S')
 			ft_parcer_S(all);
-		else if (all->parcer_map[i][j] == 'C')
-			ft_parcer_C(all);
-
 		else if (all->parcer_map[i][j] == '1')
 		{
 			ft_parcer_map(all, i);

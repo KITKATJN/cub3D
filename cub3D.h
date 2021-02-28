@@ -8,8 +8,6 @@
 #include <math.h>
 
 # define SCALE	4 // условный размер каждого квадратика в карте
-# define RES_X	800
-# define RES_Y	600
 
 typedef struct	s_win //структура для окна
 {

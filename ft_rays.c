@@ -91,7 +91,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	while (y < all->win->res_y)
 	{
 		//printf("%f\n", y);
-		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
+		my_mlx_pixel_put(all->win, cor_x, y, all->win->C_color);
 		y++;
 	}
 }
@@ -132,7 +132,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		ft_draw_wall(all, &inter, i--, plr.start);
 		if (inter.hor_dist < 0 || inter.vert_dist < 0)
 			printf("delete this\n");//
-		plr.start += M_PI_2 / RES_X;
+		plr.start += M_PI_2 / all->win->res_x;
 	}
 }
 
