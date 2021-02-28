@@ -21,12 +21,52 @@ void my_mlx_pixel_put(t_win *win, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
+void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 {
 	float y;
 	float height;
 
-	height = (int)(RES_Y / ((inter->hor_dist > inter->vert_dist) ? inter->vert_dist : inter->hor_dist));
+	if (inter->hor_dist > inter->vert_dist)
+	{
+		height = inter->vert_dist;
+		if (cos(ray) > 0)
+		{
+			all->win->img_height = all->win->SO_height;
+			all->win->img_width = all->win->SO_width;
+			all->win->wall_bpp = all->win->SO_bpp;
+			all->win->wall_line_length = all->win->SO_line_length;
+			all->win->wall_addr = all->win->SO_addr;
+		}
+		else
+		{
+			all->win->img_height = all->win->NO_height;
+			all->win->img_width = all->win->NO_width;
+			all->win->wall_bpp = all->win->NO_bpp;
+			all->win->wall_line_length = all->win->NO_line_length;
+			all->win->wall_addr = all->win->NO_addr;
+		}
+	}
+	else
+	{
+		height = inter->hor_dist;
+		if (sin(ray) > 0)
+		{
+			all->win->img_height = all->win->EA_height;
+			all->win->img_width = all->win->EA_width;
+			all->win->wall_bpp = all->win->EA_bpp;
+			all->win->wall_line_length = all->win->EA_line_length;
+			all->win->wall_addr = all->win->EA_addr;
+		}
+		else
+		{
+			all->win->img_height = all->win->WE_height;
+			all->win->img_width = all->win->WE_width;
+			all->win->wall_bpp = all->win->WE_bpp;
+			all->win->wall_line_length = all->win->WE_line_length;
+			all->win->wall_addr = all->win->WE_addr;
+		}
+	}
+	height = (int)(all->win->res_y / (height));
 	if (height > RES_Y)
 		height = RES_Y;
 	y = (RES_Y - height) / 2;
@@ -89,7 +129,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		}*/
 		horizontal_intersaction(all, plr.start, &inter);
 		vert_intersaction(all, plr.start, &inter);
-		ft_draw_wall(all, &inter, i--);
+		ft_draw_wall(all, &inter, i--, plr.start);
 		if (inter.hor_dist < 0 || inter.vert_dist < 0)
 			printf("delete this\n");//
 		plr.start += M_PI_2 / RES_X;
