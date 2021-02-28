@@ -20,6 +20,7 @@ typedef struct	s_win //структура для окна
 	void		*NO_img;
 	void		*WE_img;
 	void		*EA_img;
+	void		*wall_img;
 	void		*addr;
 	void		*SO_addr;
 	void		*NO_addr;

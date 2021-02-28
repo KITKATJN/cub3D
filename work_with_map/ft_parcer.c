@@ -1,18 +1,6 @@
 #include "../cub3D.h"
 
-void	ft_parcer_R(t_all *all, char *str, int j)
-{
-	char *ptr;
 
-	ptr = str;
-	//printf("%s %d\n", str, j);
-	all->win->res_x = ft_atoi(ptr + j);
-	printf("%d ", all->win->res_x);
-	ptr = ft_strnstr(ptr, ft_itoa(all->win->res_x), ft_strlen(str));
-	//printf(" *ptr = %s", ptr);
-	all->win->res_y = ft_atoi(ptr + ft_strlen(ft_itoa(all->win->res_x)));
-	printf("%d\n", all->win->res_y);
-}
 
 void	ft_parcer_NO(t_all *all, char *str, int start)
 {
@@ -110,43 +98,70 @@ void	ft_parcer_map(t_all *all, int i)
 	all->map = map;
 }
 
+void	ft_parcer_R(t_all *all, char *str, int j)
+{
+	char *ptr;
+	//char *res_x;
+
+	ptr = str;
+	printf("%s %d\n", str, j);
+	all->win->res_x = ft_atoi(ptr + j);
+	printf("%d ", all->win->res_x);
+	//res_x = ft_itoa(all->win->res_x);
+	//printf("res_x = %s!\n", res_x);
+	ptr = ft_strnstr(str, "800", ft_strlen(str));
+	//printf(" *ptr = %s", ptr);
+	//all->win->res_y = ft_atoi(ptr + ft_strlen(ft_itoa(all->win->res_x)));
+	printf("%d\n", all->win->res_y);
+}
+
 void	ft_parcer(t_all *all)
 {
-	int i = -1;
-	int j = 0;
+	all->win->res_x = 800;
+	all->win->res_y = 600;
 
-	while (all->parcer_map[++i] != 0)
-	{
-		if (all->parcer_map[i][j] == '\0')
-			continue ;
-		while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
-		all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
-			all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
-			j++;
-		if (all->parcer_map[i][j] == 'R')
-			ft_parcer_R(all, all->parcer_map[i], j + 1);
-		else if (all->parcer_map[i][j] == 'N' && all->parcer_map[i][j + 1] == 'O')
-			ft_parcer_NO(all, all->parcer_map[i], j + 2);
-		else if (all->parcer_map[i][j] == 'S' && all->parcer_map[i][j + 1] == 'O')
-			ft_parcer_SO(all, all->parcer_map[i], j + 2);
-		else if (all->parcer_map[i][j] == 'W' && all->parcer_map[i][j + 1] == 'E')
-			ft_parcer_WE(all, all->parcer_map[i], j + 2);
-		else if (all->parcer_map[i][j] == 'E' && all->parcer_map[i][j + 1] == 'A')
-			ft_parcer_EA(all, all->parcer_map[i], j + 2);
-			/*
-		else if (all->parcer_map[i][j] == 'S')
-			ft_parcer_S(all);
-		else if (all->parcer_map[i][j] == 'F')
-			ft_parcer_F(all);
-		else if (all->parcer_map[i][j] == 'C')
-			ft_parcer_C(all);
+	//int i = -1;
+	//int j = 0;
 
-		else if (all->parcer_map[i][j] == '1')
-		{
-			ft_parcer_map(all, i);
-			break ;
-		}
-		j = 0;*/
+	//while (all->parcer_map[++i])
+	//{
+		//if (all->parcer_map[i][j] == '\0')
+		//	continue ;
+		// while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
+		// all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
+		// 	all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
+		// 	j++;
+		// all->win->res_x = 800;
+		// all->win->res_y = 600;
+		// if (all->parcer_map[i][j] == 'R'){
+		// 	ft_parcer_R(all, all->parcer_map[i], j + 1);
+		// 	return ;
+		// }
+		// else if (all->parcer_map[i][j] == 'N' && all->parcer_map[i][j + 1] == 'O')
+		// 	ft_parcer_NO(all, all->parcer_map[i], j + 2);
+		// else if (all->parcer_map[i][j] == 'S' && all->parcer_map[i][j + 1] == 'O')
+		// 	ft_parcer_SO(all, all->parcer_map[i], j + 2);
+		// else if (all->parcer_map[i][j] == 'W' && all->parcer_map[i][j + 1] == 'E')
+		// 	ft_parcer_WE(all, all->parcer_map[i], j + 2);
+		// else if (all->parcer_map[i][j] == 'E' && all->parcer_map[i][j + 1] == 'A')
+		// {
+		// 	ft_parcer_EA(all, all->parcer_map[i], j + 2);
+		// 	return ;
+		// }
+		// 	/*
+		// else if (all->parcer_map[i][j] == 'S')
+		// 	ft_parcer_S(all);
+		// else if (all->parcer_map[i][j] == 'F')
+		// 	ft_parcer_F(all);
+		// else if (all->parcer_map[i][j] == 'C')
+		// 	ft_parcer_C(all);
+
+		// else if (all->parcer_map[i][j] == '1')
+		// {
+		// 	ft_parcer_map(all, i);
+		// 	break ;
+		// }*/
+		//j = 0;
 		//printf("%d  %c\n",i, all->parcer_map[i][j]);
-	}
+	//}
 }

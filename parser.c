@@ -100,34 +100,35 @@ int key_press(int key, t_all *all)
 	mlx_clear_window(all->win->mlx, all->win->win);
 	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd
 	{
-		all->plr->dir -= 0.03;
+		all->plr->dir -= 0.1;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
 	if (key == 97)
 	{
-		all->plr->dir += 0.03;
+		all->plr->dir += 0.1;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
 	if (key == 119)
 	{
-		all->plr->y -= sin(all->plr->dir ) * 0.4;
-		all->plr->x += cos(all->plr->dir) * 0.4;
+		all->plr->y -= sin(all->plr->dir ) * 4;
+		all->plr->x += cos(all->plr->dir) * 4;
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->y += sin(all->plr->dir) * 0.4;
-			all->plr->x -= cos(all->plr->dir) * 0.4;
+			all->plr->y += sin(all->plr->dir) * 4;
+			all->plr->x -= cos(all->plr->dir) * 4;
 		}
 	}
 	if (key == 115)
 	{
-		all->plr->y += sin(all->plr->dir) * 0.4;
-		all->plr->x -= cos(all->plr->dir) * 0.4;
+		all->plr->y += sin(all->plr->dir) * 4;
+		all->plr->x -= cos(all->plr->dir) * 4;
+		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->y -= sin(all->plr->dir) * 0.4;
-			all->plr->x += cos(all->plr->dir) * 0.4;
+			all->plr->y -= sin(all->plr->dir) * 4;
+			all->plr->x += cos(all->plr->dir) * 4;
 		}
 	}
 	if (key == 65307)
@@ -138,48 +139,28 @@ int key_press(int key, t_all *all)
 
 int		main(int argc, char **argv)
 {
-
 	t_win win;
 	t_plr plr;
 	t_all all;
 
-
-	all.plr = &plr;
-	all.win = &win;
-	all.win->res_x = 800;
-	all.win->res_y = 600;
 	if (argc == 2)
-	{
 		all.map = ft_read_map(argv[1]);
-	}
 	else
 	{
 		ft_putendl_fd("need map", 2);
 		return (-1);
 	}
-	//ft_parcer(&all);
-
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
-	win.win = mlx_new_window(win.mlx, all.win->res_x, all.win->res_y, "cub3D");
-	win.img = mlx_new_image(win.mlx, all.win->res_x, all.win->res_y);
-	win.SO_img = mlx_xpm_file_to_image(win.mlx, "./pictures/2.xpm", &win.SO_width, &win.SO_height);
-	win.SO_addr = mlx_get_data_addr(win.SO_img, &win.SO_bpp, &win.SO_line_length, &win.en);
-
-	win.NO_img = mlx_xpm_file_to_image(win.mlx, "./pictures/bube.xpm", &win.NO_width, &win.NO_height);
-	win.NO_addr = mlx_get_data_addr(win.NO_img, &win.NO_bpp, &win.NO_line_length, &win.en);
-
-	win.WE_img = mlx_xpm_file_to_image(win.mlx, "./pictures/dama_kresti.xpm", &win.WE_width, &win.WE_height);
-	win.WE_addr = mlx_get_data_addr(win.WE_img, &win.WE_bpp, &win.WE_line_length, &win.en);
-
-	win.EA_img = mlx_xpm_file_to_image(win.mlx, "./pictures/piki.xpm", &win.EA_width, &win.EA_height);
-	win.EA_addr = mlx_get_data_addr(win.EA_img, &win.EA_bpp, &win.EA_line_length, &win.en);
-
+	win.win = mlx_new_window(win.mlx, RES_X, RES_Y, "cub3D");
+	win.img = mlx_new_image(win.mlx, RES_X, RES_Y);
+	win.wall_img = mlx_xpm_file_to_image(win.mlx, "pictures/2.xpm", &win.img_width, &win.img_height);
+	win.wall_addr = mlx_get_data_addr(win.wall_img, &win.wall_bpp, &win.wall_line_length, &win.en);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 	all.plr = &plr;
 	all.win = &win;
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
+	//mlx_put_image_to_window(win.mlx, win.win, win.img, 0, 0);
 	mlx_loop(win.mlx);
-	return 0;
 }
