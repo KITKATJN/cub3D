@@ -146,8 +146,11 @@ int		main(int argc, char **argv)
 
 	all.plr = &plr;
 	all.win = &win;
-	if (argc == 2)
+	if (argc == 3)
+	{
 		all.parcer_map = ft_read_map(argv[1]);
+		all.map = ft_read_map(argv[2]);
+	}
 	else
 	{
 		ft_putendl_fd("need map", 2);

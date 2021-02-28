@@ -140,13 +140,13 @@ void	ft_parcer(t_all *all)
 			ft_parcer_F(all);
 		else if (all->parcer_map[i][j] == 'C')
 			ft_parcer_C(all);
-			*/
+
 		else if (all->parcer_map[i][j] == '1')
 		{
 			ft_parcer_map(all, i);
 			break ;
 		}
-		j = 0;
+		j = 0;*/
 		//printf("%d  %c\n",i, all->parcer_map[i][j]);
 	}
 }

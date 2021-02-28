@@ -5,8 +5,12 @@ int	get_color(t_win *win, int x, int y)
 	char	*dst;
 	int		color;
 
+	//printf("%d %d\n", x, y);
 	dst = win->wall_addr + (x * (win->wall_bpp / 8) + y * win->wall_line_length);
 	color = *(unsigned int*)dst;
+	//printf("color = %d\n", color);
+	if (color <= 0)
+		color++;
 	return (color);
 }
 
@@ -18,7 +22,11 @@ void my_mlx_pixel_put(t_win *win, int x, int y, int color)
 		return ;
 	//((int*)win->addr)[x + y * win->line_l] = color;
 	dst = win->addr + (y * win->line_l + x * (win->bpp / 8));
+	//printf("%s<-->%p\n", dst, win->addr);
+	if (!dst)
+		return ;
 	*(unsigned int*)dst = color;
+	//printf("color = %d\n", color);
 }
 
 void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
@@ -82,10 +90,16 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	{
 		i += all->win->img_height / inter->wall_height;
 		if (inter->hor_dist < inter->vert_dist)
+		{
+			printf("F1 %d %d %f\n", get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i), cor_x, y);
 			my_mlx_pixel_put(all->win , cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
+			printf("FD1\n");
+		}
 		else
 		{
+			//умирает здесь на гет колор
 			my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
+			//printf("FD2\n");
 		}
 		y++;
 	}
@@ -96,8 +110,6 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
 		y++;
 	}
-
-	printf("RA3\n");
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -132,11 +144,8 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			ft_drawi_pixel_ray(all->win, plr.x, plr.y, 0x0000FF00);
 		}*/
 		horizontal_intersaction(all, plr.start, &inter);
-		printf("11\n");
 		vert_intersaction(all, plr.start, &inter);
-		printf("22\n");
 		ft_draw_wall(all, &inter, i--, plr.start);
-		printf("33\n");
 		if (inter.hor_dist < 0 || inter.vert_dist < 0)
 			printf("delete this\n");//
 		plr.start += M_PI_2 / all->win->res_x;
