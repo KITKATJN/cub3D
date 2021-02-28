@@ -27,8 +27,8 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x)
 	float height;
 
 	height = (int)(RES_Y / ((inter->hor_dist > inter->vert_dist) ? inter->vert_dist : inter->hor_dist));
-	if (height >  2 * RES_Y)
-		height = 1.5 * RES_Y;
+	if (height > RES_Y)
+		height = RES_Y;
 	y = (RES_Y - height) / 2;
 	inter->wall_height = height;
 	height += y;
