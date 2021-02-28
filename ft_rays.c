@@ -67,17 +67,17 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		}
 	}
 	height = (int)(all->win->res_y / (height));
-	if (height > RES_Y)
-		height = RES_Y;
-	y = (RES_Y - height) / 2;
+	if (height > all->win->res_y)
+		height = all->win->res_y;
+	y = (all->win->res_y - height) / 2;
 	inter->wall_height = height;
 	height += y;
 
 	float sky = 0;
 	while (sky++ < y)
-		my_mlx_pixel_put(all->win, cor_x, sky, 0x0066CCFF);
+		my_mlx_pixel_put(all->win, cor_x, sky, all->win->F_color);
 	float i = 0;
-	while(y < height )
+	while(y < height)
 	{
 		i += all->win->img_height / inter->wall_height;
 		if (inter->hor_dist < inter->vert_dist)
@@ -88,7 +88,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		}
 		y++;
 	}
-	while (y < RES_Y )
+	while (y < all->win->res_y)
 	{
 		//printf("%f\n", y);
 		my_mlx_pixel_put(all->win, cor_x, y, 0x0099ff66);
@@ -112,7 +112,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
 	t_inter	inter;
-	int i = RES_X;
+	int i = all->win->res_x;
 
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;

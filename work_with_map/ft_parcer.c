@@ -1,22 +1,18 @@
 #include "../cub3D.h"
 
-
-
 void	ft_parcer_NO(t_all *all, char *str, int start)
 {
 	char *ptr;
 	char *ptr_end;
-
 
 	ptr = str;
 	while (str[start]== ' ' || str[start]== '	' ||
 		str[start]== '\t' || str[start]== '\f' ||
 			str[start]== '\r' || str[start]== '\v')
 			start++;
-	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));
+	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
 	ptr_end += 4;
 	all->win->NO_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
-	printf("%s\n", all->win->NO_path);
 }
 
 void	ft_parcer_SO(t_all *all, char *str, int start)
@@ -30,10 +26,9 @@ void	ft_parcer_SO(t_all *all, char *str, int start)
 		str[start]== '\t' || str[start]== '\f' ||
 			str[start]== '\r' || str[start]== '\v')
 			start++;
-	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));
+	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
 	ptr_end += 4;
 	all->win->SO_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
-	printf("%s\n", all->win->SO_path);
 }
 
 void	ft_parcer_WE(t_all *all, char *str, int start)
@@ -41,16 +36,14 @@ void	ft_parcer_WE(t_all *all, char *str, int start)
 	char *ptr;
 	char *ptr_end;
 
-
 	ptr = str;
 	while (str[start]== ' ' || str[start]== '	' ||
 		str[start]== '\t' || str[start]== '\f' ||
 			str[start]== '\r' || str[start]== '\v')
 			start++;
-	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));
+	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));// вернул 0, выдаем ошибку
 	ptr_end += 4;
 	all->win->WE_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
-	printf("%s\n", all->win->WE_path);
 }
 
 void	ft_parcer_EA(t_all *all, char *str, int start)
@@ -58,17 +51,42 @@ void	ft_parcer_EA(t_all *all, char *str, int start)
 	char *ptr;
 	char *ptr_end;
 
+	ptr = str;
+	while (str[start]== ' ' || str[start]== '	' ||
+		str[start]== '\t' || str[start]== '\f' ||
+			str[start]== '\r' || str[start]== '\v')
+			start++;
+	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//если вернул 0, то ошибку выдаем
+	ptr_end += 4;
+	all->win->EA_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+}
+
+void	ft_parcer_F(t_all *all, char *str, int start)
+{
+	char	*ptr;
+	char	*ptr_end;
+	char	*color;
 
 	ptr = str;
 	while (str[start]== ' ' || str[start]== '	' ||
 		str[start]== '\t' || str[start]== '\f' ||
 			str[start]== '\r' || str[start]== '\v')
 			start++;
-	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));
-	ptr_end += 4;
-	all->win->EA_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
-	printf("%s\n", all->win->EA_path);
+	ptr_end = ft_strnstr(ptr, ",", ft_strlen(ptr));//если вернул 0, то ошибку выдаем
+	color = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+	all->win->F_color = ft_atoi(color) * 16 * 16 * 16 * 16;
+	free(color);
+	ptr = ptr_end;
+	ptr_end = ft_strnstr(ptr + 1, ",", ft_strlen(ptr));
+	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr) + 1,ft_strlen(ptr));
+	all->win->F_color += ft_atoi(color) * 16 * 16;
+	free(color);
+	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr_end) + 1, ft_strlen(ptr_end));
+	all->win->F_color += ft_atoi(color);
+	free(color);
+	printf("%d\n",all->win->F_color);
 }
+
 
 void	ft_parcer_map(t_all *all, int i)
 {
@@ -104,16 +122,11 @@ void	ft_parcer_R(t_all *all, char *str, int j)
 	char *res_x;
 
 	ptr = str;
-	printf("%s %d\n", str, j);
 	all->win->res_x = ft_atoi(ptr + j);
-	printf("%d ", all->win->res_x);
-	//printf("res_x = %s!\n", res_x);
 	res_x = ft_itoa(all->win->res_x);
 	ptr = ft_strnstr(str, res_x, ft_strlen(str));
-	//printf(" *ptr = %s", ptr);
 	all->win->res_y = ft_atoi(ptr + ft_strlen(res_x));
 	free(res_x);
-	printf("%d\n", all->win->res_y);
 }
 
 void	ft_parcer(t_all *all)
@@ -140,13 +153,12 @@ void	ft_parcer(t_all *all)
 		else if (all->parcer_map[i][j] == 'E' && all->parcer_map[i][j + 1] == 'A')
 		{
 			ft_parcer_EA(all, all->parcer_map[i], j + 2);
-			return ;
 		}
+		else if (all->parcer_map[i][j] == 'F')
+			ft_parcer_F(all,all->parcer_map[i], j + 1);
 			/*
 		else if (all->parcer_map[i][j] == 'S')
 			ft_parcer_S(all);
-		else if (all->parcer_map[i][j] == 'F')
-			ft_parcer_F(all);
 		else if (all->parcer_map[i][j] == 'C')
 			ft_parcer_C(all);
 

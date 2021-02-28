@@ -5,7 +5,7 @@ WE ./pictures/dama_kresti.xpm
 EA ./pictures/piki.xpm
 S ./path_to_the_sprite_texture
 
-F 220,100,0
+F 0   ,   0   ,       0
 C 225,30,0
 
 11111111111111111111111111111
