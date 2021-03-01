@@ -155,7 +155,12 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 	ft_parcer(&all);
-	//all.map = ft_read_map(argv[2]);
+// int j = 0;
+// while (all.map[j])
+// {
+// 	printf("!!%s\n", all.map[j++]);
+// }
+
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");
@@ -175,6 +180,5 @@ int		main(int argc, char **argv)
 	win.WE_addr = mlx_get_data_addr(win.WE_img, &win.WE_bpp, &win.WE_line_length, &win.en);
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
-	//mlx_put_image_to_window(win.mlx, win.win, win.img, 0, 0);
 	mlx_loop(win.mlx);
 }
