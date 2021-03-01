@@ -56,7 +56,6 @@ char **ft_make_map(t_list **head, int amount)
 	return (map);
 }
 
-//char **ft_read_map(char *av1, t_plr *plr)
 char **ft_read_map(char *av1)
 {
 	char *str = NULL;
