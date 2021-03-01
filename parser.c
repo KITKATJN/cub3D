@@ -145,7 +145,7 @@ int		main(int argc, char **argv)
 
 	all.plr = &plr;
 	all.win = &win;
-	if (argc == 3)
+	if (argc == 2)
 	{
 		all.parcer_map = ft_read_map(argv[1]);
 	}
@@ -155,7 +155,7 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 	ft_parcer(&all);
-	all.map = ft_read_map(argv[2]);
+	//all.map = ft_read_map(argv[2]);
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");

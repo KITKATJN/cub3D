@@ -124,21 +124,21 @@ void	ft_parcer_map(t_all *all, int i)
 	j = i;
 	while (all->parcer_map[j])
 	{
-		printf("->%s\n", all->parcer_map[j]);
-		//if (all->parcer_map[j][0] != '\0')
 		size++;
 		j++;
 	}
 	//printf("%d %d\n", size, i);
 	map = ft_calloc(size + 1, sizeof(char *));
-	printf("SIZE = %d\n", size);
+	//printf("SIZE = %d\n", size);
 	size = -1;
 	while (all->parcer_map[i])
 	{
+		if (all->parcer_map[i][0] == '\0')
+			break ;
 		map[++size] = ft_strdup(all->parcer_map[i++]);
+		//printf("!->%s\n", map[size]);
 	}
 	//здесь чистим parcer map
-	printf("fsd\n");
 	all->map = map;
 }
 
@@ -184,14 +184,13 @@ void	ft_parcer(t_all *all)
 			ft_parcer_F(all,all->parcer_map[i], j + 1);
 		else if (all->parcer_map[i][j] == 'C')
 			ft_parcer_C(all,all->parcer_map[i], j + 1);
-			/*
-		else if (all->parcer_map[i][j] == 'S')
-			ft_parcer_S(all);
+		//else if (all->parcer_map[i][j] == 'S')
+		//	ft_parcer_S(all);
 		else if (all->parcer_map[i][j] == '1')
 		{
 			ft_parcer_map(all, i);
 			break ;
-		}*/
+		}
 		j = 0;
 	}
 }
