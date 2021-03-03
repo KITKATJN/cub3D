@@ -1,4 +1,4 @@
-#include "../cub3D.h"
+#include "cub3D.h"
 
 void	ft_parcer_NO(t_all *all, char *str, int start)
 {

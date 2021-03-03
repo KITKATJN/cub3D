@@ -66,11 +66,10 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 			all->win->wall_addr = all->win->WE_addr;
 		}
 	}
-	if (height < (float)0.000001)
+	printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
+	if (height < (float)1)
 		height = 1;
-	height = (int)(all->win->res_y / (height));
-	if (height > all->win->res_y)
-		height = all->win->res_y;
+	height = (int)(all->win->res_y / height);
 	y = (all->win->res_y - height) / 2;
 
 	printf("y = %f res_y = %d hey = %f\n", y, all->win->res_y, height);
@@ -78,8 +77,8 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	height += y;
 
 	float sky = 0;
-	while (sky++ < y)
-		my_mlx_pixel_put(all->win, cor_x, sky, all->win->F_color);
+	while (sky < y)
+		my_mlx_pixel_put(all->win, cor_x, sky++, all->win->F_color);
 	float i = 0;
 	while(y < height)
 	{
@@ -93,11 +92,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		y++;
 	}
 	while (y < all->win->res_y)
-	{
-		//printf("%f\n", y);
-		my_mlx_pixel_put(all->win, cor_x, y, all->win->C_color);
-		y++;
-	}
+		my_mlx_pixel_put(all->win, cor_x, y++, all->win->C_color);
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -237,6 +232,7 @@ void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
 		inter->x_vert += minus_x ;
 		inter->y_vert += minus_y * fabsf(tanf((curr_ray)));
 	}
+	//printf("x_vert = %f y_vert = %f pl->x = %f plr->y = %f map = %c ", inter->x_vert, inter->y_vert, all->plr->x / SCALE , all->plr->y / SCALE, all->map[(int)(inter->y_vert)][(int)(inter->x_vert + inter->x_error)]);
 	inter->vert_dist = ((inter->x_vert - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y_vert)) * (sinf(all->plr->dir));
 }
 
