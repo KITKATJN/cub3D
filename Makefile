@@ -38,7 +38,7 @@ LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A)
 
 all:	$(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) cub3d.h
 	@make -C $(MLXD)
 	@make -C $(LIBFTD)
 	@make -C $(LIBFTD) bonus
