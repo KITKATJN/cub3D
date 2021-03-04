@@ -61,8 +61,8 @@ CFLAGS = -Wall -Werror -Wextra
 
 HEAD = libft.h
 
-#HFLAGS = -I $(HEAD)
-HFLAGS = -I ./re
+HFLAGS = -I $(HEAD)
+#HFLAGS = -I ./re
 
 OBJS = $(SRCS:.c=.o)
 

@@ -66,13 +66,13 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 			all->win->wall_addr = all->win->WE_addr;
 		}
 	}
-	printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
+	//printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
 	if (height < (float)1)
 		height = 1;
 	height = (int)(all->win->res_y / height);
 	y = (all->win->res_y - height) / 2;
 
-	printf("y = %f res_y = %d hey = %f\n", y, all->win->res_y, height);
+	//printf("y = %f res_y = %d hey = %f\n", y, all->win->res_y, height);
 	inter->wall_height = height;
 	height += y;
 

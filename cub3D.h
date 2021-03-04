@@ -57,6 +57,7 @@ typedef struct	s_win //структура для окна
 	int			img_width;
 	int			wall_bpp;
 	int			wall_line_length;
+	int			count_2;
 	void		*wall_addr;
 }				t_win;
 
@@ -79,6 +80,12 @@ typedef struct	s_inter // структура для точки
 	float		wall_height;
 }				t_inter;
 
+typedef struct	s_sprite //структура для игрока и луча
+{
+	float		x;
+	float		y;
+}				t_sprite;
+
 typedef struct	s_plr //структура для игрока и луча
 {
 	float		x;
@@ -92,8 +99,10 @@ typedef struct	s_all // структура для всего вместе
 {
 	t_win		*win;
 	t_plr		*plr;
+	t_sprite	**spr;
 	char		**map;
 	char		**parcer_map;
+
 }				t_all;
 
 void			ft_draw_pixel_ray(t_win *window, int i, int j, int color);

@@ -113,6 +113,56 @@ void	ft_parcer_C(t_all *all, char *str, int start)
 	printf("%d\n",all->win->C_color);
 }
 
+void	ft_count_2(t_all *all)
+{
+	int i;
+	int j;
+	int k;
+	t_sprite *sprite;
+
+	i = 0;
+	j = 0;
+	all->win->count_2 = 0;
+	while (all->map[i])
+	{
+		j = 0;
+		while (all->map[i][j] != '\0')
+		{
+			if (all->map[i][j++] == '2')
+				all->win->count_2++;
+		}
+		i++;
+	}
+	printf("2 = %d\n", all->win->count_2);
+	all->spr = ft_calloc(all->win->count_2, sizeof(t_sprite));
+	i = 0;
+	j = 0;
+	k = 0;
+	while (all->map[i])
+	{
+		j = 0;
+		while (all->map[i][j] != '\0')
+		{
+			if (all->map[i][j] == '2')
+			{
+				sprite = malloc(sizeof(t_sprite));
+				sprite->x = j;
+				sprite->y = i;
+				all->spr[k++] = sprite;
+			}
+			j++;
+		}
+		i++;
+	}
+	k = 0;
+	while (all->spr[k])
+	{
+		printf("x = %f y = %f\n", all->spr[k]->x, all->spr[k]->y);
+		k++;
+		/* code */
+	}
+	
+}
 
 void	ft_parcer_map(t_all *all, int i)
 {
@@ -140,6 +190,7 @@ void	ft_parcer_map(t_all *all, int i)
 	}
 	//здесь чистим parcer map
 	all->map = map;
+	ft_count_2(all);
 }
 
 void	ft_parcer_R(t_all *all, char *str, int j)

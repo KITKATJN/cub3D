@@ -98,19 +98,20 @@ void ft_init_plr(char **map, t_plr *plr)
 int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
-	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd
+	//printf("key %d \n", key);
+	if (key == 2)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100 
 	{
 		all->plr->dir -= 0.03;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
-	if (key == 97)
+	if (key == 0) //  0 97
 	{
 		all->plr->dir += 0.03;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
-	if (key == 119)
+	if (key == 13)// 13 119
 	{
 		all->plr->y -= sin(all->plr->dir ) * 1;
 		all->plr->x += cos(all->plr->dir) * 1;
@@ -120,7 +121,7 @@ int key_press(int key, t_all *all)
 			all->plr->x -= cos(all->plr->dir) * 1;
 		}
 	}
-	if (key == 115)
+	if (key == 1) // 1 115
 	{
 		all->plr->y += sin(all->plr->dir) * 1;
 		all->plr->x -= cos(all->plr->dir) * 1;
@@ -131,7 +132,7 @@ int key_press(int key, t_all *all)
 			all->plr->x += cos(all->plr->dir) * 1;
 		}
 	}
-	if (key == 65307)
+	if (key == 53)// 53 65307
 		exit(0);
 	draw_screen(all);
 	return (0);

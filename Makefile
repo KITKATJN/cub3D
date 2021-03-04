@@ -14,31 +14,33 @@ OBJS		= $(addprefix $(OBJRID), $(OBJ))
 
 
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-#MLX_FLAGS	= -framework OpenGL -framework AppKit
-MLX_FLAGS = -lXext -lX11 -lm
+MLX_FLAGS	= -framework OpenGL -framework AppKit
+#MLX_FLAGS = -lXext -lX11 -lm #linux
 OPTFLAGS	= -O3
 LEAKFLAGS	= -ggdb3 -std=c11
 
 
 MLX_A		= libmlx.a
-MLX_LINUX	= libmlx_Linux.a
+#MLX_LINUX	= libmlx_Linux.a
 LIBFT_A		= libft.a
 GNL_A		= gnl.a
 
 
 LIBFTD		= libft/
-#MLXD		= mlx/
-MLXD		= minilibx-linux/
+MLXD		= mlx/
+#MLXD		= minilibx-linux/
 GNLD		= get_next_line/
 OBJRID		= objs/
 
 CUB_H		= -I cub3d.h
-LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A)
+LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A)
+#LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A)
 
 all:	$(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(MLXD)
+	@make -C $(LIBFTD)
 	@make -C $(LIBFTD) bonus
 	@make -C $(GNLD)
 	gcc $(CFLAGS) $(OBJS) $(LIBS) $(MLX_FLAGS) -o $(NAME)
@@ -65,4 +67,4 @@ re:	fclean all
 
 .PHONY:	fclean all re clean
 
-.SILENT: fclean clean all re $(NAME) $(OBJS) $(OBJRID)
+#.SILENT: fclean clean all re $(NAME) $(OBJS) $(OBJRID)
