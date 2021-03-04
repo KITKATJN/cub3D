@@ -84,6 +84,7 @@ typedef struct	s_sprite //структура для игрока и луча
 {
 	float		x;
 	float		y;
+	float		dist;
 }				t_sprite;
 
 typedef struct	s_plr //структура для игрока и луча

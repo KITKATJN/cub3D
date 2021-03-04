@@ -19,6 +19,47 @@ void ft_scale_img(t_win *win, t_point point)
 	}
 }
 
+void	ft_sort_sprite(t_all *all)
+{
+	int k;
+	int i;
+	float dist;
+
+	k = 0;
+	while (all->spr[k])
+	{
+		all->spr[k]->dist = sqrtf((all->plr->x - all->spr[k]->x) * (all->plr->x - all->spr[k]->x) + (all->plr->y - all->spr[k]->y) * (all->plr->y - all->spr[k]->y));
+		k++;
+	}
+	k = 0;
+	i = 0;
+	while (all->spr[k + 1])
+	{
+		i = 0;
+		//printf("sf\n");
+		while (all->spr[i + 1])
+		{
+			//printf("ds\n");
+			if (all->spr[i]->dist < all->spr[i + 1]->dist)
+			{
+				dist = all->spr[i]->dist;
+				all->spr[i]->dist = all->spr[i + 1]->dist;
+				all->spr[i + 1]->dist = dist;
+				i = -1;
+			}
+			i++;
+		}
+		k++;
+	}
+	// k = 0;
+	// while (all->spr[k])
+	// {
+	// 	printf("d = %f y = %f\n", all->spr[k]->dist, all->spr[k]->y);
+	// 	k++;
+	// 	/* code */
+	// }
+}
+
 
 void draw_screen(t_all *all)
 {/*
@@ -67,6 +108,7 @@ void draw_screen(t_all *all)
 		}
 		point.y++;
 	}*/
+	ft_sort_sprite(all);
 	ft_draw_player2(all, all->plr);
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	//mlx_destroy_image(all->win->mlx, all->win->img);

@@ -153,14 +153,14 @@ void	ft_count_2(t_all *all)
 			j++;
 		}
 		i++;
-	}
-	k = 0;
-	while (all->spr[k])
-	{
-		printf("x = %f y = %f\n", all->spr[k]->x, all->spr[k]->y);
-		k++;
-		/* code */
-	}
+	 }
+	// k = 0;
+	// while (all->spr[k])
+	// {
+	// 	printf("x = %f y = %f\n", all->spr[k]->x, all->spr[k]->y);
+	// 	k++;
+	// 	/* code */
+	// }
 	
 }
 

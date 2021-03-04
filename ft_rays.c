@@ -107,6 +107,30 @@ void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
 	}
 }
 
+void	ft_draw_sprite(t_all *all, float angle)
+{
+	float angle1;
+	float angle2;
+	int i;
+
+	i = 0;
+	//printf("HERE\n");
+	while (all->spr[i])
+	{
+		angle1 = atan2f(-all->plr->y + all->spr[i]->y, -all->plr->x + all->spr[i]->x);
+		angle2 = atan2f(sinf(angle), cosf(angle));
+		angle = angle2 - angle1;
+		if (angle > M_PI)
+			angle -= 2 * M_PI;
+		else if (angle < -M_PI)
+			angle += 2 * M_PI;
+		printf("angle%d = %f %f\n", i, fabs(angle), angle2);
+		if (fabs(angle) < M_PI_4)
+			printf("risuet x = %f y = %f\n", all->spr[i]->x, all->spr[i]->y);
+		i++;
+	}
+}
+
 void	ft_draw_player2(t_all *all, t_plr *pl)
 {
 	t_plr	plr = *all->plr;
@@ -133,6 +157,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			printf("delete this\n");//
 		plr.start += M_PI_2 / all->win->res_x;
 	}
+	ft_draw_sprite(all, plr.dir);
 }
 
 void ft_scale_img2(t_win *win, int x, int y, int color)
