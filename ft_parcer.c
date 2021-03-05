@@ -153,7 +153,7 @@ void	ft_count_2(t_all *all)
 			j++;
 		}
 		i++;
-	 }
+	}
 	// k = 0;
 	// while (all->spr[k])
 	// {
@@ -161,7 +161,7 @@ void	ft_count_2(t_all *all)
 	// 	k++;
 	// 	/* code */
 	// }
-	
+
 }
 
 void	ft_parcer_map(t_all *all, int i)

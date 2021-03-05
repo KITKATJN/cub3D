@@ -16,10 +16,11 @@ NAME	= gnl.a
 
 $(OBJDIR)%.o: %.c
 	mkdir -p $(OBJDIR)
-	gcc $(CFLAGS) -c $< -o $@ -I get_next_line.h
+	gcc $(CFLAGS) -c $< -o $@ -I ./re
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
+	@echo "\n\tgnl.a created\t\n"
 
 all: $(NAME)
 

@@ -114,19 +114,20 @@ void	ft_draw_sprite(t_all *all, float angle)
 	float ang;
 	int i;
 
+	angle -= 2 * (angle - M_PI_2);
 	i = 0;
 	//printf("HERE\n");
 	while (all->spr[i])
 	{
-		angle1 = atan2f(all->plr->y / SCALE - all->spr[i]->y, all->plr->x / SCALE - all->spr[i]->x);
+		angle1 = atan2f(all->plr->y / SCALE - all->spr[i]->y,all->plr->x / SCALE - all->spr[i]->x);
 		angle2 = atan2f(sinf(angle), cosf(angle));
 		//printf("%f ====%f \n",all->plr->x / SCALE , all->spr[i]->x);
-		ang = -angle2 + angle1;
+		ang = angle2 - angle1;
 		if (ang > M_PI)
 			ang -= 2 * M_PI;
 		else if (ang < -M_PI)
 			ang += 2 * M_PI;
-		printf("angle%d = %f ang1 = %f ang2 = %f\n", i, fabs(ang), angle1, angle2);
+		printf("angle%d = %f ang1 = %f ang2 = %f\n", i, (ang), angle1, angle2);
 		if (fabs(ang) < M_PI_4)
 			printf("risuet x = %f y = %f\n", all->spr[i]->x, all->spr[i]->y);
 		i++;

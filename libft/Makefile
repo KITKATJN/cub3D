@@ -6,7 +6,7 @@
 #    By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/12 19:21:05 by cmarguer          #+#    #+#              #
-#    Updated: 2021/03/03 16:39:04 by cmarguer         ###   ########.fr        #
+#    Updated: 2021/03/05 14:36:10 by cmarguer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,8 +61,8 @@ CFLAGS = -Wall -Werror -Wextra
 
 HEAD = libft.h
 
-HFLAGS = -I $(HEAD)
-#HFLAGS = -I ./re
+#HFLAGS = -I $(HEAD)
+HFLAGS = -I ./re
 
 OBJS = $(SRCS:.c=.o)
 
