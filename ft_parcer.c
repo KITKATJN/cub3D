@@ -61,6 +61,22 @@ void	ft_parcer_EA(t_all *all, char *str, int start)
 	all->win->EA_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
 }
 
+void	ft_parcer_S(t_all *all, char *str, int start)
+{
+	char *ptr;
+	char *ptr_end;
+
+	ptr = str;
+	while (str[start]== ' ' || str[start]== '	' ||
+		str[start]== '\t' || str[start]== '\f' ||
+			str[start]== '\r' || str[start]== '\v')
+			start++;
+	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//если вернул 0, то ошибку выдаем
+	ptr_end += 4;
+	all->win->S_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+	printf("s path = %s\n",all->win->S_path);
+}
+
 void	ft_parcer_F(t_all *all, char *str, int start)
 {
 	char	*ptr;
@@ -235,8 +251,8 @@ void	ft_parcer(t_all *all)
 			ft_parcer_F(all,all->parcer_map[i], j + 1);
 		else if (all->parcer_map[i][j] == 'C')
 			ft_parcer_C(all,all->parcer_map[i], j + 1);
-		//else if (all->parcer_map[i][j] == 'S')
-		//	ft_parcer_S(all);
+		else if (all->parcer_map[i][j] == 'S')
+			ft_parcer_S(all,all->parcer_map[i], j + 1);
 		else if (all->parcer_map[i][j] == '1')
 		{
 			ft_parcer_map(all, i);

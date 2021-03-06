@@ -7,7 +7,7 @@
 #include <mlx.h>
 #include <math.h>
 
-# define SCALE	4 // условный размер каждого квадратика в карте
+# define SCALE	1 // условный размер каждого квадратика в карте
 
 typedef struct	s_win //структура для окна
 {
@@ -18,12 +18,14 @@ typedef struct	s_win //структура для окна
 	void		*NO_img;
 	void		*WE_img;
 	void		*EA_img;
+	void		*S_img;
 	void		*wall_img;
 	void		*addr;
 	void		*SO_addr;
 	void		*NO_addr;
 	void		*WE_addr;
 	void		*EA_addr;
+	void		*S_addr;
 	char		*relative_path;
 	int			res_x;
 	int			res_y;
@@ -41,6 +43,8 @@ typedef struct	s_win //структура для окна
 	int			EA_width;
 	int			EA_height;
 	int			WE_width;
+	int			S_height;
+	int			S_width;
 	int			WE_height;
 	int			line_l;
 	int			SO_bpp;
@@ -51,6 +55,8 @@ typedef struct	s_win //структура для окна
 	int			WE_line_length;
 	int			EA_bpp;
 	int			EA_line_length;
+	int			S_bpp;
+	int			S_line_length;
 	int			bpp;
 	int			en;
 	int			img_height;

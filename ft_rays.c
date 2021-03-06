@@ -10,6 +10,16 @@ int	get_color(t_win *win, int x, int y)
 	return (color);
 }
 
+int	get_color_s(t_win *win, int x, int y)
+{
+	char	*dst;
+	int		color;
+
+	dst = win->S_addr + (x * (win->S_bpp / 8) + y * win->S_line_length);
+	color = *(unsigned int*)dst;
+	return (color);
+}
+
 void my_mlx_pixel_put(t_win *win, int x, int y, int color)
 {
 	char *dst;
@@ -129,7 +139,34 @@ void	ft_draw_sprite(t_all *all, float angle)
 			ang += 2 * M_PI;
 		printf("angle%d = %f ang1 = %f ang2 = %f\n", i, (ang), angle1, angle2);
 		if (fabs(ang) < M_PI_4)
-			printf("risuet x = %f y = %f\n", all->spr[i]->x, all->spr[i]->y);
+		{
+			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
+			float fobjFloor = all->win->res_y - fobjCeil;
+			float fobjHeight = fobjFloor - fobjCeil;
+			float fObjAspectRatio = (float)all->win->S_height / (float)all->win->S_width;
+			float fObjWidth = fobjHeight / fObjAspectRatio;
+
+			float fMiddleObj = (0.5f * (ang / (M_PI_2 / 2.0f)) + 0.5f) * (float)all->win->res_x;
+			float lx = -1;
+			float ly = -1;
+			while (++lx < fObjWidth)
+			{
+				ly = -1;
+				while (++ly < fobjHeight)
+				{
+					float fSamplex = lx / fObjWidth;
+					float fSampley = ly / fobjHeight;
+					int nObjColumn = (int)(fMiddleObj + lx - (fObjWidth / 2.0f));
+					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
+					{
+						my_mlx_pixel_put(all->win, nObjColumn, fobjCeil + ly, get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width));
+					}
+					//printf("%f %f\n", ly, fobjHeight);
+					//printf("HEH %d   %f width = %f height = %f \n", nObjColumn, fobjCeil + ly, fObjWidth, fobjHeight);
+				}
+			}
+		}
+			//printf("risuet x = %f y = %f\n", all->spr[i]->x, all->spr[i]->y);
 		i++;
 	}
 }

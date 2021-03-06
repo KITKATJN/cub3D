@@ -221,6 +221,9 @@ int		main(int argc, char **argv)
 
 	win.WE_img = mlx_xpm_file_to_image(win.mlx, all.win->WE_path, &win.WE_width, &win.WE_height);
 	win.WE_addr = mlx_get_data_addr(win.WE_img, &win.WE_bpp, &win.WE_line_length, &win.en);
+
+	win.S_img = mlx_xpm_file_to_image(win.mlx, all.win->S_path, &win.S_width, &win.S_height);
+	win.S_addr = mlx_get_data_addr(win.S_img, &win.S_bpp, &win.S_line_length, &win.en);
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);
