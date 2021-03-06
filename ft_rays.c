@@ -137,8 +137,8 @@ void	ft_draw_sprite(t_all *all, float angle)
 			ang -= 2 * M_PI;
 		else if (ang < -M_PI)
 			ang += 2 * M_PI;
-		printf("angle%d = %f ang1 = %f ang2 = %f\n", i, (ang), angle1, angle2);
-		if (fabs(ang) < M_PI_4)
+		//printf("angle%d = %f ang1 = %f ang2 = %f\n", i, (ang), angle1, angle2);
+		if (fabs(ang) < M_PI_4 && all->spr[i]->dist >= 0.5f)
 		{
 			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
 			float fobjFloor = all->win->res_y - fobjCeil;
@@ -157,9 +157,17 @@ void	ft_draw_sprite(t_all *all, float angle)
 					float fSamplex = lx / fObjWidth;
 					float fSampley = ly / fobjHeight;
 					int nObjColumn = (int)(fMiddleObj + lx - (fObjWidth / 2.0f));
+					if (lx < 1)
+						printf("nObj = %f fObj = %f\n", nObjColumn, fobjCeil + ly);
 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
 					{
-						my_mlx_pixel_put(all->win, nObjColumn, fobjCeil + ly, get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width));
+						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
+						if (color_spr > 1900000)
+						{
+							//if (color_spr < 1310976)
+							//	printf("nObj = %f\n", nObjColumn);
+							my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);
+						}
 					}
 					//printf("%f %f\n", ly, fobjHeight);
 					//printf("HEH %d   %f width = %f height = %f \n", nObjColumn, fobjCeil + ly, fObjWidth, fobjHeight);
