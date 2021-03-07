@@ -138,15 +138,18 @@ void	ft_draw_sprite(t_all *all, float angle)
 		else if (ang < -M_PI)
 			ang += 2 * M_PI;
 		//printf("angle%d = %f ang1 = %f ang2 = %f\n", i, (ang), angle1, angle2);
-		if (fabs(ang) < M_PI_4 && all->spr[i]->dist >= 0.5f)
+		//printf("dist = %f  ", all->spr[i]->dist);
+		if (fabs(ang) < M_PI_4 && all->spr[i]->dist > 1.0f)
 		{
 			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
+			printf("ceil = %f dist = %f dist 1 = %f dist2 =  %f\n", fobjCeil, ((float)(all->spr[i]->dist)), ((float)(all->spr[0]->dist)),((float)(all->spr[1]->dist)));
 			float fobjFloor = all->win->res_y - fobjCeil;
 			float fobjHeight = fobjFloor - fobjCeil;
 			float fObjAspectRatio = (float)all->win->S_height / (float)all->win->S_width;
 			float fObjWidth = fobjHeight / fObjAspectRatio;
 
 			float fMiddleObj = (0.5f * (ang / (M_PI_2 / 2.0f)) + 0.5f) * (float)all->win->res_x;
+			//printf("dist = %f высота = %f  middle = %f col = %d objwidth = %f objheight = %f Aspect = %f\n", all->spr[i]->dist, fobjHeight, fMiddleObj, (int)(fMiddleObj - (fObjWidth / 2.0f)), fObjWidth, fobjHeight , fObjAspectRatio);
 			float lx = -1;
 			float ly = -1;
 			while (++lx < fObjWidth)
@@ -157,8 +160,6 @@ void	ft_draw_sprite(t_all *all, float angle)
 					float fSamplex = lx / fObjWidth;
 					float fSampley = ly / fobjHeight;
 					int nObjColumn = (int)(fMiddleObj + lx - (fObjWidth / 2.0f));
-					if (lx < 1)
-						printf("nObj = %f fObj = %f\n", nObjColumn, fobjCeil + ly);
 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
 					{
 						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
@@ -166,7 +167,8 @@ void	ft_draw_sprite(t_all *all, float angle)
 						{
 							//if (color_spr < 1310976)
 							//	printf("nObj = %f\n", nObjColumn);
-							my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);
+							if (fobjCeil + ly < all->win->res_y)
+								my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);
 						}
 					}
 					//printf("%f %f\n", ly, fobjHeight);

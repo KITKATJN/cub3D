@@ -19,6 +19,20 @@ void ft_scale_img(t_win *win, t_point point)
 	}
 }
 
+void	ft_count_dist_sprite(t_all *all)
+{
+	int k;
+	int i;
+	float dist;
+
+	k = 0;
+	while (all->spr[k])
+	{
+		all->spr[k]->dist = sqrtf((all->plr->x - all->spr[k]->x) * (all->plr->x - all->spr[k]->x) + (all->plr->y - all->spr[k]->y) * (all->plr->y - all->spr[k]->y));
+		k++;
+	}
+}
+
 void	ft_sort_sprite(t_all *all)
 {
 	int k;
@@ -108,7 +122,7 @@ void draw_screen(t_all *all)
 		}
 		point.y++;
 	}*/
-	ft_sort_sprite(all);
+	ft_count_dist_sprite(all);
 	ft_draw_player2(all, all->plr);
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	//mlx_destroy_image(all->win->mlx, all->win->img);
@@ -124,11 +138,17 @@ void ft_init_plr(char **map, t_plr *plr)
 		pos.x = 0;
 		while (map[pos.y][pos.x])
 		{
-			if (ft_strchr("WENS",map[pos.y][pos.x]))
+			if (ft_strchr("N",map[pos.y][pos.x]))
 			{
 				plr->x = pos.x * SCALE + SCALE / 2;
 				plr->y = pos.y * SCALE + SCALE / 2;
 				plr->dir = 1 * M_PI_2;
+			}
+			if (ft_strchr("S",map[pos.y][pos.x]))
+			{
+				plr->x = pos.x * SCALE + SCALE / 2;
+				plr->y = pos.y * SCALE + SCALE / 2;
+				plr->dir = 3 * M_PI_2;
 			}
 			pos.x++;
 		}
@@ -224,6 +244,7 @@ int		main(int argc, char **argv)
 
 	win.S_img = mlx_xpm_file_to_image(win.mlx, all.win->S_path, &win.S_width, &win.S_height);
 	win.S_addr = mlx_get_data_addr(win.S_img, &win.S_bpp, &win.S_line_length, &win.en);
+	ft_sort_sprite(&all);
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);

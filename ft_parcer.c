@@ -74,7 +74,7 @@ void	ft_parcer_S(t_all *all, char *str, int start)
 	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//если вернул 0, то ошибку выдаем
 	ptr_end += 4;
 	all->win->S_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
-	printf("s path = %s\n",all->win->S_path);
+	//printf("s path = %s\n",all->win->S_path);
 }
 
 void	ft_parcer_F(t_all *all, char *str, int start)
