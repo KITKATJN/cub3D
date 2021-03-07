@@ -109,7 +109,7 @@ typedef struct	s_all // структура для всего вместе
 	t_sprite	**spr;
 	char		**map;
 	char		**parcer_map;
-
+	float		*depthBuffer;
 }				t_all;
 
 void			ft_draw_pixel_ray(t_win *window, int i, int j, int color);

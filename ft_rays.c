@@ -79,6 +79,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	//printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
 	if (height < (float)1)
 		height = 1;
+	all->depthBuffer[cor_x] = height;
 	height = (int)(all->win->res_y / height);
 	y = (all->win->res_y - height) / 2;
 
@@ -163,7 +164,7 @@ void	ft_draw_sprite(t_all *all, float angle)
 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
 					{
 						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
-						if (color_spr > 1900000)
+						if (color_spr > 1900000 && all->depthBuffer[nObjColumn] >= all->spr[i]->dist)
 						{
 							//if (color_spr < 1310976)
 							//	printf("nObj = %f\n", nObjColumn);
@@ -187,6 +188,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 	t_inter	inter;
 	int i = all->win->res_x;
 
+	all->depthBuffer = ft_calloc(sizeof(float), all->win->res_x);
 	plr.start = plr.dir - M_PI_4;
 	plr.end = plr.dir + M_PI_4;
 	while (plr.start < plr.end)
