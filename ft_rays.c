@@ -127,30 +127,24 @@ void	ft_draw_sprite(t_all *all, float angle)
 
 	angle -= 2 * (angle - M_PI_2);
 	i = 0;
-	//printf("HERE\n");
 	while (all->spr[i])
 	{
 		angle1 = atan2f(all->plr->y / SCALE - all->spr[i]->y,all->plr->x / SCALE - all->spr[i]->x);
 		angle2 = atan2f(sinf(angle), cosf(angle));
-		//printf("%f ====%f \n",all->plr->x / SCALE , all->spr[i]->x);
 		ang = angle2 - angle1;
 		if (ang > M_PI)
 			ang -= 2 * M_PI;
 		else if (ang < -M_PI)
 			ang += 2 * M_PI;
-		//printf("angle%d = %f ang1 = %f ang2 = %f\n", i, (ang), angle1, angle2);
-		//printf("dist = %f  ", all->spr[i]->dist);
 		if (fabs(ang) < M_PI_4 && all->spr[i]->dist > 1.0f)
 		{
 			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
-			printf("ceil = %f dist = %f dist 1 = %f dist2 =  %f\n", fobjCeil, ((float)(all->spr[i]->dist)), ((float)(all->spr[0]->dist)),((float)(all->spr[1]->dist)));
 			float fobjFloor = all->win->res_y - fobjCeil;
 			float fobjHeight = fobjFloor - fobjCeil;
 			float fObjAspectRatio = (float)all->win->S_height / (float)all->win->S_width;
 			float fObjWidth = fobjHeight / fObjAspectRatio;
 
 			float fMiddleObj = (0.5f * (ang / (M_PI_2 / 2.0f)) + 0.5f) * (float)all->win->res_x;
-			//printf("dist = %f высота = %f  middle = %f col = %d objwidth = %f objheight = %f Aspect = %f\n", all->spr[i]->dist, fobjHeight, fMiddleObj, (int)(fMiddleObj - (fObjWidth / 2.0f)), fObjWidth, fobjHeight , fObjAspectRatio);
 			float lx = -1;
 			float ly = -1;
 			while (++lx < fObjWidth)
@@ -164,16 +158,12 @@ void	ft_draw_sprite(t_all *all, float angle)
 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
 					{
 						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
-						if (color_spr > 1900000 && all->depthBuffer[nObjColumn] >= all->spr[i]->dist)
+						if (color_spr > 1900000 && ceilf(all->depthBuffer[all->win->res_x - nObjColumn]) >= floorf(all->spr[i]->dist))
 						{
-							//if (color_spr < 1310976)
-							//	printf("nObj = %f\n", nObjColumn);
 							if (fobjCeil + ly < all->win->res_y)
 								my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);
 						}
 					}
-					//printf("%f %f\n", ly, fobjHeight);
-					//printf("HEH %d   %f width = %f height = %f \n", nObjColumn, fobjCeil + ly, fObjWidth, fobjHeight);
 				}
 			}
 		}
@@ -209,6 +199,16 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			printf("delete this\n");//
 		plr.start += M_PI_2 / all->win->res_x;
 	}
+	// i = 0;
+	// 		printf("\n\t");
+	// while (i < all->win->res_x)
+	// {
+	// 	printf("h = %f,", all->depthBuffer[i]);
+	// 	if (i % 9 == 0)
+	// 		printf("\n");
+	// 	i++;
+	// 	/* code */
+	// }
 	ft_draw_sprite(all, plr.dir);
 }
 
