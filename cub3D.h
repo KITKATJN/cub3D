@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <mlx.h>
 #include <math.h>
+#include <stdio.h>
 
 # define SCALE	1 // условный размер каждого квадратика в карте
 
@@ -122,4 +123,6 @@ void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 char			**make_map(t_list **head, int size);
 char			**ft_read_map(char *argv1);
 void			ft_parcer(t_all *all);
+void			ft_perror(char *error);
+void			ft_screen_shot(t_all *all);
 #endif

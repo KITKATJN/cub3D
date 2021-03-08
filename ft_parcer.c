@@ -162,8 +162,8 @@ void	ft_count_2(t_all *all)
 			if (all->map[i][j] == '2')
 			{
 				sprite = malloc(sizeof(t_sprite));
-				sprite->x = j;
-				sprite->y = i;
+				sprite->x = j + 0.5f;
+				sprite->y = i + 0.5f;
 				all->spr[k++] = sprite;
 			}
 			j++;
