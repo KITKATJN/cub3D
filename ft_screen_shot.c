@@ -54,14 +54,6 @@ unsigned char* ft_infoheader (t_all *all)
     return infoHeader;
 }
 
-// char	*ft_fileheader(t_all *all)
-// {
-// 	write(fd, "typedef struct tagBITMAPFILEHEADER\n", ft_strlen("typedef struct tagBITMAPFILEHEADER\n"));
-// 	write(fd, "{\n", 2);
-// 	write(fd, "WORD    BM;\n", ft_strlen("WORD    BM;\n"));
-// }
-
-
 void	ft_screen_shot(t_all *all)
 {
 	int fd;
@@ -82,7 +74,13 @@ void	ft_screen_shot(t_all *all)
 		x = 0;
 		while (x < all->win->res_x)
 		{
-			write(fd, &all->win->addr[y * all->win->line_l / 4 + x], 3);
+
+			char	*dst;
+			int		color;
+			dst = all->win->addr + (x * (all->win->bpp / 8) + y * all->win->line_l);
+			color = *(unsigned int*)dst;
+			write(fd, &color, 3);
+			//write(fd, &all->win->addr[y * all->win->line_l / 4 + x], 3);
 			x++;
 		}
 		y--;

@@ -219,8 +219,6 @@ int		main(int argc, char **argv)
 	if (argc > 1)
 	{
 		all.parcer_map = ft_read_map(argv[1]);
-		if (argc > 2)
-			ft_check_argv2(argv[2]);
 	}
 	else
 	{
@@ -251,11 +249,10 @@ int		main(int argc, char **argv)
 	win.S_img = mlx_xpm_file_to_image(win.mlx, all.win->S_path, &win.S_width, &win.S_height);
 	win.S_addr = mlx_get_data_addr(win.S_img, &win.S_bpp, &win.S_line_length, &win.en);
 	draw_screen(&all);
-	printf("done %d\n", argv[2] == "--save");
-	if (argv[2] != "--save")
+	if (argc > 2)
 	{
+		ft_check_argv2(argv[2]);
 		ft_screen_shot(&all);
-		printf("done %d\n", argv[2] == "--save");
 	}
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);
