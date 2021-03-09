@@ -6,7 +6,7 @@
 #    By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/12 19:21:05 by cmarguer          #+#    #+#              #
-#    Updated: 2021/03/05 14:36:10 by cmarguer         ###   ########.fr        #
+#    Updated: 2021/03/09 08:19:06 by cmarguer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ CFLAGS = -Wall -Werror -Wextra
 HEAD = libft.h
 
 #HFLAGS = -I $(HEAD)
-HFLAGS = -I ./re
+HFLAGS	= -I ./re
+OBJRID	= objs/
 
 OBJS = $(SRCS:.c=.o)
 
@@ -86,6 +87,9 @@ all: $(NAME)
 so:
 	$(CC) -c -fPIC $(CFLAGS) $(SRCS)
 	gcc  -shared -o libft.so $(OBJS)
+
+	
+
 clean:
 	rm -f $(OBJS) $(OBJSB)
 

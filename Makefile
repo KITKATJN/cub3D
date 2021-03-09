@@ -4,6 +4,7 @@ NAME		= cub3D
 
 SRCS		= parser.c ft_rays.c \
 		map.c ft_parcer.c \
+		ft_perror.c ft_screen_shot.c\
 
 
 #BONUS_S		= movin_bonus.c

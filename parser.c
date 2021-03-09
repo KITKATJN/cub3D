@@ -200,6 +200,14 @@ int key_press(int key, t_all *all)
 	return (0);
 }
 
+void ft_check_argv2(const char *argv2)
+{
+	if (ft_strlen(argv2) != 6)
+		ft_perror("argv2 is wrong by length");
+	if (argv2[0] != '-' || argv2[1] != '-' || argv2[2] != 's' || argv2[3] != 'a' || argv2[4] != 'v' || argv2[5] != 'e')
+		ft_perror("argv2 is wrong by symbols");
+}
+
 int		main(int argc, char **argv)
 {
 	t_win win;
@@ -208,9 +216,11 @@ int		main(int argc, char **argv)
 
 	all.plr = &plr;
 	all.win = &win;
-	if (argc == 2)
+	if (argc > 1)
 	{
 		all.parcer_map = ft_read_map(argv[1]);
+		if (argc > 2)
+			ft_check_argv2(argv[2]);
 	}
 	else
 	{
@@ -218,12 +228,6 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 	ft_parcer(&all);
-// int j = 0;
-// while (all.map[j])
-// {
-// 	printf("!!%s\n", all.map[j++]);
-// }
-
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");
@@ -231,7 +235,9 @@ int		main(int argc, char **argv)
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 
 	win.NO_img = mlx_xpm_file_to_image(win.mlx, all.win->NO_path, &win.NO_width, &win.NO_height);
-	win.NO_addr = mlx_get_data_addr(win.NO_img, &win.NO_bpp, &win.NO_line_length, &win.en);
+	if (!win.NO_img)
+		ft_perror("Error with NO_PATH");
+	win.NO_addr = mlx_get_data_addr(win.NO_img, &win.NO_bpp, &win.NO_line_length, &win.en);// что будет, если передать в первый параметр 0 или фигню? Какая защита
 
 	win.SO_img = mlx_xpm_file_to_image(win.mlx, all.win->SO_path, &win.SO_width, &win.SO_height);
 	win.SO_addr = mlx_get_data_addr(win.SO_img, &win.SO_bpp, &win.SO_line_length, &win.en);
@@ -244,8 +250,13 @@ int		main(int argc, char **argv)
 
 	win.S_img = mlx_xpm_file_to_image(win.mlx, all.win->S_path, &win.S_width, &win.S_height);
 	win.S_addr = mlx_get_data_addr(win.S_img, &win.S_bpp, &win.S_line_length, &win.en);
-	//ft_sort_sprite(&all);
 	draw_screen(&all);
+	printf("done %d\n", argv[2] == "--save");
+	if (argv[2] != "--save")
+	{
+		ft_screen_shot(&all);
+		printf("done %d\n", argv[2] == "--save");
+	}
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);
 }
