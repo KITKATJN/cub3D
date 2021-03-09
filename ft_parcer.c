@@ -149,7 +149,7 @@ void	ft_count_2(t_all *all)
 		}
 		i++;
 	}
-	printf("2 = %d\n", all->win->count_2);
+	//printf("2 = %d\n", all->win->count_2);
 	all->spr = ft_calloc(all->win->count_2, sizeof(t_sprite));
 	i = 0;
 	j = 0;

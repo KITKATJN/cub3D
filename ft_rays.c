@@ -158,7 +158,7 @@ void	ft_draw_sprite(t_all *all, float angle)
 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
 					{
 						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
-						if (color_spr > 1900000 && ceilf(all->depthBuffer[all->win->res_x - nObjColumn]) >= floorf(all->spr[i]->dist))
+						if (color_spr > 1900000 && (all->depthBuffer[all->win->res_x - nObjColumn]) >= (all->spr[i]->dist))
 						{
 							if (fobjCeil + ly < all->win->res_y)
 								my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);

@@ -37,7 +37,7 @@ void	ft_sort_sprite(t_all *all)
 {
 	int k;
 	int i;
-	float dist;
+	t_sprite *sp;
 
 	k = 0;
 	while (all->spr[k])
@@ -56,9 +56,9 @@ void	ft_sort_sprite(t_all *all)
 			//printf("ds\n");
 			if (all->spr[i]->dist < all->spr[i + 1]->dist)
 			{
-				dist = all->spr[i]->dist;
-				all->spr[i]->dist = all->spr[i + 1]->dist;
-				all->spr[i + 1]->dist = dist;
+				sp = all->spr[i];
+				all->spr[i] = all->spr[i + 1];
+				all->spr[i + 1] = sp;
 				i = -1;
 			}
 			i++;
@@ -122,7 +122,7 @@ void draw_screen(t_all *all)
 		}
 		point.y++;
 	}*/
-	ft_count_dist_sprite(all);
+	ft_sort_sprite(all);
 	ft_draw_player2(all, all->plr);
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	//mlx_destroy_image(all->win->mlx, all->win->img);
@@ -244,7 +244,7 @@ int		main(int argc, char **argv)
 
 	win.S_img = mlx_xpm_file_to_image(win.mlx, all.win->S_path, &win.S_width, &win.S_height);
 	win.S_addr = mlx_get_data_addr(win.S_img, &win.S_bpp, &win.S_line_length, &win.en);
-	ft_sort_sprite(&all);
+	//ft_sort_sprite(&all);
 	draw_screen(&all);
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);
