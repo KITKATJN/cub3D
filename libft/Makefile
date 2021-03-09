@@ -6,7 +6,7 @@
 #    By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/12 19:21:05 by cmarguer          #+#    #+#              #
-#    Updated: 2021/03/09 08:19:06 by cmarguer         ###   ########.fr        #
+#    Updated: 2021/03/10 00:30:35 by cmarguer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,26 +61,35 @@ CFLAGS = -Wall -Werror -Wextra
 
 HEAD = libft.h
 
+OBJ	= $(SRCS:.c=.o)
+OBJ_B	= $(SRCSB:.c=.o)
+
 #HFLAGS = -I $(HEAD)
 HFLAGS	= -I ./re
 OBJRID	= objs/
 
-OBJS = $(SRCS:.c=.o)
+OBJS	= $(addprefix $(OBJ_DIR), $(OBJ))
+OBJS_B	= $(addprefix $(OBJ_DIR), $(OBJ_B))
 
-OBJSB = $(SRCSB:.c=.o)
+OBJ_DIR	= objs/
+
+RM	= rm -f
 
 CC = gcc
 
-.c.o:
-	$(CC) $(CFLAGS) $< -o $@ -c $(HFLAGS)
+$(OBJ_DIR)%.o: %.c
+	@mkdir -p $(OBJ_DIR)
+	gcc ${CFLAGS} -c $< -o $@ ${HFLAGS}
 
 $(NAME): $(OBJS)
 	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)
+	@echo "\n\tlibft.a created\t\n"
 
-bonus: $(OBJSB)
-	@ar rc $(NAME) $(OBJSB)
-	@ranlib $(NAME)
+bonus: $(OBJS_B) $(OBJS)
+	ar rc $(NAME) $(OBJS_B) $(OBJS)
+	ranlib $(NAME)
+	@echo "\n\tlibftbonus added\t\n"
 
 all: $(NAME)
 
@@ -88,10 +97,9 @@ so:
 	$(CC) -c -fPIC $(CFLAGS) $(SRCS)
 	gcc  -shared -o libft.so $(OBJS)
 
-	
-
 clean:
-	rm -f $(OBJS) $(OBJSB)
+	@rm -rf $(OBJ_DIR)
+	$(RM) $(OBJS) $(OBJS_B)
 
 fclean: clean
 	rm -f $(NAME)
