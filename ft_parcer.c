@@ -5,14 +5,21 @@ void	ft_parcer_NO(t_all *all, char *str, int start)
 	char *ptr;
 	char *ptr_end;
 
-	ptr = str;
-	while (str[start]== ' ' || str[start]== '	' ||
-		str[start]== '\t' || str[start]== '\f' ||
-			str[start]== '\r' || str[start]== '\v')
-			start++;
-	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
-	ptr_end += 4;
-	all->win->NO_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+	if (!all->win->NO_path)
+	{
+		ptr = str;
+		while (str[start]== ' ' || str[start]== '	' ||
+			str[start]== '\t' || str[start]== '\f' ||
+				str[start]== '\r' || str[start]== '\v')
+				start++;
+		ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
+		if (!ptr_end)
+			ft_perror("Wrong NO path or picture expansion");
+		ptr_end += 4;
+		all->win->NO_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+	}
+	else
+		ft_perror("double NO redefinition!");
 }
 
 void	ft_parcer_SO(t_all *all, char *str, int start)
@@ -20,13 +27,14 @@ void	ft_parcer_SO(t_all *all, char *str, int start)
 	char *ptr;
 	char *ptr_end;
 
-
 	ptr = str;
 	while (str[start]== ' ' || str[start]== '	' ||
 		str[start]== '\t' || str[start]== '\f' ||
 			str[start]== '\r' || str[start]== '\v')
 			start++;
 	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
+	if (!ptr_end)
+		ft_perror("Wrong SO path or picture expansion");
 	ptr_end += 4;
 	all->win->SO_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
 }
@@ -42,6 +50,8 @@ void	ft_parcer_WE(t_all *all, char *str, int start)
 			str[start]== '\r' || str[start]== '\v')
 			start++;
 	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));// вернул 0, выдаем ошибку
+	if (!ptr_end)
+		ft_perror("Wrong WE path or picture expansion");
 	ptr_end += 4;
 	all->win->WE_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
 }
@@ -57,6 +67,8 @@ void	ft_parcer_EA(t_all *all, char *str, int start)
 			str[start]== '\r' || str[start]== '\v')
 			start++;
 	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//если вернул 0, то ошибку выдаем
+	if (!ptr_end)
+		ft_perror("Wrong EA path or picture expansion");
 	ptr_end += 4;
 	all->win->EA_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
 }
@@ -162,6 +174,8 @@ void	ft_count_2(t_all *all)
 			if (all->map[i][j] == '2')
 			{
 				sprite = malloc(sizeof(t_sprite));
+				if (!sprite)
+					ft_perror("Error with malloc in ft_count2");
 				sprite->x = j + 0.5f;
 				sprite->y = i + 0.5f;
 				all->spr[k++] = sprite;
@@ -193,16 +207,13 @@ void	ft_parcer_map(t_all *all, int i)
 		size++;
 		j++;
 	}
-	//printf("%d %d\n", size, i);
 	map = ft_calloc(size + 1, sizeof(char *));
-	//printf("SIZE = %d\n", size);
 	size = -1;
 	while (all->parcer_map[i])
 	{
 		if (all->parcer_map[i][0] == '\0')
 			break ;
 		map[++size] = ft_strdup(all->parcer_map[i++]);
-		//printf("!->%s\n", map[size]);
 	}
 	//здесь чистим parcer map
 	all->map = map;
@@ -222,11 +233,46 @@ void	ft_parcer_R(t_all *all, char *str, int j)
 	free(res_x);
 }
 
+void	ft_preparcer(t_all *all)
+{
+	all->win->res_x = 0;
+	all->win->res_y = 0;
+	all->map = 0;
+	all->win->C_color = 0;
+	all->win->F_color = 0;
+	all->win->S_path = 0;
+	all->win->EA_path = 0;
+	all->win->SO_path = 0;
+	all->win->WE_path = 0;
+	all->win->NO_path = 0;
+}
+
+void ft_afterparcer(t_all *all)
+{
+	if (all->win->res_x == 0 || all->win->res_y == 0)
+		ft_perror("No R");
+	if (all->map == 0)
+		ft_perror("No map");
+	if (all->win->C_color == 0)
+		ft_perror("No c color");
+	if (all->win->F_color == 0)
+		ft_perror("No f color");
+	if (all->win->S_path == 0)
+		ft_perror("No s path");
+	if (all->win->EA_path == 0)
+		ft_perror("No ea path");
+	if (all->win->SO_path == 0)
+		ft_perror("No so path");
+	if (all->win->WE_path == 0)
+		ft_perror("No we path");
+}
+
 void	ft_parcer(t_all *all)
 {
 	int i = -1;
 	int j = 0;
 
+	ft_preparcer(all);
 	while (all->parcer_map[++i])
 	{
 		if (all->parcer_map[i][j] == '\0')
@@ -260,4 +306,5 @@ void	ft_parcer(t_all *all)
 		}
 		j = 0;
 	}
+	ft_afterparcer(all);
 }

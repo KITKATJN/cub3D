@@ -62,7 +62,7 @@ void	ft_screen_shot(t_all *all)
 	unsigned char *fileheader;
 	unsigned char *infoheader;
 
-	if ((fd = open("screenshot.bmp", O_CREAT | O_WRONLY | O_TRUNC, 0666)) < 0)
+	if ((fd = open("screenshottest.bmp", O_CREAT | O_WRONLY | O_TRUNC, 0666)) < 0)
 		ft_perror("Can't create or open file for screenshot");
 	fileheader = ft_fileheader(all);
 	infoheader = ft_infoheader(all);
