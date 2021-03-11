@@ -105,7 +105,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		}
 	}
 	if (height < 0.01)
-		height = 0.01;
+		height = 0.1;
 	all->depthBuffer[cor_x] = height;
 	height = (all->win->res_y / height);
 	t_texture	text;
@@ -213,9 +213,9 @@ void	ft_draw_sprite(t_all *all, float angle)
 			ang -= 2 * M_PI;
 		else if (ang < -M_PI)
 			ang += 2 * M_PI;
-		if (fabs(ang) < M_PI_4 && all->spr[i]->dist > 1.0f)
+		if (fabs(ang) < FOV / 2 && all->spr[i]->dist > 1.0f)
 		{
-			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
+			float fobjCeil = (float)(all->win->res_y / 1.8) - all->win->res_y / ((float)(all->spr[i]->dist));
 			float fobjFloor = all->win->res_y - fobjCeil;
 			float fobjHeight = fobjFloor - fobjCeil;
 			float fObjAspectRatio = (float)all->win->S_height / (float)all->win->S_width;
@@ -258,8 +258,8 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 	int i = all->win->res_x;
 
 	all->depthBuffer = ft_calloc(sizeof(float), all->win->res_x);
-	plr.start = plr.dir - M_PI_4;
-	plr.end = plr.dir + M_PI_4;
+	plr.start = plr.dir - FOV / 2;
+	plr.end = plr.dir + FOV / 2;
 	while (plr.start < plr.end)
 	{
 		plr.x = pl->x;
@@ -276,7 +276,7 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 		ft_draw_wall(all, &inter, i--, plr.start);
 		if (inter.hor_dist < 0 || inter.vert_dist < 0)
 			printf("delete this\n");//
-		plr.start += M_PI_2 / all->win->res_x;
+		plr.start += FOV / all->win->res_x;
 	}
 	// i = 0;
 	// 		printf("\n\t");
