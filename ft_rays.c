@@ -31,6 +31,37 @@ void my_mlx_pixel_put(t_win *win, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+void	draw_ceil_floor(t_all *all, float start, float end, int x)
+{
+	float	y;
+
+	y = 0;
+	if ((int)start > all->win->res_y || (int)start < 0)
+		return ;
+	//printf("start 22= %d end = %d\n", start, end);
+	while (y < start)
+	{
+		my_mlx_pixel_put(all->win, x, y, all->win->C_color);
+		y++;
+	}
+	y = end;
+	while (y < all->win->res_y)
+	{
+		my_mlx_pixel_put(all->win, x, y, all->win->F_color);
+		y++;
+	}
+}
+
+t_texture	fix_text(t_all *all, t_inter *inter, t_texture text,float ray)
+{
+	text.tx = inter->hit == 0 ? inter->x -(int)inter->x : inter->y - (int)inter->y;
+	text.ty = text.ty_off * text.ty_step;
+	text.tx *= all->win->img_width;
+	text.tx = (inter->hit == 0 && ray < M_PI) ? all->win->img_width - text.tx : text.tx;
+	text.tx = (inter->hit == 1 && ray > M_PI_2 && ray < 3 * M_PI_2) ? all->win->img_width - text.tx : text.tx;
+	return (text);
+}
+
 void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 {
 	float y;
@@ -39,6 +70,9 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	if (inter->hor_dist > inter->vert_dist)
 	{
 		height = inter->vert_dist;
+		inter->hit = 1;
+		inter->x = inter->x_vert;
+		inter->y = inter->y_vert;
 		if (cos(ray) > 0)
 		{
 			all->win->img_height = all->win->SO_height;
@@ -59,6 +93,9 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	else
 	{
 		height = inter->hor_dist;
+		inter->hit = 0;
+		inter->x = inter->x_hor;
+		inter->y = inter->y_hor;
 		if (sin(ray) > 0)
 		{
 			all->win->img_height = all->win->EA_height;
@@ -76,34 +113,82 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 			all->win->wall_addr = all->win->WE_addr;
 		}
 	}
-	//printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
-	if (height < (float)1)
-		height = 1;
+	if (height < 0.01)
+		height = 0.01;
 	all->depthBuffer[cor_x] = height;
-	height = (int)(all->win->res_y / height);
-	y = (all->win->res_y - height) / 2;
+	height = (all->win->res_y / height);
+	t_texture	text;
+	int		start;
+	int		end;
+	float	res_y;
 
-	//printf("y = %f res_y = %d hey = %f\n", y, all->win->res_y, height);
-	inter->wall_height = height;
-	height += y;
-
-	float sky = 0;
-	while (sky < y)
-		my_mlx_pixel_put(all->win, cor_x, sky++, all->win->F_color);
+	res_y = (float)(all->win->res_y > all->win->res_x ? all->win->res_x : all->win->res_y);
+	start = (res_y / 2 - height / 2) < 0 ? 0 : (res_y / 2 - height / 2);
+	end = (res_y / 2 + height / 2) > all->win->res_y ? all->win->res_y : (res_y / 2 + height / 2);
+	text.ty_step = all->win->img_height / (height);
+	text.ty_off = 0;
+	if (height > res_y)
+		text.ty_off = (height - res_y) / 2.0;
+	text = fix_text(all, all->win, text, ray);
+	//printf("start = %d end = %d\n", start, end);
+	draw_ceil_floor(all, start, end, cor_x);
 	float i = 0;
-	while(y < height)
+	while (start < end)
 	{
-		i += all->win->img_height / inter->wall_height;
 		if (inter->hor_dist < inter->vert_dist)
-			my_mlx_pixel_put(all->win , cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
+		{
+			text.clr = get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), text.ty);
+			//my_mlx_pixel_put(all->win , cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
+		}
 		else
 		{
-			my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
+			text.clr = get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), text.ty);
+			//my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
 		}
-		y++;
+		//text.clr = get_color(all->win, text.tx, text.ty);
+		if (text.clr != 0)
+			my_mlx_pixel_put(all->win, cor_x, start, text.clr);
+		text.ty += text.ty_step;
+		i += all->win->img_height / inter->wall_height;
+		start++;
 	}
-	while (y < all->win->res_y)
-		my_mlx_pixel_put(all->win, cor_x, y++, all->win->C_color);
+	// //printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
+	// float ty_off = 0;
+	// all->depthBuffer[cor_x] = height;
+	// if (height < 0.01f)
+	// 	height = 0.1;
+	// //float ty_step = ;
+	// height = (all->win->res_y / height);
+	// if (height > all->win->res_y)
+	// {
+	// 	ty_off = (height - all->win->res_y) / 20;
+	// 	printf("ty = %f  i = %f\n", ty_off, ty_off * all->win->img_height / inter->wall_height);
+	// 	height = all->win->res_y;
+	// }
+
+	// y = (all->win->res_y - height) / 2;
+
+	// //printf("y = %f res_y = %d hey = %f\n", y, all->win->res_y, height);
+	// inter->wall_height = height;
+	// height += y;
+
+	// float sky = 0;
+	// while (sky < y)
+	// 	my_mlx_pixel_put(all->win, cor_x, sky++, all->win->F_color);
+	// float i = 0;
+	// while(y < height)
+	// {
+	// 	if (inter->hor_dist < inter->vert_dist)
+	// 		my_mlx_pixel_put(all->win , cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
+	// 	else
+	// 	{
+	// 		my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
+	// 	}
+	// 	i += all->win->img_height / inter->wall_height;
+	// 	y++;
+	// }
+	// while (y < all->win->res_y)
+	// 	my_mlx_pixel_put(all->win, cor_x, y++, all->win->C_color);
 }
 
 void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
@@ -125,6 +210,8 @@ void	ft_draw_sprite(t_all *all, float angle)
 	float ang;
 	int i;
 
+
+	//printf("draw!!!!!!!!!!!!!\n");
 	angle -= 2 * (angle - M_PI_2);
 	i = 0;
 	while (all->spr[i])
@@ -161,7 +248,9 @@ void	ft_draw_sprite(t_all *all, float angle)
 						if (color_spr > 1900000 && (all->depthBuffer[all->win->res_x - nObjColumn]) >= (all->spr[i]->dist))
 						{
 							if (fobjCeil + ly < all->win->res_y)
+							{
 								my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);
+							}
 						}
 					}
 				}

@@ -74,8 +74,19 @@ typedef struct	s_point // структура для точки
 	int			y;
 }				t_point;
 
+typedef struct	s_texture
+{
+	float	ty;
+	float	tx;
+	float	ty_off;
+	float	ty_step;
+	int	clr;
+}				t_texture;
 typedef struct	s_inter // структура для точки
 {
+	int			hit;
+	float		x;
+	float		y;
 	float		x_vert;
 	float		y_vert;
 	float		x_hor;
