@@ -52,15 +52,6 @@ void	draw_ceil_floor(t_all *all, float start, float end, int x)
 	}
 }
 
-t_texture	fix_text(t_all *all, t_inter *inter, t_texture text,float ray)
-{
-	text.tx = inter->hit == 0 ? inter->x -(int)inter->x : inter->y - (int)inter->y;
-	text.ty = text.ty_off * text.ty_step;
-	text.tx *= all->win->img_width;
-	text.tx = (inter->hit == 0 && ray < M_PI) ? all->win->img_width - text.tx : text.tx;
-	text.tx = (inter->hit == 1 && ray > M_PI_2 && ray < 3 * M_PI_2) ? all->win->img_width - text.tx : text.tx;
-	return (text);
-}
 
 void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 {
@@ -129,7 +120,7 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	text.ty_off = 0;
 	if (height > res_y)
 		text.ty_off = (height - res_y) / 2.0;
-	text = fix_text(all, all->win, text, ray);
+	text.ty = text.ty_off * text.ty_step;
 	//printf("start = %d end = %d\n", start, end);
 	draw_ceil_floor(all, start, end, cor_x);
 	float i = 0;
@@ -145,7 +136,6 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 			text.clr = get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), text.ty);
 			//my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
 		}
-		//text.clr = get_color(all->win, text.tx, text.ty);
 		if (text.clr != 0)
 			my_mlx_pixel_put(all->win, cor_x, start, text.clr);
 		text.ty += text.ty_step;
