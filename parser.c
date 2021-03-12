@@ -161,19 +161,19 @@ int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
 	//printf("key %d \n", key);
-	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
+	if (key == 2)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
 	{
 		all->plr->dir -= 0.03;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
-	if (key == 97) //  0 97
+	if (key == 0) //  0 97
 	{
 		all->plr->dir += 0.03;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
-	if (key == 119)// 13 119
+	if (key == 13)// 13 119
 	{
 		all->plr->y -= sin(all->plr->dir ) * 1;
 		all->plr->x += cos(all->plr->dir) * 1;
@@ -183,7 +183,7 @@ int key_press(int key, t_all *all)
 			all->plr->x -= cos(all->plr->dir) * 1;
 		}
 	}
-	if (key == 115) // 1 115
+	if (key == 1) // 1 115
 	{
 		all->plr->y += sin(all->plr->dir) * 1;
 		all->plr->x -= cos(all->plr->dir) * 1;
@@ -194,7 +194,7 @@ int key_press(int key, t_all *all)
 			all->plr->x += cos(all->plr->dir) * 1;
 		}
 	}
-	if (key == 65307)// 53 65307
+	if (key == 53)// 53 65307
 		exit(0);
 	draw_screen(all);
 	return (0);
@@ -265,3 +265,62 @@ int		main(int argc, char **argv)
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
 	mlx_loop(win.mlx);
 }
+
+
+// void	ft_draw_sprite(t_all *all, float angle)
+// {
+// 	float angle1;
+// 	float angle2;
+// 	float ang;
+// 	int i;
+
+// 	angle -= 2 * (angle - M_PI_2);
+// 	i = 0;
+// 	while (all->spr[i])
+// 	{
+// 		angle1 = atan2f(all->plr->y / SCALE - all->spr[i]->y,all->plr->x / SCALE - all->spr[i]->x);
+// 		angle2 = atan2f(sinf(angle), cosf(angle));
+// 		ang = angle2 - angle1;
+// 		if (ang > M_PI)
+// 			ang -= 2 * M_PI;
+// 		else if (ang < -M_PI)
+// 			ang += 2 * M_PI;
+// 		if (fabs(ang) < M_PI_4 && all->spr[i]->dist > 1.0f)
+// 		{
+// 			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
+// 			float fobjFloor = all->win->res_y - fobjCeil;
+// 			// float correction = 1.0f;
+// 			// if (all->spr[i]->dist > 3)
+// 			// 	correction = 0.82;
+// 			float fobjHeight = (fobjFloor - fobjCeil) * 0.82;
+// 			float fObjAspectRatio = (float)all->win->S_height / (float)all->win->S_width;
+// 			float fObjWidth = fobjHeight / fObjAspectRatio;
+
+// 			float fMiddleObj = (0.5f * (ang / (M_PI_2 / 2.0f)) + 0.5f) * (float)all->win->res_x;
+// 			float lx = -1;
+// 			float ly = -1;
+// 							printf("dist = %f \n", all->spr[i]->dist);
+// 			while (++lx < fObjWidth)
+// 			{
+// 				ly = -1;
+// 				while (++ly < fobjHeight)
+// 				{
+// 					float fSamplex = lx / fObjWidth;
+// 					float fSampley = ly / fobjHeight;
+// 					int nObjColumn = (int)(fMiddleObj + lx - (fObjWidth / 2.0f));
+// 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
+// 					{
+// 						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
+// 						if (color_spr > 1900000 && (all->depthBuffer[all->win->res_x - nObjColumn]) >= (all->spr[i]->dist))
+// 						{
+// 							if (fobjCeil + ly < all->win->res_y)
+// 								my_mlx_pixel_put(all->win, all->win->res_x - nObjColumn, fobjCeil + ly, color_spr);
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// 			//printf("risuet x = %f y = %f\n", all->spr[i]->x, all->spr[i]->y);
+// 		i++;
+// 	}
+// }
