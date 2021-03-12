@@ -1,4 +1,4 @@
-R 800 600
+ R 800 600 15165
 NO ./pictures/greystone.xpm
 SO ./pictures/greystone.xpm
 WE ./pictures/greystone.xpm
