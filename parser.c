@@ -42,7 +42,7 @@ void	ft_sort_sprite(t_all *all)
 	k = 0;
 	while (all->spr[k])
 	{
-		all->spr[k]->dist = sqrtf((all->plr->x - all->spr[k]->x) * (all->plr->x - all->spr[k]->x) + (all->plr->y - all->spr[k]->y) * (all->plr->y - all->spr[k]->y));
+		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x)) * (cosf(all->plr->dir)) + ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
 		k++;
 	}
 	k = 0;
@@ -192,6 +192,27 @@ int key_press(int key, t_all *all)
 		{
 			all->plr->y -= sin(all->plr->dir) * 1;
 			all->plr->x += cos(all->plr->dir) * 1;
+		}
+	}
+	if (key == 124) // 124 
+	{
+		all->plr->x += sin(all->plr->dir) * 1;
+		all->plr->y += cos(all->plr->dir) * 1;
+		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
+		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		{
+			all->plr->x -= sin(all->plr->dir) * 1;
+			all->plr->y -= cos(all->plr->dir) * 1;
+		}
+	}
+	if (key == 123) // 123 
+	{
+		all->plr->x -= sin(all->plr->dir) * 1;
+		all->plr->y -= cos(all->plr->dir) * 1;
+		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		{
+			all->plr->x += sin(all->plr->dir) * 1;
+			all->plr->y += cos(all->plr->dir) * 1;
 		}
 	}
 	if (key == 53)// 53 65307
