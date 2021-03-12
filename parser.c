@@ -140,14 +140,14 @@ void ft_init_plr(char **map, t_plr *plr)
 		{
 			if (ft_strchr("N",map[pos.y][pos.x]))
 			{
-				plr->x = pos.x * SCALE + SCALE / 2;
-				plr->y = pos.y * SCALE + SCALE / 2;
+				plr->x = pos.x + 0.5;
+				plr->y = pos.y + 0.5;
 				plr->dir = 1 * M_PI_2;
 			}
 			if (ft_strchr("S",map[pos.y][pos.x]))
 			{
-				plr->x = pos.x * SCALE + SCALE / 2;
-				plr->y = pos.y * SCALE + SCALE / 2;
+				plr->x = pos.x + 0.5;
+				plr->y = pos.y + 0.5;
 				plr->dir = 3 * M_PI_2;
 			}
 			pos.x++;
@@ -156,6 +156,60 @@ void ft_init_plr(char **map, t_plr *plr)
 	}
 }
 
+int ft_wall_collision1(t_all *all, float end_y, float start_y, float end_x)
+{
+	while (fabs(start_y - end_y) > 0.0001)
+	{
+		printf("%c  %f\n", all->map[(int)end_y][(int)end_x], sin(all->plr->dir));
+		end_y += sin(all->plr->dir) * 0.01;
+		//printf("col1 = %f\n", sin(all->plr->dir));
+		end_x -= cos(all->plr->dir) * 0.01;
+		if (all->map[(int)(end_y)][(int)(end_x)] == '1' && (((int)(end_y) - (int)(start_y)) != 1 || ((int)(end_x) - (int)(all->plr->x - cos(all->plr->dir) * SPEED)) != 1))
+			return (1);
+		// end_y += sin(all->plr->dir) * 0.01;
+		// //printf("col1 = %f\n", sin(all->plr->dir));
+		// end_x -= cos(all->plr->dir) * 0.01;
+	}
+	return (0);
+}
+
+int ft_wall_collision2(t_all *all, float end_y, float start_y, float end_x)
+{
+	while (fabs(start_y - end_y) > 0.001)
+	{
+		printf("%c\n", all->map[(int)end_y][(int)end_x]);
+		if (sin(all->plr->dir) < 0)
+		{
+			if (cos(all->plr->dir) < 0)
+			{
+				if (all->map[(int)ceilf(end_y)][(int)floorf(end_x)] == '1')
+					return (1);
+			}
+			else
+			{
+				if (all->map[(int)ceilf(end_y)][(int)ceilf(end_x)] == '1')
+					return (1);
+			}
+		}
+		else
+		{
+			if (cos(all->plr->dir) < 0)
+			{
+				if (all->map[(int)floorf(end_y)][(int)floorf(end_x)] == '1')
+					return (1);
+			}
+			else
+			{
+				if (all->map[(int)floorf(end_y)][(int)ceilf(end_x)] == '1')
+					return (1);
+			}
+		}
+		end_y -= sin(all->plr->dir) * 0.01;
+		printf("col2 = %f\n", sin(all->plr->dir));
+		end_x += cos(all->plr->dir) * 0.01;
+	}
+	return (0);
+}
 
 int key_press(int key, t_all *all)
 {
@@ -175,44 +229,44 @@ int key_press(int key, t_all *all)
 	}
 	if (key == 13)// 13 119
 	{
-		all->plr->y -= sin(all->plr->dir ) * 1;
-		all->plr->x += cos(all->plr->dir) * 1;
-		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		all->plr->y -= sin(all->plr->dir ) * SPEED;
+		all->plr->x += cos(all->plr->dir) * SPEED;
+		if (ft_wall_collision1(all, all->plr->y, (all->plr->y + (sin(all->plr->dir) * 1)), all->plr->x) || all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
-			all->plr->y += sin(all->plr->dir) * 1;
-			all->plr->x -= cos(all->plr->dir) * 1;
+			all->plr->y += sin(all->plr->dir) * SPEED;
+			all->plr->x -= cos(all->plr->dir) * SPEED;
 		}
 	}
 	if (key == 1) // 1 115
 	{
-		all->plr->y += sin(all->plr->dir) * 1;
-		all->plr->x -= cos(all->plr->dir) * 1;
+		all->plr->y += sin(all->plr->dir) * SPEED;
+		all->plr->x -= cos(all->plr->dir) * SPEED;
 		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
-		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		if (ft_wall_collision2(all, all->plr->y, (all->plr->y - sin(all->plr->dir) * 1), all->plr->x) || all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
-			all->plr->y -= sin(all->plr->dir) * 1;
-			all->plr->x += cos(all->plr->dir) * 1;
+			all->plr->y -= sin(all->plr->dir) * SPEED;
+			all->plr->x += cos(all->plr->dir) * SPEED;
 		}
 	}
 	if (key == 124) // 124 
 	{
-		all->plr->x += sin(all->plr->dir) * 1;
-		all->plr->y += cos(all->plr->dir) * 1;
+		all->plr->x += sin(all->plr->dir) * SPEED;
+		all->plr->y += cos(all->plr->dir) * SPEED;
 		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->x -= sin(all->plr->dir) * 1;
-			all->plr->y -= cos(all->plr->dir) * 1;
+			all->plr->x -= sin(all->plr->dir) * SPEED;
+			all->plr->y -= cos(all->plr->dir) * SPEED;
 		}
 	}
 	if (key == 123) // 123 
 	{
-		all->plr->x -= sin(all->plr->dir) * 1;
-		all->plr->y -= cos(all->plr->dir) * 1;
+		all->plr->x -= sin(all->plr->dir) * SPEED;
+		all->plr->y -= cos(all->plr->dir) * SPEED;
 		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
 		{
-			all->plr->x += sin(all->plr->dir) * 1;
-			all->plr->y += cos(all->plr->dir) * 1;
+			all->plr->x += sin(all->plr->dir) * SPEED;
+			all->plr->y += cos(all->plr->dir) * SPEED;
 		}
 	}
 	if (key == 53)// 53 65307

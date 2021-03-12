@@ -107,3 +107,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re bonus
+
+.SILENT: fclean clean all re $(NAME) $(OBJS) $(OBJS_B) $(OBJRID)

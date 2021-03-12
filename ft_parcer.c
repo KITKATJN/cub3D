@@ -227,9 +227,13 @@ void	ft_parcer_R(t_all *all, char *str, int j)
 
 	ptr = str;
 	all->win->res_x = ft_atoi(ptr + j);
+	if (all->win->res_x <= 0)
+		ft_perror("Res_x not positive");
 	res_x = ft_itoa(all->win->res_x);
 	ptr = ft_strnstr(str, res_x, ft_strlen(str));
 	all->win->res_y = ft_atoi(ptr + ft_strlen(res_x));
+	if (all->win->res_y <= 0)
+		ft_perror("Res_y not positive");
 	free(res_x);
 }
 

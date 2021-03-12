@@ -211,7 +211,7 @@ void	ft_draw_sprite(t_all *all, float angle)
 			ang -= 2 * M_PI;
 		else if (ang < -M_PI)
 			ang += 2 * M_PI;
-		if (fabs(ang) < FOV / 1.6 && all->spr[i]->dist > 1.0f)
+		if (fabs(ang) < (FOV / 0.9) && all->spr[i]->dist > 1.0f)
 		{
 			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
 			float fobjFloor = all->win->res_y - fobjCeil;

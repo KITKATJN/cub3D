@@ -68,4 +68,4 @@ re:	fclean all
 
 .PHONY:	fclean all re clean
 
-#.SILENT: fclean clean all re $(NAME) $(OBJS) $(OBJRID)
+.SILENT: fclean clean all re $(NAME) $(OBJS) $(OBJRID)

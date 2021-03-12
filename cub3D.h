@@ -10,6 +10,7 @@
 
 # define SCALE	1 // условный размер каждого квадратика в карте
 # define FOV  M_PI / 3
+# define SPEED 0.4
 typedef struct	s_win //структура для окна
 {
 	void		*mlx;
