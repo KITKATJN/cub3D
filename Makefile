@@ -5,7 +5,8 @@ NAME		= cub3D
 SRCS		= parser.c ft_rays.c \
 		map.c ft_parcer.c \
 		ft_perror.c ft_screen_shot.c \
-		count_vert_hor_dist.c \
+		count_vert_hor_dist.c ft_draw_wall.c \
+		set_img_param.c get_colors.c\
 
 
 #BONUS_S		= movin_bonus.c

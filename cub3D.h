@@ -11,6 +11,7 @@
 # define SCALE	1 // условный размер каждого квадратика в карте
 # define FOV  M_PI / 3
 # define SPEED 0.4
+# define VALID_MAP_SYMB " 012NESW"
 typedef struct	s_win //структура для окна
 {
 	void		*mlx;
@@ -77,12 +78,17 @@ typedef struct	s_point // структура для точки
 
 typedef struct	s_texture
 {
-	float	ty;
-	float	tx;
-	float	ty_off;
-	float	ty_step;
-	int	clr;
+	float		ty;
+	float		tx;
+	float		ty_off;
+	float		ty_step;
+	float		res_y;
+	int			clr;
+	int			start;
+	int			end;
+	int			cor_x;
 }				t_texture;
+
 typedef struct	s_inter // структура для точки
 {
 	int			hit;
@@ -125,6 +131,25 @@ typedef struct	s_all // структура для всего вместе
 	float		*depthBuffer;
 }				t_all;
 
+typedef struct	s_drawsprite
+{
+	float		angle1;
+	float		angle2;
+	float		ang;
+	float		fobjCeil;
+	float		fobjFloor;
+	float		fobjHeight;
+	float		fObjAspectRatio;
+	float		fObjWidth;
+	float		fMiddleObj;
+	float		lx;
+	float		ly;
+	float		fSamplex;
+	float		fSampley;
+	int			nObjColumn;
+	int			color_spr;
+}				t_drawsprite;
+
 void			ft_draw_pixel_ray(t_win *window, int i, int j, int color);
 void			pixel_put(t_win *win, int x, int y, int color);
 void			ft_draw_player2(t_all *all, t_plr *pl);
@@ -137,4 +162,10 @@ char			**ft_read_map(char *argv1);
 void			ft_parcer(t_all *all);
 void			ft_perror(char *error);
 void			ft_screen_shot(t_all *all);
+void			ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray);
+void			ft_set_hor_param(t_all *all, t_inter *inter, float ray);
+void			ft_set_vert_param(t_all *all, t_inter *inter, float ray);
+int				get_color(t_win *win, int x, int y);
+int				get_color_s(t_win *win, int x, int y);
+void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 #endif

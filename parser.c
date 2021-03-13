@@ -1,24 +1,5 @@
 #include "cub3D.h"
 
-void ft_scale_img(t_win *win, t_point point)
-{
-	t_point end;
-
-	end.x = (point.x + 1) * SCALE;
-	end.y = (point.y + 1) * SCALE;
-	point.x *= SCALE;
-	point.y *= SCALE;
-	while (point.y < end.y)
-	{
-		while (point.x < end.x)
-		{
-			mlx_pixel_put(win->mlx, win->win, point.x++, point.y, 0x00FF0000);
-		}
-		point.x -= SCALE;
-		point.y++;
-	}
-}
-
 void	ft_sort_sprite(t_all *all)
 {
 	int k;
