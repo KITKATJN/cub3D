@@ -142,55 +142,6 @@ void	ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 		i += all->win->img_height / inter->wall_height;
 		start++;
 	}
-	// //printf("height = %f hor = %f vert = %f", height, inter->hor_dist , inter->vert_dist);
-	// float ty_off = 0;
-	// all->depthBuffer[cor_x] = height;
-	// if (height < 0.01f)
-	// 	height = 0.1;
-	// //float ty_step = ;
-	// height = (all->win->res_y / height);
-	// if (height > all->win->res_y)
-	// {
-	// 	ty_off = (height - all->win->res_y) / 20;
-	// 	printf("ty = %f  i = %f\n", ty_off, ty_off * all->win->img_height / inter->wall_height);
-	// 	height = all->win->res_y;
-	// }
-
-	// y = (all->win->res_y - height) / 2;
-
-	// //printf("y = %f res_y = %d hey = %f\n", y, all->win->res_y, height);
-	// inter->wall_height = height;
-	// height += y;
-
-	// float sky = 0;
-	// while (sky < y)
-	// 	my_mlx_pixel_put(all->win, cor_x, sky++, all->win->F_color);
-	// float i = 0;
-	// while(y < height)
-	// {
-	// 	if (inter->hor_dist < inter->vert_dist)
-	// 		my_mlx_pixel_put(all->win , cor_x, y, get_color(all->win, all->win->img_width * (inter->x_hor - floorf(inter->x_hor)), i));
-	// 	else
-	// 	{
-	// 		my_mlx_pixel_put(all->win, cor_x, y, get_color(all->win, all->win->img_width * (ceilf(inter->y_vert) - inter->y_vert), i));
-	// 	}
-	// 	i += all->win->img_height / inter->wall_height;
-	// 	y++;
-	// }
-	// while (y < all->win->res_y)
-	// 	my_mlx_pixel_put(all->win, cor_x, y++, all->win->C_color);
-}
-
-void	ft_drawi_pixel_ray(t_win *win, int i, int j, int color)
-{
-	int	cnt_x = 0;
-	int	cnt_y = 0;
-	while (cnt_y++ < 1)
-	{
-		cnt_x = 0;
-		while (cnt_x++ < 1)
-			my_mlx_pixel_put(win, i + cnt_x, j + cnt_y, color);
-	}
 }
 
 void	ft_draw_sprite(t_all *all, float angle)
@@ -215,9 +166,6 @@ void	ft_draw_sprite(t_all *all, float angle)
 		{
 			float fobjCeil = (float)(all->win->res_y / 2.0) - all->win->res_y / ((float)(all->spr[i]->dist));
 			float fobjFloor = all->win->res_y - fobjCeil;
-			// float correction = 1.0f;
-			// if (all->spr[i]->dist > 3)
-			// 	correction = 0.82;
 			float fobjHeight = (fobjFloor - fobjCeil) * 0.89;
 			float fObjAspectRatio = (float)all->win->S_height / (float)all->win->S_width;
 			float fObjWidth = fobjHeight / fObjAspectRatio;
@@ -225,8 +173,6 @@ void	ft_draw_sprite(t_all *all, float angle)
 			float fMiddleObj = (0.5f * (ang / (FOV / 2.0f)) + 0.5f) * (float)all->win->res_x;
 			float lx = -1;
 			float ly = -1;
-					//		printf("dist = %f middle obj = %f \n", all->spr[i]->dist, fMiddleObj);
-
 			while (++lx < fObjWidth)
 			{
 				ly = -1;
@@ -238,7 +184,6 @@ void	ft_draw_sprite(t_all *all, float angle)
 					if (nObjColumn >= 0 && nObjColumn < all->win->res_x)
 					{
 						int color_spr = get_color_s(all->win, fSamplex * all->win->S_height, fSampley * all->win->S_width);
-						//printf("width = %f  depth = %f   dist = %f\n", fObjWidth, all->depthBuffer[all->win->res_x - nObjColumn], (all->spr[i]->dist));
 						if (color_spr > 1907485 && (all->depthBuffer[all->win->res_x - nObjColumn]) >= (all->spr[i]->dist))
 						{
 							if (fobjCeil + ly < all->win->res_y)
@@ -280,16 +225,6 @@ void	ft_draw_player2(t_all *all, t_plr *pl)
 			printf("delete this\n");//
 		plr.start += FOV / all->win->res_x;
 	}
-	// i = 0;
-	// 		printf("\n\t");
-	// while (i < all->win->res_x)
-	// {
-	// 	printf("h = %f,", all->depthBuffer[i]);
-	// 	if (i % 9 == 0)
-	// 		printf("\n");
-	// 	i++;
-	// 	/* code */
-	// }
 	ft_draw_sprite(all, plr.dir);
 }
 
@@ -311,86 +246,3 @@ void ft_scale_img2(t_win *win, int x, int y, int color)
 		y++;
 	}
 }
-
-void horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter)
-{
-	int y;
-	int minus_y;
-	int minus_x;
-
-	minus_x = 1;
-	minus_y = 1;
-	if (curr_ray > 2 * M_PI)
-		curr_ray -= 2 * M_PI;
-	if (curr_ray < 0)
-		curr_ray += 2 * M_PI;
-	if (sin(curr_ray) < 0)
-	{
-		y = (int)ceilf(all->plr->y / SCALE);//смотри вниз
-		inter->y_error = (float)0;
-	}
-	else
-	{
-		y = (int)floorf(all->plr->y / SCALE);
-		inter->y_error = (float)(-0.001);
-		minus_y *= -1;
-	}
-	if (cos(curr_ray) < 0)
-		minus_x *= -1;
-	inter->y_hor = all->plr->y / SCALE + minus_y * fabsf(all->plr->y / SCALE - (float)y);
-	inter->x_hor = all->plr->x / SCALE + minus_x * fabsf(all->plr->y / SCALE - (float)y) / fabsf(tanf(curr_ray));
-	while ((int)inter->x_hor > 0 && (int)inter->x_hor < (int)ft_strlen(all->map[0]))
-	{
-		//ft_scale_img2(all->win, inter->x_hor * SCALE, inter->y_hor * SCALE, 0xF0FFFF0F);
-		if (all->map[(int)(inter->y_hor + inter->y_error)][(int)inter->x_hor] == '1')
-			break ;
-		inter->y_hor += minus_y;
-		inter->x_hor += minus_x / fabsf(tanf(curr_ray));
-	}
-	inter->hor_dist = ((inter->x_hor - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y_hor)) * (sinf(all->plr->dir));
-}
-
-
-void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
-{
-	int x;
-	int minus_x;
-	int minus_y;
-
-	minus_x = 1;
-	minus_y = 1;
-
-	if (curr_ray > 2 * M_PI)
-		curr_ray -= 2 * M_PI;
-	if (curr_ray < 0)
-		curr_ray += 2 * M_PI;
-	if (cos(curr_ray) < 0)
-	{
-		x = (int)floorf(all->plr->x / SCALE);
-		minus_x *= -1;
-		inter->x_error = (float)(-0.001);
-	}
-	else
-	{
-		x = (int)ceilf(all->plr->x / SCALE);
-		inter->x_error = (float)(0);
-	}
-	if (sin(curr_ray) > 0)
-	{
-		minus_y *= -1;
-	}
-
-	inter->x_vert = all->plr->x / SCALE + minus_x * fabsf(all->plr->x / SCALE - (float)x);
-	inter->y_vert = all->plr->y / SCALE + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray )));
-	while ((int)inter->y_vert > 0 && (int)inter->y_vert < 20) //вместо 20 должно быть ограничение по высоте карты или тип того
-	{
-		if (all->map[(int)(inter->y_vert)][(int)(inter->x_vert + inter->x_error)] == '1')
-			break ;
-		//ft_scale_img2(all->win, inter->x_vert * SCALE, inter->y_vert * SCALE, 0x000000FF);
-		inter->x_vert += minus_x ;
-		inter->y_vert += minus_y * fabsf(tanf((curr_ray)));
-	}
-	//printf("x_vert = %f y_vert = %f pl->x = %f plr->y = %f map = %c ", inter->x_vert, inter->y_vert, all->plr->x / SCALE , all->plr->y / SCALE, all->map[(int)(inter->y_vert)][(int)(inter->x_vert + inter->x_error)]);
-	inter->vert_dist = ((inter->x_vert - all->plr->x / SCALE)) * (cosf(all->plr->dir)) + ((all->plr->y / SCALE - inter->y_vert)) * (sinf(all->plr->dir));
-}
-

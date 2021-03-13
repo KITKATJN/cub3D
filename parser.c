@@ -19,20 +19,6 @@ void ft_scale_img(t_win *win, t_point point)
 	}
 }
 
-void	ft_count_dist_sprite(t_all *all)
-{
-	int k;
-	int i;
-	float dist;
-
-	k = 0;
-	while (all->spr[k])
-	{
-		all->spr[k]->dist = sqrtf((all->plr->x - all->spr[k]->x) * (all->plr->x - all->spr[k]->x) + (all->plr->y - all->spr[k]->y) * (all->plr->y - all->spr[k]->y));
-		k++;
-	}
-}
-
 void	ft_sort_sprite(t_all *all)
 {
 	int k;
@@ -156,99 +142,60 @@ void ft_init_plr(char **map, t_plr *plr)
 	}
 }
 
-int ft_wall_collision1(t_all *all, float end_y, float start_y, float end_x)
-{
-	while (fabs(start_y - end_y) > 0.0001)
-	{
-		printf("%c  %f\n", all->map[(int)end_y][(int)end_x], sin(all->plr->dir));
-		end_y += sin(all->plr->dir) * 0.01;
-		//printf("col1 = %f\n", sin(all->plr->dir));
-		end_x -= cos(all->plr->dir) * 0.01;
-		if (all->map[(int)(end_y)][(int)(end_x)] == '1' && (((int)(end_y) - (int)(start_y)) != 1 || ((int)(end_x) - (int)(all->plr->x - cos(all->plr->dir) * SPEED)) != 1))
-			return (1);
-		// end_y += sin(all->plr->dir) * 0.01;
-		// //printf("col1 = %f\n", sin(all->plr->dir));
-		// end_x -= cos(all->plr->dir) * 0.01;
-	}
-	return (0);
-}
 
-int ft_wall_collision2(t_all *all, float end_y, float start_y, float end_x)
+int ft_wall_collision1(t_all *all, float start_y, float start_x, float back_or_forward)
 {
-	while (fabs(start_y - end_y) > 0.001)
-	{
-		printf("%c\n", all->map[(int)end_y][(int)end_x]);
-		if (sin(all->plr->dir) < 0)
-		{
-			if (cos(all->plr->dir) < 0)
-			{
-				if (all->map[(int)ceilf(end_y)][(int)floorf(end_x)] == '1')
-					return (1);
-			}
-			else
-			{
-				if (all->map[(int)ceilf(end_y)][(int)ceilf(end_x)] == '1')
-					return (1);
-			}
-		}
-		else
-		{
-			if (cos(all->plr->dir) < 0)
-			{
-				if (all->map[(int)floorf(end_y)][(int)floorf(end_x)] == '1')
-					return (1);
-			}
-			else
-			{
-				if (all->map[(int)floorf(end_y)][(int)ceilf(end_x)] == '1')
-					return (1);
-			}
-		}
-		end_y -= sin(all->plr->dir) * 0.01;
-		printf("col2 = %f\n", sin(all->plr->dir));
-		end_x += cos(all->plr->dir) * 0.01;
-	}
-	return (0);
+	float dist;
+	t_inter inter;
+
+	dist = sqrtf((start_x - all->plr->x) * (start_x - all->plr->x) + (start_y - all->plr->y) * (start_y - all->plr->y));
+	all->plr->dir += back_or_forward;
+	horizontal_intersaction(all, all->plr->dir, &inter);
+	vert_intersaction(all, all->plr->dir, &inter);
+	all->plr->dir -= back_or_forward;
+	if (dist < inter.hor_dist && dist < inter.vert_dist)
+		return (0);
+	return (1);
 }
 
 int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
 	//printf("key %d \n", key);
-	if (key == 2)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
+	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
 	{
 		all->plr->dir -= 0.03;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
-	if (key == 0) //  0 97
+	if (key == 97) //  0 97
 	{
 		all->plr->dir += 0.03;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
-	if (key == 13)// 13 119
+	if (key == 119)// 13 119
 	{
 		all->plr->y -= sin(all->plr->dir ) * SPEED;
 		all->plr->x += cos(all->plr->dir) * SPEED;
-		if (ft_wall_collision1(all, all->plr->y, (all->plr->y + (sin(all->plr->dir) * 1)), all->plr->x) || all->map[(int)all->plr->y][(int)all->plr->x] == '1')
+		if (ft_wall_collision1(all, (all->plr->y + sin(all->plr->dir ) * SPEED), (all->plr->x - cos(all->plr->dir) * SPEED), 0))
 		{
 			all->plr->y += sin(all->plr->dir) * SPEED;
 			all->plr->x -= cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 1) // 1 115
+	if (key == 115) // 1 115
 	{
 		all->plr->y += sin(all->plr->dir) * SPEED;
 		all->plr->x -= cos(all->plr->dir) * SPEED;
 		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
-		if (ft_wall_collision2(all, all->plr->y, (all->plr->y - sin(all->plr->dir) * 1), all->plr->x) || all->map[(int)all->plr->y][(int)all->plr->x] == '1')
+		if (ft_wall_collision1(all, (all->plr->y - sin(all->plr->dir ) * SPEED), (all->plr->x + cos(all->plr->dir) * SPEED), M_PI))
 		{
 			all->plr->y -= sin(all->plr->dir) * SPEED;
 			all->plr->x += cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 124) // 124 
+	if (key == 124) // 124
 	{
 		all->plr->x += sin(all->plr->dir) * SPEED;
 		all->plr->y += cos(all->plr->dir) * SPEED;
@@ -259,7 +206,7 @@ int key_press(int key, t_all *all)
 			all->plr->y -= cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 123) // 123 
+	if (key == 123) // 123
 	{
 		all->plr->x -= sin(all->plr->dir) * SPEED;
 		all->plr->y -= cos(all->plr->dir) * SPEED;
@@ -269,7 +216,7 @@ int key_press(int key, t_all *all)
 			all->plr->y += cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 53)// 53 65307
+	if (key == 65307)// 53 65307
 		exit(0);
 	draw_screen(all);
 	return (0);

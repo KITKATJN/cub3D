@@ -4,7 +4,8 @@ NAME		= cub3D
 
 SRCS		= parser.c ft_rays.c \
 		map.c ft_parcer.c \
-		ft_perror.c ft_screen_shot.c\
+		ft_perror.c ft_screen_shot.c \
+		count_vert_hor_dist.c \
 
 
 #BONUS_S		= movin_bonus.c
@@ -15,8 +16,8 @@ OBJS		= $(addprefix $(OBJRID), $(OBJ))
 
 
 CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=address
-MLX_FLAGS	= -framework OpenGL -framework AppKit
-#MLX_FLAGS = -lXext -lX11 -lm #linux
+#MLX_FLAGS	= -framework OpenGL -framework AppKit
+MLX_FLAGS = -lXext -lX11 -lm #linux
 OPTFLAGS	= -O3
 LEAKFLAGS	= -ggdb3 -std=c11
 
@@ -28,14 +29,14 @@ GNL_A		= gnl.a
 
 
 LIBFTD		= libft/
-MLXD		= mlx/#mac
-#MLXD		= minilibx-linux/
+#MLXD		= mlx/#mac
+MLXD		= minilibx-linux/
 GNLD		= get_next_line/
 OBJRID		= objs/
 
 CUB_H		= -I cub3d.h
-LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A) #mac
-#LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A) #linux
+#LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A) #mac
+LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A) #linux
 
 all:	$(NAME)
 
