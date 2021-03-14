@@ -12,6 +12,8 @@
 # define FOV  M_PI / 3
 # define SPEED 0.4
 # define VALID_MAP_SYMB " 012NESW"
+# define VALID_FC_SYMB " 0123456789,	"
+# define MAX_INT	"2147483647"
 typedef struct	s_win //структура для окна
 {
 	void		*mlx;
@@ -168,4 +170,8 @@ void			ft_set_vert_param(t_all *all, t_inter *inter, float ray);
 int				get_color(t_win *win, int x, int y);
 int				get_color_s(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
+void			ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i);
+void			ft_paint_spr(t_all *all, t_drawsprite *drspr, int i);
+void			ft_draw_sprite(t_all *all, float angle);
+void			ft_sort_sprite(t_all *all);
 #endif

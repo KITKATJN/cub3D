@@ -89,6 +89,128 @@ void	ft_parcer_S(t_all *all, char *str, int start)
 	//printf("s path = %s\n",all->win->S_path);
 }
 
+void ft_check_colorF2(char *color)
+{
+	int i;
+	int check;
+
+	i = 0;
+	check = 0;
+	while (color[i] != 0)
+	{
+		if (color[i] == ',')
+			return ;
+		if (ft_isdigit(color[i]))
+		{
+			if (check == 0)
+				check = 1;
+			if (check == 2)
+				ft_perror("Error with , in  F2");//убрать двойку от f
+		}
+		if (check == 1 && !ft_isdigit(color[i]))
+			check = 2;
+		i++;
+	}
+}
+
+int	ft_check_max_int(char *color)
+{
+	int i;
+	size_t check;
+
+	i = 0;
+	check = 0;
+	while (color[i] != '\0')
+	{
+		if (ft_isdigit(color[i]))
+			check++;
+		if (color[i] == ',')
+			break;
+		i++;
+	}
+	if (ft_strlen(color) < ft_strlen(MAX_INT))
+		return (0);
+	if (check > ft_strlen(MAX_INT))
+		ft_perror("Wrong value of number in F");
+}
+
+void ft_check_colorF(char *color)
+{
+	int i;
+	int check;
+
+	if (!color)
+		ft_perror("Error with malloc in F");
+	printf("her2 %d \n", ft_atoi(color));
+	if (ft_atoi(color) < 0 || ft_atoi(color) > 255 || ft_check_max_int(color))
+		ft_perror("Wrong value of number in F");
+	i = 0;
+	check = 0;
+	while (color[i] != 0)
+	{
+		if (ft_isdigit(color[i]))
+		{
+			check = 1;
+			break ;
+		}
+		if (!check && color[i] == ',')
+			break ;
+		i++;
+	}
+	if (!check)
+		ft_perror("Error with , in  F");
+}
+
+void ft_check_f(char *f)
+{
+	int i;
+	int check;
+
+	i = 1;
+	while (f[i] != '\0')
+	{
+		if (!ft_strrchr(VALID_FC_SYMB, f[i]))
+			ft_perror("Invalid symbol in F");
+		i++;
+	}
+	check = 0;
+	i -= 1;
+	while (i > 0)
+	{
+		if (f[i] == ',' && check == 0)
+			ft_perror("Error with , in  F");
+		if (ft_isdigit(f[i]))
+			check = 1;
+		i--;
+	}
+}
+
+void ft_check_number_of_digit(char *f)
+{
+	int i;
+	int check1;
+	int amount;
+
+	i = 0;
+	amount = 0;
+	check1 = 0;
+	while (f[i] != '\0')
+	{
+		if (ft_isdigit(f[i]) && !check1)
+			check1 = 1;
+		if (!ft_isdigit(f[i]) && check1)
+		{
+			amount++;
+			check1 = 0;
+		}
+		i++;
+	}
+	if (check1)
+		amount++;
+	if (amount != 3)
+		ft_perror("Wrong amount of numbers in F");
+}
+
 void	ft_parcer_F(t_all *all, char *str, int start)
 {
 	char	*ptr;
@@ -100,19 +222,33 @@ void	ft_parcer_F(t_all *all, char *str, int start)
 		str[start]== '\t' || str[start]== '\f' ||
 			str[start]== '\r' || str[start]== '\v')
 			start++;
+	ft_check_f(str);
+	ft_check_number_of_digit(str);
 	ptr_end = ft_strnstr(ptr, ",", ft_strlen(ptr));//если вернул 0, то ошибку выдаем
+	if (!ptr_end)
+		ft_perror("Error in F malloc");
 	color = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+	ft_check_colorF(color);
+	ft_check_colorF2(color);
 	all->win->F_color = ft_atoi(color) * 16 * 16 * 16 * 16;
 	free(color);
+
 	ptr = ptr_end;
 	ptr_end = ft_strnstr(ptr + 1, ",", ft_strlen(ptr));
+	if (!ptr_end)
+		ft_perror("Error in F malloc");
 	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr) + 1,ft_strlen(ptr));
+	ft_check_colorF(color);
+	ft_check_colorF2(color);
 	all->win->F_color += ft_atoi(color) * 16 * 16;
 	free(color);
+
 	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr_end) + 1, ft_strlen(ptr_end));
+	printf("herer %d \n", ft_atoi(color));
+	ft_check_colorF(color);
+	ft_check_colorF2(color);
 	all->win->F_color += ft_atoi(color);
 	free(color);
-	printf("%d\n",all->win->F_color);
 }
 
 void	ft_parcer_C(t_all *all, char *str, int start)
@@ -130,6 +266,7 @@ void	ft_parcer_C(t_all *all, char *str, int start)
 	color = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
 	all->win->C_color = ft_atoi(color) * 16 * 16 * 16 * 16;
 	free(color);
+
 	ptr = ptr_end;
 	ptr_end = ft_strnstr(ptr + 1, ",", ft_strlen(ptr));
 	color = ft_substr(str, ft_strlen(str) - ft_strlen(ptr) + 1,ft_strlen(ptr));

@@ -66,7 +66,7 @@ void	ft_screen_shot(t_all *all)
 		ft_perror("Can't create or open file for screenshot");
 	fileheader = ft_fileheader(all);
 	infoheader = ft_infoheader(all);
-	write(fd, fileheader, 14);
+	write(fd, fileheader, 14); // еслит не записал выводим ошибку
 	write(fd, infoheader, 40);
 	y = all->win->res_y;
 	while (y >= 0)
