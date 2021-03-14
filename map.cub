@@ -5,8 +5,8 @@ WE ./pictures/greystone.xpm
 EA ./pictures/greystone.xpm
 S ./pictures/bochka.xpm
 
-F 51,   255 ,     255
-C 120,			50,51
+F 51  ,   51   ,       153
+C 120,			50,50
 
 11111111111111111111111111111
 10000000001100000000200000001
