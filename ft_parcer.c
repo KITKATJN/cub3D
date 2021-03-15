@@ -4,7 +4,9 @@ void	ft_parcer_NO(t_all *all, char *str, int start)
 {
 	char *ptr;
 	char *ptr_end;
+	int i;
 
+	i = -1;
 	if (!all->win->NO_path)
 	{
 		ptr = str;
@@ -16,7 +18,10 @@ void	ft_parcer_NO(t_all *all, char *str, int start)
 		if (!ptr_end)
 			ft_perror("Wrong NO path or picture expansion");
 		ptr_end += 4;
-		all->win->NO_path = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
+		all->win->NO_path = ft_substr(str, start, ft_strlen(ptr + start) - ft_strlen(ptr_end));
+		while (ptr_end[++i] != '\0')
+			if (ft_isalpha(ptr_end[i]) || ft_isdigit(ptr_end[i]))
+				ft_perror("Wrong amount of arguments NO path");
 	}
 	else
 		ft_perror("double NO redefinition!");
@@ -298,7 +303,6 @@ void	ft_count_2(t_all *all)
 		}
 		i++;
 	}
-	//printf("2 = %d\n", all->win->count_2);
 	all->spr = ft_calloc(all->win->count_2, sizeof(t_sprite));
 	i = 0;
 	j = 0;
@@ -321,14 +325,6 @@ void	ft_count_2(t_all *all)
 		}
 		i++;
 	}
-	// k = 0;
-	// while (all->spr[k])
-	// {
-	// 	printf("x = %f y = %f\n", all->spr[k]->x, all->spr[k]->y);
-	// 	k++;
-	// 	/* code */
-	// }
-
 }
 
 void	ft_parcer_map(t_all *all, int i)

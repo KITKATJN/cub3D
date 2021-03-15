@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:02:42 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/13 13:04:23 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/15 23:20:15 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ void				ft_sort_sprite(t_all *all)
 
 	k = -1;
 	while (all->spr[++k])
+	{
 		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x))
 			* (cosf(all->plr->dir))
 			+ ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
+			if (all->spr[k]->dist < 5)
+				all->spr[k]->dist = sqrtf((all->spr[k]->x - all->plr->x) * (all->spr[k]->x - all->plr->x) + (all->plr->y - all->spr[k]->y) * (all->plr->y - all->spr[k]->y));
+	}
 	k = -1;
 	while (all->spr[++k + 1])
 	{
