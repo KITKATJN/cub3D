@@ -415,7 +415,7 @@ void	ft_preparcer(t_all *all)
 	all->win->NO_path = 0;
 }
 
-void ft_afterparcer(t_all *all)
+void ft_afterparcer(t_all *all, int parametr)
 {
 	if (all->win->res_x == 0 || all->win->res_y == 0)
 		ft_perror("No R");
@@ -433,18 +433,25 @@ void ft_afterparcer(t_all *all)
 		ft_perror("No so path");
 	if (all->win->WE_path == 0)
 		ft_perror("No we path");
+	if (parametr != 8)
+		ft_perror("Wrong numbers of parametrs before map");
 }
 
 void	ft_parcer(t_all *all)
 {
 	int i = -1;
 	int j = 0;
+	int parametr;
 
 	ft_preparcer(all);
+	parametr = 0;
 	while (all->parcer_map[++i])
 	{
 		if (all->parcer_map[i][j] == '\0')
+		{
+			parametr--;
 			continue ;
+		}
 		while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
 		all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
 			all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
@@ -470,9 +477,10 @@ void	ft_parcer(t_all *all)
 		else if (all->parcer_map[i][j] == '1')
 		{
 			ft_parcer_map(all, i);
+			parametr += i;
 			break ;
 		}
 		j = 0;
 	}
-	ft_afterparcer(all);
+	ft_afterparcer(all, parametr);
 }

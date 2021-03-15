@@ -187,6 +187,7 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 	ft_parcer(&all);
+	printf("22222222222\n");
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");
