@@ -353,13 +353,13 @@ void	ft_parcer_map(t_all *all, int i)
 	ft_count_2(all);
 }
 
-void ft_check_r(char *r)
+void ft_check_r(char *r, int j)
 {
 	int i;
 	int check;
 	int amount;
 
-	i = 0;
+	i = j;
 	while (r[++i] != '\0')
 		if (!ft_strrchr(VALID_R_SYMB, r[i]))
 			ft_perror("Invalid symbol in R");
@@ -388,7 +388,7 @@ void	ft_parcer_R(t_all *all, char *str, int j)
 	char *ptr;
 	char *res_x;
 
-	ft_check_r(str);
+	ft_check_r(str, j);
 	ptr = str;
 	all->win->res_x = ft_atoi(ptr + j);
 	if (all->win->res_x <= 0)
