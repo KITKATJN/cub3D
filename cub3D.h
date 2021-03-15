@@ -13,6 +13,7 @@
 # define SPEED 0.4
 # define VALID_MAP_SYMB " 012NESW"
 # define VALID_FC_SYMB " 0123456789,	"
+# define VALID_R_SYMB " 0123456789	"
 # define MAX_INT	"2147483647"
 typedef struct	s_win //структура для окна
 {

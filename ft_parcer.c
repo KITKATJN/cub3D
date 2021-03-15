@@ -353,11 +353,42 @@ void	ft_parcer_map(t_all *all, int i)
 	ft_count_2(all);
 }
 
+void ft_check_r(char *r)
+{
+	int i;
+	int check;
+	int amount;
+
+	i = 0;
+	while (r[++i] != '\0')
+		if (!ft_strrchr(VALID_R_SYMB, r[i]))
+			ft_perror("Invalid symbol in R");
+	check = 0;
+	amount = 0;
+	i = 0;
+	while (r[++i] != '\0')
+	{
+		if (ft_isdigit(r[i]) && check == 0)
+			check = 1;
+		if (!ft_isdigit(r[i]) && check == 1)
+		{
+			printf("g = %c\n", r[i-3]);
+			amount++;
+			check = 0;
+		}
+	}
+	if (check == 1)
+		amount++;
+	if (amount != 2)
+		ft_perror("Wrong amount of numbers in R");
+}
+
 void	ft_parcer_R(t_all *all, char *str, int j)
 {
 	char *ptr;
 	char *res_x;
 
+	ft_check_r(str);
 	ptr = str;
 	all->win->res_x = ft_atoi(ptr + j);
 	if (all->win->res_x <= 0)
