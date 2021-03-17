@@ -5,7 +5,7 @@ WE ./pictures/dama_kresti.xpm
 EA ./pictures/greystone.xpm
 S ./pictures/bochka.xpm
 
-F 51  ,          0,53
+F 51  ,          100,53
 C 120,			50,50
 
 11111111111111111111111111111
