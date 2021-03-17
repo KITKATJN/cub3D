@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:25:38 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/13 12:26:44 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/17 21:32:17 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,6 @@ void	ft_set_hor_param(t_all *all, t_inter *inter, float ray)
 	inter->x = inter->x_hor;
 	inter->y = inter->y_hor;
 	if (sin(ray) > 0)
-	{
-		all->win->img_height = all->win->EA_height;
-		all->win->img_width = all->win->EA_width;
-		all->win->wall_bpp = all->win->EA_bpp;
-		all->win->wall_line_length = all->win->EA_line_length;
-		all->win->wall_addr = all->win->EA_addr;
-	}
-	else
-	{
-		all->win->img_height = all->win->WE_height;
-		all->win->img_width = all->win->WE_width;
-		all->win->wall_bpp = all->win->WE_bpp;
-		all->win->wall_line_length = all->win->WE_line_length;
-		all->win->wall_addr = all->win->WE_addr;
-	}
-}
-
-void	ft_set_vert_param(t_all *all, t_inter *inter, float ray)
-{
-	inter->hit = 1;
-	inter->x = inter->x_vert;
-	inter->y = inter->y_vert;
-	if (cos(ray) > 0)
 	{
 		all->win->img_height = all->win->SO_height;
 		all->win->img_width = all->win->SO_width;
@@ -55,5 +32,28 @@ void	ft_set_vert_param(t_all *all, t_inter *inter, float ray)
 		all->win->wall_bpp = all->win->NO_bpp;
 		all->win->wall_line_length = all->win->NO_line_length;
 		all->win->wall_addr = all->win->NO_addr;
+	}
+}
+
+void	ft_set_vert_param(t_all *all, t_inter *inter, float ray)
+{
+	inter->hit = 1;
+	inter->x = inter->x_vert;
+	inter->y = inter->y_vert;
+	if (cos(ray) > 0)
+	{
+		all->win->img_height = all->win->EA_height;
+		all->win->img_width = all->win->EA_width;
+		all->win->wall_bpp = all->win->EA_bpp;
+		all->win->wall_line_length = all->win->EA_line_length;
+		all->win->wall_addr = all->win->EA_addr;
+	}
+	else
+	{
+		all->win->img_height = all->win->WE_height;
+		all->win->img_width = all->win->WE_width;
+		all->win->wall_bpp = all->win->WE_bpp;
+		all->win->wall_line_length = all->win->WE_line_length;
+		all->win->wall_addr = all->win->WE_addr;
 	}
 }

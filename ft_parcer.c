@@ -2,26 +2,24 @@
 
 void	ft_parcer_NO(t_all *all, char *str, int start)
 {
-	char *ptr;
-	char *ptr_end;
 	int i;
 
 	i = -1;
 	if (!all->win->NO_path)
 	{
-		ptr = str;
-		while (str[start]== ' ' || str[start]== '	' ||
-			str[start]== '\t' || str[start]== '\f' ||
-				str[start]== '\r' || str[start]== '\v')
+		while (str[start]== ' ')
 				start++;
-		ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
-		if (!ptr_end)
+		// ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//
+		// if (!ptr_end)
+		// 	ft_perror("Wrong NO path or picture expansion");
+		// ptr_end += 4;
+		// all->win->NO_path = ft_substr(str, start, ft_strlen(ptr + start) - ft_strlen(ptr_end));
+		// while (ptr_end[++i] != '\0')
+		// 	if (ft_isalpha(ptr_end[i]) || ft_isdigit(ptr_end[i]))
+		// 		ft_perror("Wrong amount of arguments NO path");
+		all->win->NO_path = ft_substr(str, start, ft_strlen(str));
+		if (!all->win->NO_path)
 			ft_perror("Wrong NO path or picture expansion");
-		ptr_end += 4;
-		all->win->NO_path = ft_substr(str, start, ft_strlen(ptr + start) - ft_strlen(ptr_end));
-		while (ptr_end[++i] != '\0')
-			if (ft_isalpha(ptr_end[i]) || ft_isdigit(ptr_end[i]))
-				ft_perror("Wrong amount of arguments NO path");
 	}
 	else
 		ft_perror("double NO redefinition!");
@@ -84,9 +82,7 @@ void	ft_parcer_S(t_all *all, char *str, int start)
 	char *ptr_end;
 
 	ptr = str;
-	while (str[start]== ' ' || str[start]== '	' ||
-		str[start]== '\t' || str[start]== '\f' ||
-			str[start]== '\r' || str[start]== '\v')
+	while (str[start]== ' ')
 			start++;
 	ptr_end = ft_strnstr(str, ".xpm", ft_strlen(str));//если вернул 0, то ошибку выдаем
 	ptr_end += 4;
@@ -223,9 +219,7 @@ void	ft_parcer_F(t_all *all, char *str, int start)
 	char	*color;
 
 	ptr = str;
-	while (str[start]== ' ' || str[start]== '	' ||
-		str[start]== '\t' || str[start]== '\f' ||
-			str[start]== '\r' || str[start]== '\v')
+	while (str[start]== ' ')
 			start++;
 	ft_check_f(str);
 	ft_check_number_of_digit(str);
@@ -263,9 +257,7 @@ void	ft_parcer_C(t_all *all, char *str, int start)
 	char	*color;
 
 	ptr = str;
-	while (str[start]== ' ' || str[start]== '	' ||
-		str[start]== '\t' || str[start]== '\f' ||
-			str[start]== '\r' || str[start]== '\v')
+	while (str[start]== ' ')
 			start++;
 	ptr_end = ft_strnstr(ptr, ",", ft_strlen(ptr));//если вернул 0, то ошибку выдаем
 	color = ft_substr(str, start, ft_strlen(ptr_end) - ft_strlen(ptr + start));
@@ -344,12 +336,40 @@ void	ft_parcer_map(t_all *all, int i)
 	size = -1;
 	while (all->parcer_map[i])
 	{
-		if (all->parcer_map[i][0] == '\0')
-			break ;
+		//if (all->parcer_map[i][0] == '\0')
+		//	break ;
 		map[++size] = ft_strdup(all->parcer_map[i++]);
+		printf("!%s!%d\n",map[size], size);
 	}
 	//здесь чистим parcer map
 	all->map = map;
+
+	int x;
+	int y;
+
+	y = 0;
+	while (map[y] != 0)
+	{
+		x = 0;
+		while (map[y][x] != '\0')
+		{
+			if (!ft_strrchr(VALID_MAP_SYMB, map[y][x]))
+				ft_perror("Invalid map symbol");
+			if (map[y][x] == '0' || map[y][x] == '2')
+			{
+				if (map[y + 1][x] == ' ')
+					ft_perror("Error in map");
+				if (map[y][x + 1] == ' ')
+					ft_perror("Error in map");
+				if (map[y - 1][x] == ' ')
+					ft_perror("Error in map");
+				if (map[y][x - 1] == ' ')
+					ft_perror("Error in map");
+			}
+			x++;
+		}
+		y++;
+	}
 	ft_count_2(all);
 }
 
@@ -413,6 +433,7 @@ void	ft_preparcer(t_all *all)
 	all->win->SO_path = 0;
 	all->win->WE_path = 0;
 	all->win->NO_path = 0;
+	all->plr->x = -1;
 }
 
 void ft_afterparcer(t_all *all, int parametr)
@@ -452,9 +473,7 @@ void	ft_parcer(t_all *all)
 			parametr--;
 			continue ;
 		}
-		while (all->parcer_map[i][j] == ' ' || all->parcer_map[i][j]== '	' ||
-		all->parcer_map[i][j]== '\t' || all->parcer_map[i][j]== '\f' ||
-			all->parcer_map[i][j]== '\r' || all->parcer_map[i][j]== '\v')
+		while (all->parcer_map[i][j] == ' ')
 			j++;
 		if (all->parcer_map[i][j] == 'R')
 			ft_parcer_R(all, all->parcer_map[i], j + 1);

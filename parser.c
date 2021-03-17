@@ -53,6 +53,14 @@ void draw_screen(t_all *all)
 	//mlx_destroy_image(all->win->mlx, all->win->img);
 }
 
+void ft_plr_check(t_plr *plr)
+{
+	if (plr->x == -1)
+		return ;
+	else
+		ft_perror("Redefinition plr!");
+}
+
 void ft_init_plr(char **map, t_plr *plr)
 {
 	t_point pos;
@@ -63,19 +71,35 @@ void ft_init_plr(char **map, t_plr *plr)
 		pos.x = 0;
 		while (map[pos.y][pos.x])
 		{
-			if (ft_strchr("N",map[pos.y][pos.x]))
-			{
-				plr->x = pos.x + 0.5;
-				plr->y = pos.y + 0.5;
-				plr->dir = 1 * M_PI_2;
-			}
-			if (ft_strchr("S",map[pos.y][pos.x]))
-			{
-				plr->x = pos.x + 0.5;
-				plr->y = pos.y + 0.5;
-				plr->dir = 3 * M_PI_2;
-			}
-			pos.x++;
+				if (ft_strchr("N",map[pos.y][pos.x]))
+				{
+					ft_plr_check(plr);
+					plr->x = pos.x + 0.5;
+					plr->y = pos.y + 0.5;
+					plr->dir = 1 * M_PI_2;
+				}
+				if (ft_strchr("S",map[pos.y][pos.x]))
+				{
+					ft_plr_check(plr);
+					plr->x = pos.x + 0.5;
+					plr->y = pos.y + 0.5;
+					plr->dir = 3 * M_PI_2;
+				}
+				if (ft_strchr("W",map[pos.y][pos.x]))
+				{
+					ft_plr_check(plr);
+					plr->x = pos.x + 0.5;
+					plr->y = pos.y + 0.5;
+					plr->dir = M_PI;
+				}
+				if (ft_strchr("E",map[pos.y][pos.x]))
+				{
+					ft_plr_check(plr);
+					plr->x = pos.x + 0.5;
+					plr->y = pos.y + 0.5;
+					plr->dir = 0;
+				}
+				pos.x++;
 		}
 		pos.y++;
 	}
@@ -187,29 +211,28 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 	ft_parcer(&all);
-	printf("22222222222\n");
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();
 	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");
 	win.img = mlx_new_image(win.mlx, all.win->res_x , all.win->res_y);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 
-	win.NO_img = mlx_xpm_file_to_image(win.mlx, all.win->WE_path, &win.NO_width, &win.NO_height);
+	win.NO_img = mlx_xpm_file_to_image(win.mlx, all.win->NO_path, &win.NO_width, &win.NO_height);
 	if (!win.NO_img)
 		ft_perror("Error with NO_PATH");
 	win.NO_addr = mlx_get_data_addr(win.NO_img, &win.NO_bpp, &win.NO_line_length, &win.en);// что будет, если передать в первый параметр 0 или фигню? Какая защита
 
-	win.SO_img = mlx_xpm_file_to_image(win.mlx, all.win->EA_path, &win.SO_width, &win.SO_height);
+	win.SO_img = mlx_xpm_file_to_image(win.mlx, all.win->SO_path, &win.SO_width, &win.SO_height);
 	if (!win.SO_img)
 		ft_perror("Error with SO_PATH");
 	win.SO_addr = mlx_get_data_addr(win.SO_img, &win.SO_bpp, &win.SO_line_length, &win.en);
 
-	win.EA_img = mlx_xpm_file_to_image(win.mlx, all.win->SO_path, &win.EA_width, &win.EA_height);
+	win.EA_img = mlx_xpm_file_to_image(win.mlx, all.win->EA_path, &win.EA_width, &win.EA_height);
 	if (!win.EA_img)
 		ft_perror("Error with EA_PATH");
 	win.EA_addr = mlx_get_data_addr(win.EA_img, &win.EA_bpp, &win.EA_line_length, &win.en);
 
-	win.WE_img = mlx_xpm_file_to_image(win.mlx, all.win->NO_path, &win.WE_width, &win.WE_height);
+	win.WE_img = mlx_xpm_file_to_image(win.mlx, all.win->WE_path, &win.WE_width, &win.WE_height);
 	if (!win.WE_img)
 		ft_perror("Error with WE_PATH");
 	win.WE_addr = mlx_get_data_addr(win.WE_img, &win.WE_bpp, &win.WE_line_length, &win.en);
