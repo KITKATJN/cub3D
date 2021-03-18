@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:22:27 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 10:15:01 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/19 00:25:25 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void		ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	if (height < 0.01)
 		height = 0.01;
 	all->depthBuffer[cor_x] = height;
-	height = (all->win->res_y / height);
+	//height = (all->win->res_y / height);
+	height = (((float)all->win->res_x / 2) * (1 / tanf(FOV / 2)) / height);
 	ft_logic_wall(all, inter, cor_x, height);
 }
