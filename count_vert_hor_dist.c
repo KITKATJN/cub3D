@@ -69,8 +69,9 @@ void vert_intersaction(t_all *all, float curr_ray, t_inter *inter)
 
 	inter->x_vert = all->plr->x / SCALE + minus_x * fabsf(all->plr->x / SCALE - (float)x);
 	inter->y_vert = all->plr->y / SCALE + minus_y * fabsf(all->plr->x / SCALE - (float)x) * fabsf(tanf((curr_ray )));
-	while ((int)inter->y_vert > 0 && (int)inter->y_vert < 20) //вместо 20 должно быть ограничение по высоте карты или тип того
+	while ((int)inter->y_vert > 0 && (int)inter->y_vert < all->map_height) //вместо 20 должно быть ограничение по высоте карты или тип того
 	{
+		//printf("y_vert = %d\n", (int)inter->y_vert);
 		if (all->map[(int)(inter->y_vert)][(int)(inter->x_vert + inter->x_error)] == '1')
 			break ;
 		inter->x_vert += minus_x ;

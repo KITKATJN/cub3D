@@ -9,6 +9,7 @@ SRCS		= parser.c ft_rays.c \
 		set_img_param.c get_colors.c \
 		sprites.c ft_parcer_no.c \
 		ft_for_parcer_fc.c ft_parcer_fc.c \
+		ft_parcermap.c \
 
 
 #BONUS_S		= movin_bonus.c

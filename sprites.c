@@ -6,27 +6,17 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:02:42 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 10:16:49 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 14:10:58 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void				ft_sort_sprite(t_all *all)
+static	void		ft_sort_sprite2(t_all *all, t_sprite *sp)
 {
 	int				k;
 	int				i;
-	t_sprite		*sp;
 
-	k = -1;
-	while (all->spr[++k])
-	{
-		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x))
-			* (cosf(all->plr->dir))
-			+ ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
-			if (all->spr[k]->dist < 2)
-				all->spr[k]->dist = sqrtf((all->spr[k]->x - all->plr->x) * (all->spr[k]->x - all->plr->x) + (all->plr->y - all->spr[k]->y) * (all->plr->y - all->spr[k]->y));
-	}
 	k = -1;
 	while (all->spr[++k + 1])
 	{
@@ -42,6 +32,27 @@ void				ft_sort_sprite(t_all *all)
 			}
 		}
 	}
+}
+
+void				ft_sort_sprite(t_all *all)
+{
+	int				k;
+	int				i;
+	t_sprite		*sp;
+
+	k = -1;
+	while (all->spr[++k])
+	{
+		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x))
+			* (cosf(all->plr->dir))
+			+ ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
+		if (all->spr[k]->dist < 3.5)
+			all->spr[k]->dist = sqrtf((all->spr[k]->x
+				- all->plr->x) * (all->spr[k]->x - all->plr->x)
+					+ (all->plr->y - all->spr[k]->y)
+						* (all->plr->y - all->spr[k]->y));
+	}
+	ft_sort_sprite2(all, sp);
 }
 
 void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)

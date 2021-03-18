@@ -139,12 +139,44 @@ int key_press(int key, t_all *all)
 	return (0);
 }
 
+int mouse(int key, t_all *all)
+{
+	printf("key = %d\n", key);
+	exit (0);
+	// exit_clean(all);
+	// return (OK);
+}
+
 void ft_check_argv2(const char *argv2)
 {
 	if (ft_strlen(argv2) != 6)
 		ft_perror("argv2 is wrong by length");
 	if (argv2[0] != '-' || argv2[1] != '-' || argv2[2] != 's' || argv2[3] != 'a' || argv2[4] != 'v' || argv2[5] != 'e')
 		ft_perror("argv2 is wrong by symbols");
+}
+
+void	ft_set_img(t_all *all, t_win *win)
+{
+	win->no_img = mlx_xpm_file_to_image(win->mlx, all->win->no_path, &win->no_width, &win->no_height);
+	if (!win->no_img)
+		ft_perror("Error with NO_PATH");
+	win->no_addr = mlx_get_data_addr(win->no_img, &win->no_bpp, &win->no_line_length, &win->en);// что будет, если передать в первый параметр 0 или фигню? Какая защита
+	win->so_img = mlx_xpm_file_to_image(win->mlx, all->win->so_path, &win->so_width, &win->so_height);
+	if (!win->so_img)
+		ft_perror("Error with SO_PATH");
+	win->so_addr = mlx_get_data_addr(win->so_img, &win->so_bpp, &win->so_line_length, &win->en);
+	win->ea_img = mlx_xpm_file_to_image(win->mlx, all->win->ea_path, &win->ea_width, &win->ea_height);
+	if (!win->ea_img)
+		ft_perror("Error with EA_PATH");
+	win->ea_addr = mlx_get_data_addr(win->ea_img, &win->ea_bpp, &win->ea_line_length, &win->en);
+	win->we_img = mlx_xpm_file_to_image(win->mlx, all->win->we_path, &win->we_width, &win->we_height);
+	if (!win->we_img)
+		ft_perror("Error with WE_PATH");
+	win->we_addr = mlx_get_data_addr(win->we_img, &win->we_bpp, &win->we_line_length, &win->en);
+	win->s_img = mlx_xpm_file_to_image(win->mlx, all->win->s_path, &win->s_width, &win->s_height);
+	if (!win->s_img)
+		ft_perror("Error with S_PATH");
+	win->s_addr = mlx_get_data_addr(win->s_img, &win->s_bpp, &win->s_line_length, &win->en);
 }
 
 int		main(int argc, char **argv)
@@ -165,31 +197,7 @@ int		main(int argc, char **argv)
 	win.win = mlx_new_window(win.mlx, all.win->res_x , all.win->res_y, "cub3D");
 	win.img = mlx_new_image(win.mlx, all.win->res_x , all.win->res_y);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
-
-	win.no_img = mlx_xpm_file_to_image(win.mlx, all.win->no_path, &win.no_width, &win.no_height);
-	if (!win.no_img)
-		ft_perror("Error with NO_PATH");
-	win.no_addr = mlx_get_data_addr(win.no_img, &win.no_bpp, &win.no_line_length, &win.en);// что будет, если передать в первый параметр 0 или фигню? Какая защита
-
-	win.so_img = mlx_xpm_file_to_image(win.mlx, all.win->so_path, &win.so_width, &win.so_height);
-	if (!win.so_img)
-		ft_perror("Error with SO_PATH");
-	win.so_addr = mlx_get_data_addr(win.so_img, &win.so_bpp, &win.so_line_length, &win.en);
-
-	win.ea_img = mlx_xpm_file_to_image(win.mlx, all.win->ea_path, &win.ea_width, &win.ea_height);
-	if (!win.ea_img)
-		ft_perror("Error with EA_PATH");
-	win.ea_addr = mlx_get_data_addr(win.ea_img, &win.ea_bpp, &win.ea_line_length, &win.en);
-
-	win.we_img = mlx_xpm_file_to_image(win.mlx, all.win->we_path, &win.we_width, &win.we_height);
-	if (!win.we_img)
-		ft_perror("Error with WE_PATH");
-	win.we_addr = mlx_get_data_addr(win.we_img, &win.we_bpp, &win.we_line_length, &win.en);
-
-	win.s_img = mlx_xpm_file_to_image(win.mlx, all.win->s_path, &win.s_width, &win.s_height);
-	if (!win.s_img)
-		ft_perror("Error with S_PATH");
-	win.s_addr = mlx_get_data_addr(win.s_img, &win.s_bpp, &win.s_line_length, &win.en);
+	ft_set_img(&all, &win);
 	draw_screen(&all);
 	if (argc > 2)
 	{
@@ -197,5 +205,6 @@ int		main(int argc, char **argv)
 		ft_screen_shot(&all);
 	}
 	mlx_hook(win.win, 2, (1L << 0), &key_press, &all);
+	mlx_hook(win.win, 17, 0, &mouse, &all);
 	mlx_loop(win.mlx);
 }

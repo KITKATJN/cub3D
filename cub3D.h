@@ -10,7 +10,7 @@
 
 # define SCALE	1 // условный размер каждого квадратика в карте
 # define FOV  M_PI / 3
-# define SPEED 0.4
+# define SPEED 0.15
 # define VALID_MAP_SYMB " 012NESW"
 # define VALID_FC_SYMB " 0123456789,"
 # define VALID_R_SYMB " 0123456789"
@@ -132,6 +132,7 @@ typedef struct	s_all // структура для всего вместе
 	char		**map;
 	char		**parcer_map;
 	float		*depthBuffer;
+	int			map_height;
 }				t_all;
 
 typedef struct	s_drawsprite
@@ -187,4 +188,6 @@ void			ft_check_f(char *f);
 void			ft_check_number_of_digit(char *f);
 void			ft_parcer_f(t_all *all, char *str, int start);
 void			ft_parcer_c(t_all *all, char *str, int start);
+void			ft_parcer_map(t_all *all, int i);
+void			ft_freemap(char **map);
 #endif
