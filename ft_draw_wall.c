@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:22:27 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/13 12:24:40 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 10:15:01 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static void	draw_ceil_floor(t_all *all, float start, float end, int cor_x)
 		return ;
 	while (y < start)
 	{
-		my_mlx_pixel_put(all->win, cor_x, y, all->win->C_color);
+		my_mlx_pixel_put(all->win, cor_x, y, all->win->c_color);
 		y++;
 	}
 	y = end;
 	while (y < all->win->res_y)
 	{
-		my_mlx_pixel_put(all->win, cor_x, y, all->win->F_color);
+		my_mlx_pixel_put(all->win, cor_x, y, all->win->f_color);
 		y++;
 	}
 }

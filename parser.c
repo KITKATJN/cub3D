@@ -217,30 +217,30 @@ int		main(int argc, char **argv)
 	win.img = mlx_new_image(win.mlx, all.win->res_x , all.win->res_y);
 	win.addr = mlx_get_data_addr(win.img, &win.bpp, &win.line_l, &win.en);
 
-	win.NO_img = mlx_xpm_file_to_image(win.mlx, all.win->NO_path, &win.NO_width, &win.NO_height);
-	if (!win.NO_img)
+	win.no_img = mlx_xpm_file_to_image(win.mlx, all.win->no_path, &win.no_width, &win.no_height);
+	if (!win.no_img)
 		ft_perror("Error with NO_PATH");
-	win.NO_addr = mlx_get_data_addr(win.NO_img, &win.NO_bpp, &win.NO_line_length, &win.en);// что будет, если передать в первый параметр 0 или фигню? Какая защита
+	win.no_addr = mlx_get_data_addr(win.no_img, &win.no_bpp, &win.no_line_length, &win.en);// что будет, если передать в первый параметр 0 или фигню? Какая защита
 
-	win.SO_img = mlx_xpm_file_to_image(win.mlx, all.win->SO_path, &win.SO_width, &win.SO_height);
-	if (!win.SO_img)
+	win.so_img = mlx_xpm_file_to_image(win.mlx, all.win->so_path, &win.so_width, &win.so_height);
+	if (!win.so_img)
 		ft_perror("Error with SO_PATH");
-	win.SO_addr = mlx_get_data_addr(win.SO_img, &win.SO_bpp, &win.SO_line_length, &win.en);
+	win.so_addr = mlx_get_data_addr(win.so_img, &win.so_bpp, &win.so_line_length, &win.en);
 
-	win.EA_img = mlx_xpm_file_to_image(win.mlx, all.win->EA_path, &win.EA_width, &win.EA_height);
-	if (!win.EA_img)
+	win.ea_img = mlx_xpm_file_to_image(win.mlx, all.win->ea_path, &win.ea_width, &win.ea_height);
+	if (!win.ea_img)
 		ft_perror("Error with EA_PATH");
-	win.EA_addr = mlx_get_data_addr(win.EA_img, &win.EA_bpp, &win.EA_line_length, &win.en);
+	win.ea_addr = mlx_get_data_addr(win.ea_img, &win.ea_bpp, &win.ea_line_length, &win.en);
 
-	win.WE_img = mlx_xpm_file_to_image(win.mlx, all.win->WE_path, &win.WE_width, &win.WE_height);
-	if (!win.WE_img)
+	win.we_img = mlx_xpm_file_to_image(win.mlx, all.win->we_path, &win.we_width, &win.we_height);
+	if (!win.we_img)
 		ft_perror("Error with WE_PATH");
-	win.WE_addr = mlx_get_data_addr(win.WE_img, &win.WE_bpp, &win.WE_line_length, &win.en);
+	win.we_addr = mlx_get_data_addr(win.we_img, &win.we_bpp, &win.we_line_length, &win.en);
 
-	win.S_img = mlx_xpm_file_to_image(win.mlx, all.win->S_path, &win.S_width, &win.S_height);
-	if (!win.S_img)
+	win.s_img = mlx_xpm_file_to_image(win.mlx, all.win->s_path, &win.s_width, &win.s_height);
+	if (!win.s_img)
 		ft_perror("Error with S_PATH");
-	win.S_addr = mlx_get_data_addr(win.S_img, &win.S_bpp, &win.S_line_length, &win.en);
+	win.s_addr = mlx_get_data_addr(win.s_img, &win.s_bpp, &win.s_line_length, &win.en);
 	draw_screen(&all);
 	if (argc > 2)
 	{

@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:25:38 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/17 21:32:17 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 10:16:03 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ void	ft_set_hor_param(t_all *all, t_inter *inter, float ray)
 	inter->y = inter->y_hor;
 	if (sin(ray) > 0)
 	{
-		all->win->img_height = all->win->SO_height;
-		all->win->img_width = all->win->SO_width;
-		all->win->wall_bpp = all->win->SO_bpp;
-		all->win->wall_line_length = all->win->SO_line_length;
-		all->win->wall_addr = all->win->SO_addr;
+		all->win->img_height = all->win->so_height;
+		all->win->img_width = all->win->so_width;
+		all->win->wall_bpp = all->win->so_bpp;
+		all->win->wall_line_length = all->win->so_line_length;
+		all->win->wall_addr = all->win->so_addr;
 	}
 	else
 	{
-		all->win->img_height = all->win->NO_height;
-		all->win->img_width = all->win->NO_width;
-		all->win->wall_bpp = all->win->NO_bpp;
-		all->win->wall_line_length = all->win->NO_line_length;
-		all->win->wall_addr = all->win->NO_addr;
+		all->win->img_height = all->win->no_height;
+		all->win->img_width = all->win->no_width;
+		all->win->wall_bpp = all->win->no_bpp;
+		all->win->wall_line_length = all->win->no_line_length;
+		all->win->wall_addr = all->win->no_addr;
 	}
 }
 
@@ -42,18 +42,18 @@ void	ft_set_vert_param(t_all *all, t_inter *inter, float ray)
 	inter->y = inter->y_vert;
 	if (cos(ray) > 0)
 	{
-		all->win->img_height = all->win->EA_height;
-		all->win->img_width = all->win->EA_width;
-		all->win->wall_bpp = all->win->EA_bpp;
-		all->win->wall_line_length = all->win->EA_line_length;
-		all->win->wall_addr = all->win->EA_addr;
+		all->win->img_height = all->win->ea_height;
+		all->win->img_width = all->win->ea_width;
+		all->win->wall_bpp = all->win->ea_bpp;
+		all->win->wall_line_length = all->win->ea_line_length;
+		all->win->wall_addr = all->win->ea_addr;
 	}
 	else
 	{
-		all->win->img_height = all->win->WE_height;
-		all->win->img_width = all->win->WE_width;
-		all->win->wall_bpp = all->win->WE_bpp;
-		all->win->wall_line_length = all->win->WE_line_length;
-		all->win->wall_addr = all->win->WE_addr;
+		all->win->img_height = all->win->we_height;
+		all->win->img_width = all->win->we_width;
+		all->win->wall_bpp = all->win->we_bpp;
+		all->win->wall_line_length = all->win->we_line_length;
+		all->win->wall_addr = all->win->we_addr;
 	}
 }

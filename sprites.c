@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:02:42 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/16 00:48:21 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 10:16:49 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 	if (drspr->nObjColumn >= 0 && drspr->nObjColumn < all->win->res_x)
 	{
 		drspr->color_spr = get_color_s(all->win, drspr->fSamplex *
-			all->win->S_height, drspr->fSampley * all->win->S_width);
+			all->win->s_height, drspr->fSampley * all->win->s_width);
 		if (drspr->color_spr > 1907485 &&
 			(all->depthBuffer[all->win->res_x
 				- drspr->nObjColumn]) >= (all->spr[i]->dist))
@@ -72,8 +72,8 @@ void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
 		- all->win->res_y / ((float)(all->spr[i]->dist));
 	drspr->fobjFloor = all->win->res_y - drspr->fobjCeil;
 	drspr->fobjHeight = (drspr->fobjFloor - drspr->fobjCeil) * 0.89;
-	drspr->fObjAspectRatio = (float)all->win->S_height
-		/ (float)all->win->S_width;
+	drspr->fObjAspectRatio = (float)all->win->s_height
+		/ (float)all->win->s_width;
 	drspr->fObjWidth = drspr->fobjHeight / drspr->fObjAspectRatio;
 	drspr->fMiddleObj = (0.5f * (drspr->ang
 		/ (FOV / 2.0f)) + 0.5f) * (float)all->win->res_x;
