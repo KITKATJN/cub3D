@@ -34,8 +34,8 @@ void	ft_count_2(t_all *all)
 				sprite = malloc(sizeof(t_sprite));
 				if (!sprite)
 					ft_perror("Error with malloc in ft_count2");
-				sprite->x = j + 0.6f;
-				sprite->y = i + 0.6f;
+				sprite->x = j + 0.5f;
+				sprite->y = i + 0.5f;
 				all->spr[k++] = sprite;
 			}
 			j++;
