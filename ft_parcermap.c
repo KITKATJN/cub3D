@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:47:43 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 16:33:14 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 18:45:25 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static	void	ft_checkmap2(char **map, int y, int x)
 	ft_checkmap3(map, j, i, 0);
 }
 
-static	void	ft_checkmap(char **map)
+static	void	ft_checkmap(char **map, t_all *all)
 {
 	int			x;
 	int			y;
@@ -73,6 +73,8 @@ static	void	ft_checkmap(char **map)
 	y = -1;
 	while (map[++y] != 0)
 	{
+		if (map[y][0] == '\0' && y < all->map_height - 1)
+			ft_perror("Empty Line in MAP!");
 		x = -1;
 		while (map[y][++x] != '\0')
 		{
@@ -126,9 +128,11 @@ void			ft_parcer_map(t_all *all, int i)
 		ft_perror("Error with malloc in ft_parcer_map");
 	size = -1;
 	while (all->parcer_map[i])
+	{
 		map[++size] = ft_strdup(all->parcer_map[i++]);
+	}
 	ft_freemap(all->parcer_map);
-	ft_checkmap(map);
+	ft_checkmap(map, all);
 	all->map = map;
 	ft_count_2(all);
 }
