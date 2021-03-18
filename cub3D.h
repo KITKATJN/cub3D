@@ -8,14 +8,13 @@
 #include <math.h>
 #include <stdio.h>
 
-# define SCALE	1 // условный размер каждого квадратика в карте
 # define FOV  M_PI / 3
 # define SPEED 0.15
 # define VALID_MAP_SYMB " 012NESW"
 # define VALID_FC_SYMB " 0123456789,"
 # define VALID_R_SYMB " 0123456789"
 # define MAX_INT	"2147483647"
-typedef struct	s_win //структура для окна
+typedef struct	s_win
 {
 	void		*mlx;
 	void		*win;
@@ -73,7 +72,7 @@ typedef struct	s_win //структура для окна
 	void		*wall_addr;
 }				t_win;
 
-typedef struct	s_point // структура для точки
+typedef struct	s_point
 {
 	int			x;
 	int			y;
@@ -92,7 +91,7 @@ typedef struct	s_texture
 	int			cor_x;
 }				t_texture;
 
-typedef struct	s_inter // структура для точки
+typedef struct	s_inter
 {
 	int			hit;
 	float		x;
@@ -108,14 +107,14 @@ typedef struct	s_inter // структура для точки
 	float		wall_height;
 }				t_inter;
 
-typedef struct	s_sprite //структура для игрока и луча
+typedef struct	s_sprite
 {
 	float		x;
 	float		y;
 	float		dist;
 }				t_sprite;
 
-typedef struct	s_plr //структура для игрока и луча
+typedef struct	s_plr
 {
 	float		x;
 	float		y;
@@ -124,7 +123,7 @@ typedef struct	s_plr //структура для игрока и луча
 	float		end;
 }				  t_plr;
 
-typedef struct	s_all // структура для всего вместе
+typedef struct	s_all
 {
 	t_win		*win;
 	t_plr		*plr;
@@ -190,4 +189,5 @@ void			ft_parcer_f(t_all *all, char *str, int start);
 void			ft_parcer_c(t_all *all, char *str, int start);
 void			ft_parcer_map(t_all *all, int i);
 void			ft_freemap(char **map);
+void			ft_count_2(t_all *all);
 #endif

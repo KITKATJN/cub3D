@@ -117,7 +117,7 @@ int key_press(int key, t_all *all)
 		all->plr->x += sin(all->plr->dir) * SPEED;
 		all->plr->y += cos(all->plr->dir) * SPEED;
 		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
-		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		if (all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
 			all->plr->x -= sin(all->plr->dir) * SPEED;
 			all->plr->y -= cos(all->plr->dir) * SPEED;
@@ -127,7 +127,7 @@ int key_press(int key, t_all *all)
 	{
 		all->plr->x -= sin(all->plr->dir) * SPEED;
 		all->plr->y -= cos(all->plr->dir) * SPEED;
-		if (all->map[(int)all->plr->y / SCALE][(int)all->plr->x / SCALE] == '1')
+		if (all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
 			all->plr->x += sin(all->plr->dir) * SPEED;
 			all->plr->y += cos(all->plr->dir) * SPEED;
