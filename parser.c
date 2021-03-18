@@ -1,56 +1,10 @@
 #include "cub3D.h"
 
 void draw_screen(t_all *all)
-{/*
-	t_point point;
-
-	point.y = 0;
-	int i = 0;
-		while (all->map[point.y])
-	{
-		point.x = 0;
-		while (all->map[point.y][point.x])
-		{
-			i = 0;
-			while (i++ < SCALE)
-				mlx_pixel_put(all->win->mlx, all->win->win, point.x * SCALE + i, point.y * SCALE, 0xEEEEEEEE);
-			point.x++;
-			i++;
-		}
-		point.y++;
-	}
-
-	point.y = 0;i = 0;
-		while (all->map[point.y])
-	{
-		point.x = 0;
-		while (all->map[point.y][point.x])
-		{
-			i = 0;
-			while (i++ < SCALE)
-				mlx_pixel_put(all->win->mlx, all->win->win, point.x * SCALE, point.y * SCALE + i, 0xEEEEEEEE);
-			point.x++;
-			i++;
-		}
-		point.y++;
-	}
-
-	ft_bzero(&point, sizeof(t_point));
-	while (all->map[point.y])
-	{
-		point.x = 0;
-		while (all->map[point.y][point.x])
-		{
-			if(all->map[point.y][point.x] == '1')
-				ft_scale_img(all->win, point);
-			point.x++;
-		}
-		point.y++;
-	}*/
+{
 	ft_sort_sprite(all);
 	ft_draw_player2(all, all->plr);
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
-	//mlx_destroy_image(all->win->mlx, all->win->img);
 }
 
 void ft_plr_check(t_plr *plr)
@@ -202,14 +156,9 @@ int		main(int argc, char **argv)
 	all.plr = &plr;
 	all.win = &win;
 	if (argc > 1)
-	{
 		all.parcer_map = ft_read_map(argv[1]);
-	}
 	else
-	{
-		ft_putendl_fd("need map", 2);
-		return (-1);
-	}
+		ft_perror("need map");
 	ft_parcer(&all);
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();

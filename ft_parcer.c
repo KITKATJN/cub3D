@@ -44,6 +44,87 @@ void	ft_count_2(t_all *all)
 	}
 }
 
+void	ft_checkmap2(char **map, int y, int x)
+{
+	int i;
+	int j;
+	int check;
+
+	i = x;
+	j = y;
+	check = 0;
+	while (map[y][x] != '\0')
+		if (map[y][x++] == '1')
+			check = 1;
+	if (!check)
+		ft_perror("Error with map");
+	x = i;
+	y = j;
+	check = 0;
+	while (map[y][x])
+		if (map[y][x--] == '1')
+			check = 1;
+	if (!check)
+		ft_perror("Error with map");
+	x = i;
+	y = j;
+	check = 0;
+	while (map[y][x] != '\0')
+	{
+		if (map[y++][x] == '1')
+		{
+			check = 1;
+			break ;
+		}
+	}
+	if (!check)
+		ft_perror("Error with map");
+	x = i;
+	y = j;
+	check = 0;
+	while (map[y][x])
+	{
+		if (map[y--][x] == '1')
+		{
+			check = 1;
+			break ;
+		}
+	}
+	if (!check)
+		ft_perror("Error with map");
+}
+
+void	ft_checkmap(char **map)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (map[y] != 0)
+	{
+		x = 0;
+		while (map[y][x] != '\0')
+		{
+			if (!ft_strrchr(VALID_MAP_SYMB, map[y][x]))
+				ft_perror("Invalid map symbol");
+			if (map[y][x] == '0' || map[y][x] == '2')
+			{
+				ft_checkmap2(map, y, x);
+				if (map[y + 1][x] == ' ')
+					ft_perror("Error in map");
+				if (map[y][x + 1] == ' ')
+					ft_perror("Error in map");
+				if (map[y - 1][x] == ' ')
+					ft_perror("Error in map");
+				if (map[y][x - 1] == ' ')
+					ft_perror("Error in map");
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 void	ft_parcer_map(t_all *all, int i)
 {
 	int		size;
@@ -58,43 +139,18 @@ void	ft_parcer_map(t_all *all, int i)
 		j++;
 	}
 	map = ft_calloc(size + 1, sizeof(char *));
+	if (!map)
+		ft_perror("Error with malloc in ft_parcer_map");
 	size = -1;
 	while (all->parcer_map[i])
 	{
 		//if (all->parcer_map[i][0] == '\0')
 		//	break ;
 		map[++size] = ft_strdup(all->parcer_map[i++]);
-		printf("!%s!%d\n",map[size], size);
 	}
 	//здесь чистим parcer map
+	ft_checkmap(map);
 	all->map = map;
-
-	int x;
-	int y;
-
-	y = 0;
-	while (map[y] != 0)
-	{
-		x = 0;
-		while (map[y][x] != '\0')
-		{
-			if (!ft_strrchr(VALID_MAP_SYMB, map[y][x]))
-				ft_perror("Invalid map symbol");
-			if (map[y][x] == '0' || map[y][x] == '2')
-			{
-				if (map[y + 1][x] == ' ')
-					ft_perror("Error in map");
-				if (map[y][x + 1] == ' ')
-					ft_perror("Error in map");
-				if (map[y - 1][x] == ' ')
-					ft_perror("Error in map");
-				if (map[y][x - 1] == ' ')
-					ft_perror("Error in map");
-			}
-			x++;
-		}
-		y++;
-	}
 	ft_count_2(all);
 }
 
