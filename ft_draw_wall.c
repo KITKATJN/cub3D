@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:22:27 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/19 00:25:25 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:24:56 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static void	draw_ceil_floor(t_all *all, float start, float end, int cor_x)
 {
@@ -91,7 +91,6 @@ void		ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray)
 	if (height < 0.01)
 		height = 0.01;
 	all->depthBuffer[cor_x] = height;
-	//height = (all->win->res_y / height);
 	height = (((float)all->win->res_x / 2) * (1 / tanf(FOV / 2)) / height);
 	ft_logic_wall(all, inter, cor_x, height);
 }

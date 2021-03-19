@@ -1,19 +1,41 @@
-# ifndef CUB3D_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/20 02:16:23 by cmarguer          #+#    #+#             */
+/*   Updated: 2021/03/20 02:22:56 by cmarguer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CUB3D_H
 # define CUB3D_H
 
-#include "./libft/libft.h"
-#include "./get_next_line/get_next_line.h"
-#include <fcntl.h>
-#include <mlx.h>
-#include <math.h>
-#include <stdio.h>
+# include <string.h>
+# include <errno.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <math.h>
 
-# define FOV  M_PI / 3
+# include "mlx/mlx.h"
+# include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
+
+# define PI 3.14159265359
+# define PI_2 1.570796327
+# define PI_6 0.523598776
+# define PI_3 1.047197551
+# define FOV PI_3
 # define SPEED 0.35
 # define VALID_MAP_SYMB " 012NESW"
 # define VALID_FC_SYMB " 0123456789,"
 # define VALID_R_SYMB " 0123456789"
 # define MAX_INT	"2147483647"
+
 typedef struct	s_win
 {
 	void		*mlx;
@@ -93,6 +115,8 @@ typedef struct	s_texture
 
 typedef struct	s_inter
 {
+	int			minus_y;
+	int			minus_x;
 	int			hit;
 	float		x;
 	float		y;
@@ -121,7 +145,7 @@ typedef struct	s_plr
 	float		dir;
 	float		start;
 	float		end;
-}				  t_plr;
+}				t_plr;
 
 typedef struct	s_all
 {
@@ -130,7 +154,7 @@ typedef struct	s_all
 	t_sprite	**spr;
 	char		**map;
 	char		**parcer_map;
-	float		*depthBuffer;
+	float		*depthbuffer;
 	int			map_height;
 }				t_all;
 
@@ -160,7 +184,8 @@ void			ft_draw_pixel_ray(t_win *window, int i, int j, int color);
 void			pixel_put(t_win *win, int x, int y, int color);
 void			ft_draw_player2(t_all *all, t_plr *pl);
 void			vert_intersaction(t_all *all, float curr_ray, t_inter *inter);
-void			horizontal_intersaction(t_all *all, float curr_ray, t_inter *inter);
+void			horizontal_intersaction(t_all *all,
+					float curr_ray, t_inter *inter);
 int				get_color(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 char			**make_map(t_list **head, int size);
@@ -194,4 +219,9 @@ void			ft_parcer_map(t_all *all, int i);
 void			ft_freemap(char **map);
 void			ft_count_2(t_all *all);
 void			mlx_get_screen_size(int *width, int *height);
+void			ft_check_r(char *r, int j);
+void			ft_parcer_r(t_all *all, char *str, int j);
+void			ft_preparcer(t_all *all);
+void			ft_afterparcer(t_all *all, int parametr);
+
 #endif

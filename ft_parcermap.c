@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:47:43 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 22:58:32 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:27:06 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static	void	ft_checkmap3(t_all *all, char **map, int j, int i)
 {
@@ -96,7 +96,9 @@ static	void	ft_checkmap(char **map, t_all *all)
 		{
 			if (!ft_strrchr(VALID_MAP_SYMB, map[y][x]))
 				ft_perror("Error\n");
-			if (map[y][x] == '0' || map[y][x] == '2' || map[y][x] == 'S' || map[y][x] == 'N' || map[y][x] == 'W' || map[y][x] == 'E')
+			if (map[y][x] == '0' || map[y][x] == '2'
+			|| map[y][x] == 'S' || map[y][x] == 'N'
+			|| map[y][x] == 'W' || map[y][x] == 'E')
 			{
 				ft_checkmap2(all, map, y, x);
 				if (map[y + 1][x] == ' ')

@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:50:30 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/13 13:01:15 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:25:40 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void				ft_draw_player2(t_all *all, t_plr *pl)
 {

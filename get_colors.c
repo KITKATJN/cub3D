@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:29:58 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 10:16:24 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:25:44 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 int			get_color(t_win *win, int x, int y)
 {

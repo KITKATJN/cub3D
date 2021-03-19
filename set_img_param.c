@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:25:38 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 10:16:03 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:25:51 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void	ft_set_hor_param(t_all *all, t_inter *inter, float ray)
 {

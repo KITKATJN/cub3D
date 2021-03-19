@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:18:37 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 10:42:12 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:25:00 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void		ft_check_colorf2(char *color)
 {

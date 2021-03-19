@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:02:42 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 22:49:03 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:25:53 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void	ft_swap(t_all *all, int i, int j)
 {
@@ -23,7 +23,7 @@ void	ft_swap(t_all *all, int i, int j)
 
 void ft_qsort(t_all *all,int left, int right)
 {
-	t_sprite *pivot; 
+	t_sprite *pivot;
 	int l_hold = left;
 	int r_hold = right;
 	int tmp;

@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 20:47:20 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/19 20:47:25 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:24:34 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void draw_screen(t_all *all)
 {

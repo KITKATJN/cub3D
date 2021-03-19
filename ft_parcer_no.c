@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 09:54:21 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/18 10:26:37 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:25:05 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void	ft_parcer_no(t_all *all, char *str, int start)
 {
