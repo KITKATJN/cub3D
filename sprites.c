@@ -154,15 +154,16 @@ void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
 	{
 		drspr->res_x = all->win->res_y;
 		drspr->res_y = all->win->res_x;
-		drspr->kef = (float)((float)all->win->res_x / (float)all->win->res_y);
+		drspr->kef = (float)((float)all->win->res_x / (float)all->win->res_y) + 0.23 + 0.1 * (int)((float)all->win->res_y / (float)all->win->res_x / 2);
 	}
 	else
-		drspr->kef = (float)((float)drspr->res_y / (float)all->win->res_x) + 0.05;
+		drspr->kef = (float)((float)drspr->res_x / (float)all->win->res_y) / 10 + 0.74 + 0.2 * (int)((float)all->win->res_x / (float)all->win->res_y / 2);
 	drspr->fobjceil = (float)(drspr->res_y / 2.0)
 		- drspr->res_y/ ((float)(all->spr[i]->dist));
 	drspr->fobjfloor = drspr->res_y - drspr->fobjceil;
 	//drspr->fobjFloor = ((float)all->win->res_x / 2) * (1 / tanf(FOV / 2)) - drspr->fobjCeil;
 	drspr->fobjheight = (drspr->fobjfloor - drspr->fobjceil) * drspr->kef;
+	printf("height = %f floor = %f ceil = %f kef = %f fff = %f\n", drspr->fobjheight, drspr->fobjfloor, drspr->fobjceil, drspr->kef, ((float)all->win->res_y/ (float)all->win->res_x / 2));
 	drspr->fobjaspectratio = (float)all->win->s_height
 		/ (float)all->win->s_width;
 	drspr->fobjwidth = drspr->fobjheight / drspr->fobjaspectratio;
