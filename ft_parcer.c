@@ -96,10 +96,11 @@ void	ft_parcer_r(t_all *all, char *str, int j)
 	free(res_x);
 	mlx_get_screen_size(&width, &height);
 	if (all->win->res_y > height)
-		all->win->res_y = height;
-	printf("width %d\n", width);
+		all->win->res_y = height - 1;
+	//printf("width %d\n", width);
 	if (all->win->res_x > width)
-		all->win->res_x = width;
+		all->win->res_x = width - 1;
+	printf("width %d  %d  nashi %d %d del %f\n", width, height, all->win->res_x, all->win->res_y, (float)((float)all->win->res_y / (float)all->win->res_x));
 	//mlx_get_screen_size(&all->win->res_y, &all->win->res_y);
 }
 

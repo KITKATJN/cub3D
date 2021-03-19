@@ -106,11 +106,11 @@ void				ft_sort_sprite(t_all *all)
 		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x))
 			* (cosf(all->plr->dir))
 			+ ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
-		// if (all->spr[k]->dist < 3.5)
-		// 	all->spr[k]->dist = sqrtf((all->spr[k]->x
-		// 		- all->plr->x) * (all->spr[k]->x - all->plr->x)
-		// 			+ (all->plr->y - all->spr[k]->y)
-		// 				* (all->plr->y - all->spr[k]->y));
+		if (all->spr[k]->dist < 3.5)
+			all->spr[k]->dist = sqrtf((all->spr[k]->x
+				- all->plr->x) * (all->spr[k]->x - all->plr->x)
+					+ (all->plr->y - all->spr[k]->y)
+						* (all->plr->y - all->spr[k]->y));
 	}
 	ft_qsort(all, 0, all->win->count_2 - 1);
 	//ft_sort_sprite2(all, sp);
@@ -126,21 +126,21 @@ void				ft_sort_sprite(t_all *all)
 
 void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 {
-	drspr->fSamplex = drspr->lx / drspr->fObjWidth;
-	drspr->fSampley = drspr->ly / drspr->fobjHeight;
-	drspr->nObjColumn = (int)(drspr->fMiddleObj + drspr->lx -
-		(drspr->fObjWidth / 2.0f));
-	if (drspr->nObjColumn >= 0 && drspr->nObjColumn < all->win->res_x)
+	drspr->fsamplex = drspr->lx / drspr->fobjwidth;
+	drspr->fsampley = drspr->ly / drspr->fobjheight;
+	drspr->nobjcolumn = (int)(drspr->fmiddleobj + drspr->lx -
+		(drspr->fobjwidth / 2.0f));
+	if (drspr->nobjcolumn >= 0 && drspr->nobjcolumn < all->win->res_x)
 	{
-		drspr->color_spr = get_color_s(all->win, drspr->fSamplex *
-			all->win->s_height, drspr->fSampley * all->win->s_width);
+		drspr->color_spr = get_color_s(all->win, drspr->fsamplex *
+			all->win->s_height, drspr->fsampley * all->win->s_width);
 		if (drspr->color_spr > 1907485 &&
 			(all->depthBuffer[all->win->res_x
-				- drspr->nObjColumn]) >= (all->spr[i]->dist) && all->spr[i]->dist < 15)
+				- drspr->nobjcolumn]) >= (all->spr[i]->dist) && all->spr[i]->dist < 15)
 		{
-			if (drspr->fobjCeil + drspr->ly < all->win->res_y)
+			if (drspr->fobjceil + drspr->ly < all->win->res_y)
 				my_mlx_pixel_put(all->win, all->win->res_x
-					- drspr->nObjColumn, drspr->fobjCeil
+					- drspr->nobjcolumn, drspr->fobjceil
 						+ drspr->ly, drspr->color_spr);
 		}
 	}
@@ -148,21 +148,32 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 
 void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
 {
-	drspr->fobjCeil = (float)(all->win->res_y / 2.0)
-		- all->win->res_y / ((float)(all->spr[i]->dist));
-	drspr->fobjFloor = all->win->res_y - drspr->fobjCeil;
-	drspr->fobjHeight = (drspr->fobjFloor - drspr->fobjCeil) * 0.89;
-	drspr->fObjAspectRatio = (float)all->win->s_height
+	drspr->res_x = all->win->res_x;
+	drspr->res_y = all->win->res_y;
+	if (all->win->res_x < all->win->res_y)
+	{
+		drspr->res_x = all->win->res_y;
+		drspr->res_y = all->win->res_x;
+		drspr->kef = (float)((float)all->win->res_x / (float)all->win->res_y);
+	}
+	else
+		drspr->kef = (float)((float)drspr->res_y / (float)all->win->res_x) + 0.05;
+	drspr->fobjceil = (float)(drspr->res_y / 2.0)
+		- drspr->res_y/ ((float)(all->spr[i]->dist));
+	drspr->fobjfloor = drspr->res_y - drspr->fobjceil;
+	//drspr->fobjFloor = ((float)all->win->res_x / 2) * (1 / tanf(FOV / 2)) - drspr->fobjCeil;
+	drspr->fobjheight = (drspr->fobjfloor - drspr->fobjceil) * drspr->kef;
+	drspr->fobjaspectratio = (float)all->win->s_height
 		/ (float)all->win->s_width;
-	drspr->fObjWidth = drspr->fobjHeight / drspr->fObjAspectRatio;
-	drspr->fMiddleObj = (0.5f * (drspr->ang
+	drspr->fobjwidth = drspr->fobjheight / drspr->fobjaspectratio;
+	drspr->fmiddleobj = (0.5f * (drspr->ang
 		/ (FOV / 2.0f)) + 0.5f) * (float)all->win->res_x;
 	drspr->lx = -1;
 	drspr->ly = -1;
-	while (++drspr->lx < drspr->fObjWidth)
+	while (++drspr->lx < drspr->fobjwidth)
 	{
 		drspr->ly = -1;
-		while (++drspr->ly < drspr->fobjHeight)
+		while (++drspr->ly < drspr->fobjheight)
 			ft_paint_spr(all, drspr, i);
 	}
 }
