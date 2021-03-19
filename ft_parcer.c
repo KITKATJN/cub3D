@@ -1,5 +1,6 @@
 #include "cub3D.h"
 
+
 void	ft_count_2(t_all *all)
 {
 	int i;
@@ -79,6 +80,8 @@ void	ft_parcer_r(t_all *all, char *str, int j)
 {
 	char *ptr;
 	char *res_x;
+	int height;
+	int width;
 
 	ft_check_r(str, j);
 	ptr = str;
@@ -91,6 +94,13 @@ void	ft_parcer_r(t_all *all, char *str, int j)
 	if (all->win->res_y <= 0)
 		ft_perror("Res_y not positive");
 	free(res_x);
+	mlx_get_screen_size(&width, &height);
+	if (all->win->res_y > height)
+		all->win->res_y = height;
+	printf("width %d\n", width);
+	if (all->win->res_x > width)
+		all->win->res_x = width;
+	//mlx_get_screen_size(&all->win->res_y, &all->win->res_y);
 }
 
 void	ft_preparcer(t_all *all)

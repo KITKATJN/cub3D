@@ -190,4 +190,5 @@ void			ft_parcer_c(t_all *all, char *str, int start);
 void			ft_parcer_map(t_all *all, int i);
 void			ft_freemap(char **map);
 void			ft_count_2(t_all *all);
+void			mlx_get_screen_size(int *width, int *height);
 #endif

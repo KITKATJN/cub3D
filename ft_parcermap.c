@@ -147,7 +147,6 @@ void			ft_parcer_map(t_all *all, int i)
 	{
 		map[++size] = ft_strdup(all->parcer_map[i++]);
 	}
-	ft_freemap(all->parcer_map);
 	ft_checkmap(map, all);
 	all->map = map;
 	ft_count_2(all);

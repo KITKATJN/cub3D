@@ -112,8 +112,8 @@ void				ft_sort_sprite(t_all *all)
 		// 			+ (all->plr->y - all->spr[k]->y)
 		// 				* (all->plr->y - all->spr[k]->y));
 	}
-	//ft_qsort(all, 0, all->win->count_2 - 1);
-	ft_sort_sprite2(all, sp);
+	ft_qsort(all, 0, all->win->count_2 - 1);
+	//ft_sort_sprite2(all, sp);
 
 	// i=0;
 	// while (i < all->win->count_2)
@@ -136,7 +136,7 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 			all->win->s_height, drspr->fSampley * all->win->s_width);
 		if (drspr->color_spr > 1907485 &&
 			(all->depthBuffer[all->win->res_x
-				- drspr->nObjColumn]) >= (all->spr[i]->dist))
+				- drspr->nObjColumn]) >= (all->spr[i]->dist) && all->spr[i]->dist < 15)
 		{
 			if (drspr->fobjCeil + drspr->ly < all->win->res_y)
 				my_mlx_pixel_put(all->win, all->win->res_x

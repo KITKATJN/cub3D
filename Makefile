@@ -19,9 +19,9 @@ OBJ		= $(SRCS:.c=.o)
 OBJS		= $(addprefix $(OBJRID), $(OBJ))
 
 
-CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=address
-#MLX_FLAGS	= -framework OpenGL -framework AppKit
-MLX_FLAGS = -lXext -lX11 -lm #linux
+CFLAGS		= size_monitor.m -Wall -Werror -Wextra -g -fsanitize=address
+MLX_FLAGS	= -framework OpenGL -framework AppKit
+#MLX_FLAGS = -lXext -lX11 -lm #linux
 OPTFLAGS	= -O3
 LEAKFLAGS	= -ggdb3 -std=c11
 
@@ -33,18 +33,18 @@ GNL_A		= gnl.a
 
 
 LIBFTD		= libft/
-#MLXD		= mlx/#mac
-MLXD		= minilibx-linux/
+MLXD		= mlx/#mac
+#MLXD		= minilibx-linux/
 GNLD		= get_next_line/
 OBJRID		= objs/
 
 CUB_H		= -I cub3d.h
-#LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A) #mac
-LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A) #linux
+LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A) #mac
+#LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A) #linux
 
 all:	$(NAME)
 
-$(NAME): $(OBJS) #cub3d.h
+$(NAME): $(OBJS) cub3d.h
 	@make -C $(MLXD)
 	@make -C $(LIBFTD)
 	@make -C $(LIBFTD) bonus

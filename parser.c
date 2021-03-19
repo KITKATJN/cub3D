@@ -79,19 +79,19 @@ int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
 	//printf("key %d \n", key);
-	if (key == 100)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
+	if (key == 2)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
 	{
 		all->plr->dir -= 0.03;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
-	if (key == 97) //  0 97
+	if (key == 0) //  0 97
 	{
 		all->plr->dir += 0.03;
 		if (all->plr->dir < 0)
 			all->plr->dir += 2 * M_PI;
 	}
-	if (key == 119)// 13 119
+	if (key == 13)// 13 119
 	{
 		all->plr->y -= sin(all->plr->dir ) * SPEED;
 		all->plr->x += cos(all->plr->dir) * SPEED;
@@ -101,7 +101,7 @@ int key_press(int key, t_all *all)
 			all->plr->x -= cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 115) // 1 115
+	if (key == 1) // 1 115
 	{
 		all->plr->y += sin(all->plr->dir) * SPEED;
 		all->plr->x -= cos(all->plr->dir) * SPEED;
@@ -133,8 +133,11 @@ int key_press(int key, t_all *all)
 			all->plr->y += cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 65307)// 53 65307
+	if (key == 53)// 53 65307
+	{
+		//ft_freemap(all->parcer_map);
 		exit(0);
+	}
 	draw_screen(all);
 	return (0);
 }

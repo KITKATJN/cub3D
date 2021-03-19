@@ -17,10 +17,12 @@ int	ft_atoi(const char *nptr)
 	int		i;
 	long	j;
 	int		minus;
+	int		c1;
 
 	i = 0;
 	j = 0;
 	minus = 1;
+	c1 = -1;
 	while (nptr[i] == ' ' || nptr[i] == '	' || nptr[i] == '\n'
 			|| nptr[i] == '\t' || nptr[i] == '\f' ||
 			nptr[i] == '\r' || nptr[i] == '\v')
@@ -35,6 +37,8 @@ int	ft_atoi(const char *nptr)
 	{
 		j = (j * 10) + (nptr[i] - 48);
 		i++;
+		if (++c1 > 4)
+			return (-1);
 	}
 	return ((int)(j * minus));
 }
