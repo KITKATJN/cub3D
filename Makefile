@@ -19,7 +19,7 @@ OBJ		= $(SRCS:.c=.o)
 OBJS		= $(addprefix $(OBJRID), $(OBJ))
 
 
-CFLAGS		= size_monitor.m -Wall -Werror -Wextra #-g -fsanitize=address
+CFLAGS		= size_monitor.m -Wall -Werror -Wextra -g -fsanitize=address
 MLX_FLAGS	= -framework OpenGL -framework AppKit
 #MLX_FLAGS = -lXext -lX11 -lm #linux
 OPTFLAGS	= -O3

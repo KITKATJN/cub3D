@@ -23,53 +23,39 @@ void	ft_swap(t_all *all, int i, int j)
 
 void ft_qsort(t_all *all,int left, int right)
 {
+	t_sprite *pivot; 
+	int l_hold = left;
+	int r_hold = right;
+	int tmp;
 
-	t_sprite *pivot; // разрешающий элемент
-  int l_hold = left; //левая граница
-  int r_hold = right; // правая граница
-  pivot = all->spr[left];
-  while (left < right) // пока границы не сомкнутся
-  {
-    while ((all->spr[right]->dist <= pivot->dist) && (left < right))
-      right--; // сдвигаем правую границу пока элемент [right] больше [pivot]
-    if (left != right) // если границы не сомкнулись
-    {
-      all->spr[left] = all->spr[right]; // перемещаем элемент [right] на место разрешающего
-      left++; // сдвигаем левую границу вправо
-    }
-    while ((all->spr[left]->dist >= pivot->dist) && (left < right))
-      left++; // сдвигаем левую границу пока элемент [left] меньше [pivot]
-    if (left != right) // если границы не сомкнулись
-    {
-      all->spr[right] = all->spr[left]; // перемещаем элемент [left] на место [right]
-      right--; // сдвигаем правую границу вправо
-    }
-  }
-  all->spr[left] = pivot; // ставим разрешающий элемент на место
-  int tmp;
-  tmp = left;
-  left = l_hold;
-  right = r_hold;
-  if (left < tmp) // Рекурсивно вызываем сортировку для левой и правой части массива
-    ft_qsort(all, left, tmp - 1);
-  if (right > tmp)
-    ft_qsort(all, tmp + 1, right);
-
-	// int l = b, r = e;
-	// int piv = all->spr[(l + r) / 2]->dist; // Опорным элементом для примера возьмём средний
-	// while (l <= r)
-	// {
-	// 	while (all->spr[l]->dist < piv)
-	// 		l++;
-	// 	while (all->spr[r]->dist > piv)
-	// 		r--;
-	// 	if (l <= r)
-	// 		ft_swap(all, l++, r--);
-	// }
-	// if (b < r)
-	// 	ft_qsort (all, b, r);
-	// if (e > l)
-	// 	ft_qsort (all, l, e);
+	l_hold = left;
+	r_hold = right;
+	pivot = all->spr[left];
+	while (left < right)
+	{
+		while ((all->spr[right]->dist <= pivot->dist) && (left < right))
+			right--;
+		if (left != right)
+		{
+			all->spr[left] = all->spr[right];
+			left++;
+		}
+		while ((all->spr[left]->dist >= pivot->dist) && (left < right))
+			left++;
+		if (left != right)
+		{
+			all->spr[right] = all->spr[left];
+			right--;
+		}
+	}
+	all->spr[left] = pivot;
+	tmp = left;
+	left = l_hold;
+	right = r_hold;
+	if (left < tmp)
+		ft_qsort(all, left, tmp - 1);
+	if (right > tmp)
+		ft_qsort(all, tmp + 1, right);
 }
 
 static	void		ft_sort_sprite2(t_all *all, t_sprite *sp)
@@ -113,15 +99,6 @@ void				ft_sort_sprite(t_all *all)
 						* (all->plr->y - all->spr[k]->y));
 	}
 	ft_qsort(all, 0, all->win->count_2 - 1);
-	//ft_sort_sprite2(all, sp);
-
-	// i=0;
-	// while (i < all->win->count_2)
-	// {
-	// 	printf("dist%d = %f\n", i +1, all->spr[i]->dist);
-	// 	i++;
-	// }
-
 }
 
 void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
@@ -136,7 +113,7 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 			all->win->s_height, drspr->fsampley * all->win->s_width);
 		if (drspr->color_spr > 1907485 &&
 			(all->depthBuffer[all->win->res_x
-				- drspr->nobjcolumn]) >= (all->spr[i]->dist) && all->spr[i]->dist < 15)
+				- drspr->nobjcolumn]) >= (all->spr[i]->dist) && all->spr[i]->dist < 20)
 		{
 			if (drspr->fobjceil + drspr->ly < all->win->res_y)
 				my_mlx_pixel_put(all->win, all->win->res_x
@@ -161,7 +138,6 @@ void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
 	drspr->fobjceil = (float)(drspr->res_y / 2.0)
 		- drspr->res_y/ ((float)(all->spr[i]->dist));
 	drspr->fobjfloor = drspr->res_y - drspr->fobjceil;
-	//drspr->fobjFloor = ((float)all->win->res_x / 2) * (1 / tanf(FOV / 2)) - drspr->fobjCeil;
 	drspr->fobjheight = (drspr->fobjfloor - drspr->fobjceil) * drspr->kef;
 	printf("height = %f floor = %f ceil = %f kef = %f fff = %f\n", drspr->fobjheight, drspr->fobjfloor, drspr->fobjceil, drspr->kef, ((float)all->win->res_y/ (float)all->win->res_x / 2));
 	drspr->fobjaspectratio = (float)all->win->s_height
