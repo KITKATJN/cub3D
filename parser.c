@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/19 20:47:20 by cmarguer          #+#    #+#             */
+/*   Updated: 2021/03/19 20:47:25 by cmarguer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void draw_screen(t_all *all)
@@ -79,13 +91,13 @@ int key_press(int key, t_all *all)
 {
 	mlx_clear_window(all->win->mlx, all->win->win);
 	//printf("key %d \n", key);
-	if (key == 2)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
+	if (key == 124)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
 	{
 		all->plr->dir -= 0.03;
 		if (all->plr->dir > 2 * M_PI)
 			all->plr->dir -= 2 * M_PI;
 	}
-	if (key == 0) //  0 97
+	if (key == 123) //  0 97
 	{
 		all->plr->dir += 0.03;
 		if (all->plr->dir < 0)
@@ -112,7 +124,7 @@ int key_press(int key, t_all *all)
 			all->plr->x += cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 124) // 124
+	if (key == 2) // 124
 	{
 		all->plr->x += sin(all->plr->dir) * SPEED;
 		all->plr->y += cos(all->plr->dir) * SPEED;
@@ -123,7 +135,7 @@ int key_press(int key, t_all *all)
 			all->plr->y -= cos(all->plr->dir) * SPEED;
 		}
 	}
-	if (key == 123) // 123
+	if (key == 0) // 123
 	{
 		all->plr->x -= sin(all->plr->dir) * SPEED;
 		all->plr->y -= cos(all->plr->dir) * SPEED;

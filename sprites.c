@@ -139,7 +139,6 @@ void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
 		- drspr->res_y/ ((float)(all->spr[i]->dist));
 	drspr->fobjfloor = drspr->res_y - drspr->fobjceil;
 	drspr->fobjheight = (drspr->fobjfloor - drspr->fobjceil) * drspr->kef;
-	printf("height = %f floor = %f ceil = %f kef = %f fff = %f\n", drspr->fobjheight, drspr->fobjfloor, drspr->fobjceil, drspr->kef, ((float)all->win->res_y/ (float)all->win->res_x / 2));
 	drspr->fobjaspectratio = (float)all->win->s_height
 		/ (float)all->win->s_width;
 	drspr->fobjwidth = drspr->fobjheight / drspr->fobjaspectratio;
