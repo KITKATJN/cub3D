@@ -34,7 +34,7 @@ void	ft_count_2(t_all *all)
 			{
 				sprite = malloc(sizeof(t_sprite));
 				if (!sprite)
-					ft_perror("Error with malloc in ft_count2");
+					ft_perror("Error\n");
 				sprite->x = j + 0.5f;
 				sprite->y = i + 0.5f;
 				all->spr[k++] = sprite;
@@ -55,7 +55,7 @@ void ft_check_r(char *r, int j)
 	i = j;
 	while (r[++i] != '\0')
 		if (!ft_strrchr(VALID_R_SYMB, r[i]))
-			ft_perror("Invalid symbol in R");
+			ft_perror("Error\n");
 	check = 0;
 	amount = 0;
 	i = 0;
@@ -65,7 +65,6 @@ void ft_check_r(char *r, int j)
 			check = 1;
 		if (!ft_isdigit(r[i]) && check == 1)
 		{
-			printf("g = %c\n", r[i-3]);
 			amount++;
 			check = 0;
 		}
@@ -73,7 +72,7 @@ void ft_check_r(char *r, int j)
 	if (check == 1)
 		amount++;
 	if (amount != 2)
-		ft_perror("Wrong amount of numbers in R");
+		ft_perror("Error\n");
 }
 
 void	ft_parcer_r(t_all *all, char *str, int j)
@@ -87,12 +86,12 @@ void	ft_parcer_r(t_all *all, char *str, int j)
 	ptr = str;
 	all->win->res_x = ft_atoi(ptr + j);
 	if (all->win->res_x <= 0)
-		ft_perror("Res_x not positive");
+		ft_perror("Error\n");
 	res_x = ft_itoa(all->win->res_x);
 	ptr = ft_strnstr(str, res_x, ft_strlen(str));
 	all->win->res_y = ft_atoi(ptr + ft_strlen(res_x));
 	if (all->win->res_y <= 0)
-		ft_perror("Res_y not positive");
+		ft_perror("Error\n");
 	free(res_x);
 	mlx_get_screen_size(&width, &height);
 	if (all->win->res_y > height)
@@ -123,23 +122,23 @@ void	ft_preparcer(t_all *all)
 void ft_afterparcer(t_all *all, int parametr)
 {
 	if (all->win->res_x == 0 || all->win->res_y == 0)
-		ft_perror("No R");
+		ft_perror("Error\n");
 	if (all->map == 0)
-		ft_perror("No map");
+		ft_perror("Error\n");
 	if (all->win->c_color == 0)
-		ft_perror("No c color");
+		ft_perror("Error\n");
 	if (all->win->f_color == 0)
-		ft_perror("No f color");
+		ft_perror("Error\n");
 	if (all->win->s_path == 0)
-		ft_perror("No s path");
+		ft_perror("Error\n");
 	if (all->win->ea_path == 0)
-		ft_perror("No ea path");
+		ft_perror("Error\n");
 	if (all->win->so_path == 0)
-		ft_perror("No so path");
+		ft_perror("Error\n");
 	if (all->win->we_path == 0)
-		ft_perror("No we path");
+		ft_perror("Error\n");
 	if (parametr != 8)
-		ft_perror("Wrong numbers of parametrs before map");
+		ft_perror("Error\n");
 }
 
 void	ft_parcer(t_all *all)

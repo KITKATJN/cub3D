@@ -23,10 +23,10 @@ void	ft_parcer_no(t_all *all, char *str, int start)
 			start++;
 		all->win->no_path = ft_substr(str, start, ft_strlen(str));
 		if (!all->win->no_path)
-			ft_perror("Wrong with malloc in no path");
+			ft_perror("Error\n");
 	}
 	else
-		ft_perror("double NO redefinition!");
+		ft_perror("Error\n");
 }
 
 void	ft_parcer_so(t_all *all, char *str, int start)
@@ -40,10 +40,10 @@ void	ft_parcer_so(t_all *all, char *str, int start)
 			start++;
 		all->win->so_path = ft_substr(str, start, ft_strlen(str));
 		if (!all->win->so_path)
-			ft_perror("Wrong with malloc in so path");
+			ft_perror("Error\n");
 	}
 	else
-		ft_perror("double SO redefinition!");
+		ft_perror("Error\n");
 }
 
 void	ft_parcer_we(t_all *all, char *str, int start)
@@ -57,10 +57,10 @@ void	ft_parcer_we(t_all *all, char *str, int start)
 			start++;
 		all->win->we_path = ft_substr(str, start, ft_strlen(str));
 		if (!all->win->we_path)
-			ft_perror("Wrong with malloc in we path");
+			ft_perror("Error\n");
 	}
 	else
-		ft_perror("double WE redefinition!");
+		ft_perror("Error\n");
 }
 
 void	ft_parcer_ea(t_all *all, char *str, int start)
@@ -74,10 +74,10 @@ void	ft_parcer_ea(t_all *all, char *str, int start)
 			start++;
 		all->win->ea_path = ft_substr(str, start, ft_strlen(str));
 		if (!all->win->ea_path)
-			ft_perror("Wrong with malloc in ea path");
+			ft_perror("Error\n");
 	}
 	else
-		ft_perror("double EA redefinition!");
+		ft_perror("Error\n");
 }
 
 void	ft_parcer_s(t_all *all, char *str, int start)
@@ -91,8 +91,8 @@ void	ft_parcer_s(t_all *all, char *str, int start)
 			start++;
 		all->win->s_path = ft_substr(str, start, ft_strlen(str));
 		if (!all->win->s_path)
-			ft_perror("Wrong with malloc in s path");
+			ft_perror("Error\n");
 	}
 	else
-		ft_perror("double S redefinition!");
+		ft_perror("Error\n");
 }

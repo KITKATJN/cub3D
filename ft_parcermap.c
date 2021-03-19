@@ -28,7 +28,7 @@ static	void	ft_checkmap3(t_all *all, char **map, int j, int i)
 			break ;
 		}
 	if (!check)
-		ft_perror("Error with map5");
+		ft_perror("Error\n");
 	x = i;
 	y = j;
 	check = 0;
@@ -41,7 +41,7 @@ static	void	ft_checkmap3(t_all *all, char **map, int j, int i)
 		}
 	}
 	if (!check)
-		ft_perror("Error with map6");
+		ft_perror("Error\n");
 }
 
 static	void	ft_checkmap2(t_all *all, char **map, int y, int x)
@@ -57,7 +57,7 @@ static	void	ft_checkmap2(t_all *all, char **map, int y, int x)
 		if (map[y][x++] == '1')
 			check = 1;
 	if (!check)
-		ft_perror("Error with map");
+		ft_perror("Error\n");
 	x = i;
 	y = j;
 	check = 0;
@@ -65,7 +65,7 @@ static	void	ft_checkmap2(t_all *all, char **map, int y, int x)
 		if (map[y][x--] == '1')
 			check = 1;
 	if (!check)
-		ft_perror("Error with map");
+		ft_perror("Error\n");
 	ft_checkmap3(all, map, j, i);
 }
 
@@ -90,23 +90,23 @@ static	void	ft_checkmap(char **map, t_all *all)
 				i++;
 			}
 		if (i == 2 * all->map_height)
-			ft_perror("Empty Line in MAP!");
+			ft_perror("Error\n");
 		x = -1;
 		while (map[y][++x] != '\0')
 		{
 			if (!ft_strrchr(VALID_MAP_SYMB, map[y][x]))
-				ft_perror("Invalid map symbol");
+				ft_perror("Error\n");
 			if (map[y][x] == '0' || map[y][x] == '2' || map[y][x] == 'S' || map[y][x] == 'N' || map[y][x] == 'W' || map[y][x] == 'E')
 			{
 				ft_checkmap2(all, map, y, x);
 				if (map[y + 1][x] == ' ')
-					ft_perror("Error in map");
+					ft_perror("Error\n");
 				if (map[y][x + 1] == ' ')
-					ft_perror("Error in map");
+					ft_perror("Error\n");
 				if (map[y - 1][x] == ' ')
-					ft_perror("Error in map");
+					ft_perror("Error\n");
 				if (map[y][x - 1] == ' ')
-					ft_perror("Error in map");
+					ft_perror("Error\n");
 			}
 		}
 	}
@@ -141,7 +141,7 @@ void			ft_parcer_map(t_all *all, int i)
 	all->map_height = size;
 	map = ft_calloc(size + 1, sizeof(char *));
 	if (!map)
-		ft_perror("Error with malloc in ft_parcer_map");
+		ft_perror("Error\n");
 	size = -1;
 	while (all->parcer_map[i])
 	{

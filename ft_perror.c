@@ -15,5 +15,5 @@
 void ft_perror(char *error)
 {
 	perror(error);
-	exit (1);
+	exit (-1);
 }

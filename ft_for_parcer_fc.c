@@ -28,7 +28,7 @@ void		ft_check_colorf2(char *color)
 			if (check == 0)
 				check = 1;
 			if (check == 2)
-				ft_perror("Error with , in  F or C");
+				ft_perror("Error\n");
 		}
 		if (check == 1 && !ft_isdigit(color[i]))
 			check = 2;
@@ -54,7 +54,7 @@ int			ft_check_max_int(char *color)
 	if (ft_strlen(color) < ft_strlen(MAX_INT))
 		return (0);
 	if (check > ft_strlen(MAX_INT))
-		ft_perror("Wrong value of number in F or C");
+		ft_perror("Error\n");
 }
 
 void		ft_check_colorf(char *color)
@@ -63,10 +63,10 @@ void		ft_check_colorf(char *color)
 	int		check;
 
 	if (!color)
-		ft_perror("Error with malloc in F");
+		ft_perror("Error\n");
 	printf("her2 %d \n", ft_atoi(color));
 	if (ft_atoi(color) < 0 || ft_atoi(color) > 255 || ft_check_max_int(color))
-		ft_perror("Wrong value of number in F or C");
+		ft_perror("Error\n");
 	i = 0;
 	check = 0;
 	while (color[i] != 0)
@@ -81,7 +81,7 @@ void		ft_check_colorf(char *color)
 		i++;
 	}
 	if (!check)
-		ft_perror("Error with , in  F or C");
+		ft_perror("Error\n");
 }
 
 void		ft_check_f(char *f)
@@ -93,7 +93,7 @@ void		ft_check_f(char *f)
 	while (f[i] != '\0')
 	{
 		if (!ft_strrchr(VALID_FC_SYMB, f[i]))
-			ft_perror("Invalid symbol in F or C");
+			ft_perror("Error\n");
 		i++;
 	}
 	check = 0;
@@ -101,7 +101,7 @@ void		ft_check_f(char *f)
 	while (i > 0)
 	{
 		if (f[i] == ',' && check == 0)
-			ft_perror("Error with , in  F or C");
+			ft_perror("Error\n");
 		if (ft_isdigit(f[i]))
 			check = 1;
 		i--;
@@ -131,5 +131,5 @@ void		ft_check_number_of_digit(char *f)
 	if (check1)
 		amount++;
 	if (amount != 3)
-		ft_perror("Wrong amount of numbers in F or C");
+		ft_perror("Error\n");
 }
