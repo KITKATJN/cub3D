@@ -6,152 +6,17 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 20:47:20 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 02:24:34 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:56:34 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void draw_screen(t_all *all)
+void	draw_screen(t_all *all)
 {
 	ft_sort_sprite(all);
 	ft_draw_player2(all, all->plr);
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
-}
-
-void ft_plr_check(t_plr *plr)
-{
-	if (plr->x == -1)
-		return ;
-	else
-		ft_perror("Error\n");
-}
-
-void ft_init_plr(char **map, t_plr *plr)
-{
-	t_point pos;
-
-	ft_bzero(&pos, sizeof(t_point));
-	while (map[pos.y])
-	{
-		pos.x = 0;
-		while (map[pos.y][pos.x])
-		{
-				if (ft_strchr("N",map[pos.y][pos.x]))
-				{
-					ft_plr_check(plr);
-					plr->x = pos.x + 0.5;
-					plr->y = pos.y + 0.5;
-					plr->dir = 1 * M_PI_2;
-				}
-				if (ft_strchr("S",map[pos.y][pos.x]))
-				{
-					ft_plr_check(plr);
-					plr->x = pos.x + 0.5;
-					plr->y = pos.y + 0.5;
-					plr->dir = 3 * M_PI_2;
-				}
-				if (ft_strchr("W",map[pos.y][pos.x]))
-				{
-					ft_plr_check(plr);
-					plr->x = pos.x + 0.5;
-					plr->y = pos.y + 0.5;
-					plr->dir = M_PI;
-				}
-				if (ft_strchr("E",map[pos.y][pos.x]))
-				{
-					ft_plr_check(plr);
-					plr->x = pos.x + 0.5;
-					plr->y = pos.y + 0.5;
-					plr->dir = 0;
-				}
-				pos.x++;
-		}
-		pos.y++;
-	}
-}
-
-
-int ft_wall_collision1(t_all *all, float start_y, float start_x, float back_or_forward)
-{
-	float dist;
-	t_inter inter;
-
-	dist = sqrtf((start_x - all->plr->x) * (start_x - all->plr->x) + (start_y - all->plr->y) * (start_y - all->plr->y));
-	all->plr->dir += back_or_forward;
-	horizontal_intersaction(all, all->plr->dir, &inter);
-	vert_intersaction(all, all->plr->dir, &inter);
-	all->plr->dir -= back_or_forward;
-	if (dist < inter.hor_dist && dist < inter.vert_dist)
-		return (0);
-	return (1);
-}
-
-int key_press(int key, t_all *all)
-{
-	mlx_clear_window(all->win->mlx, all->win->win);
-	//printf("key %d \n", key);
-	if (key == 124)//здесь надо ходить по стрелочкам, а не wasd  2 linux = 100
-	{
-		all->plr->dir -= 0.03;
-		if (all->plr->dir > 2 * M_PI)
-			all->plr->dir -= 2 * M_PI;
-	}
-	if (key == 123) //  0 97
-	{
-		all->plr->dir += 0.03;
-		if (all->plr->dir < 0)
-			all->plr->dir += 2 * M_PI;
-	}
-	if (key == 13)// 13 119
-	{
-		all->plr->y -= sin(all->plr->dir ) * SPEED;
-		all->plr->x += cos(all->plr->dir) * SPEED;
-		if (ft_wall_collision1(all, (all->plr->y + sin(all->plr->dir ) * SPEED), (all->plr->x - cos(all->plr->dir) * SPEED), 0))
-		{
-			all->plr->y += sin(all->plr->dir) * SPEED;
-			all->plr->x -= cos(all->plr->dir) * SPEED;
-		}
-	}
-	if (key == 1) // 1 115
-	{
-		all->plr->y += sin(all->plr->dir) * SPEED;
-		all->plr->x -= cos(all->plr->dir) * SPEED;
-		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
-		if (ft_wall_collision1(all, (all->plr->y - sin(all->plr->dir ) * SPEED), (all->plr->x + cos(all->plr->dir) * SPEED), M_PI))
-		{
-			all->plr->y -= sin(all->plr->dir) * SPEED;
-			all->plr->x += cos(all->plr->dir) * SPEED;
-		}
-	}
-	if (key == 2) // 124
-	{
-		all->plr->x += sin(all->plr->dir) * SPEED;
-		all->plr->y += cos(all->plr->dir) * SPEED;
-		//printf("%d**%d\n", (int)all->plr->y / SCALE, (int)all->plr->x / SCALE);
-		if (all->map[(int)all->plr->y][(int)all->plr->x] == '1')
-		{
-			all->plr->x -= sin(all->plr->dir) * SPEED;
-			all->plr->y -= cos(all->plr->dir) * SPEED;
-		}
-	}
-	if (key == 0) // 123
-	{
-		all->plr->x -= sin(all->plr->dir) * SPEED;
-		all->plr->y -= cos(all->plr->dir) * SPEED;
-		if (all->map[(int)all->plr->y][(int)all->plr->x] == '1')
-		{
-			all->plr->x += sin(all->plr->dir) * SPEED;
-			all->plr->y += cos(all->plr->dir) * SPEED;
-		}
-	}
-	if (key == 53)// 53 65307
-	{
-		//ft_freemap(all->parcer_map);
-		exit(0);
-	}
-	draw_screen(all);
-	return (0);
 }
 
 int mouse(int key, t_all *all)

@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 01:48:45 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 02:25:42 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:42:32 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_screen_shot(t_all *all)
 	unsigned char *infoheader;
 
 	if ((fd = open("screenshottest.bmp", O_CREAT | O_WRONLY | O_TRUNC, 0666)) < 0)
-		ft_perror("Can't create or open file for screenshot");
+		ft_perror("Error\n");
 	fileheader = ft_fileheader(all);
 	infoheader = ft_infoheader(all);
 	if (write(fd, fileheader, 14) == -1)
@@ -92,5 +92,5 @@ void	ft_screen_shot(t_all *all)
 		y--;
 	}
 	if ((close(fd)) < 0)
-		ft_perror("Can't close file for screenshot");
+		ft_perror("Error\n");
 }

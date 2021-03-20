@@ -6,11 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 20:48:08 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 01:45:36 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:43:51 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static	void	ft_count_2v2(t_all *all, t_sprite *sprite, int j, int k)
 {

@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:16:23 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 02:22:56 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:58:41 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ typedef struct	s_sprite
 
 typedef struct	s_plr
 {
+	int			map_x;
+	int			map_y;
+	int			map_check;
 	float		x;
 	float		y;
 	float		dir;
@@ -223,5 +226,7 @@ void			ft_check_r(char *r, int j);
 void			ft_parcer_r(t_all *all, char *str, int j);
 void			ft_preparcer(t_all *all);
 void			ft_afterparcer(t_all *all, int parametr);
+void			ft_init_plr(char **map, t_plr *plr);
+int				key_press(int key, t_all *all);
 
 #endif

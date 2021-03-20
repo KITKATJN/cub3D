@@ -10,6 +10,7 @@ SRCS		= parser.c ft_rays.c \
 		sprites.c ft_parcer_no.c \
 		ft_for_parcer_fc.c ft_parcer_fc.c \
 		ft_parcermap.c ft_parcer_r.c ft_pre_after_parcer.c \
+		ft_player.c ft_free.c ft_keypress.c \
 
 
 #BONUS_S		= movin_bonus.c
