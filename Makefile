@@ -9,8 +9,9 @@ SRCS		= parser.c ft_rays.c \
 		set_img_param.c get_colors.c \
 		sprites.c ft_parcer_no.c \
 		ft_for_parcer_fc.c ft_parcer_fc.c \
-		ft_parcermap.c ft_parcer_r.c ft_pre_after_parcer.c \
-		ft_player.c ft_free.c ft_keypress.c \
+		ft_parcermap.c ft_free.c ft_plr.c \
+		ft_key_move.c parser2.c ft_pre_after.c \
+		ft_sort.c \
 
 
 #BONUS_S		= movin_bonus.c
@@ -20,7 +21,7 @@ OBJ		= $(SRCS:.c=.o)
 OBJS		= $(addprefix $(OBJRID), $(OBJ))
 
 
-CFLAGS		= size_monitor.m -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= size_monitor.m -Wall -Werror -Wextra #-g -fsanitize=address
 MLX_FLAGS	= -framework OpenGL -framework AppKit
 #MLX_FLAGS = -lXext -lX11 -lm #linux
 OPTFLAGS	= -O3

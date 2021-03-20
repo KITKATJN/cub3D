@@ -15,7 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# define BUFFER_SIZE 100 //нужен ли?
+# define BUFFER_SIZE 100
 
 int			get_next_line(int fd, char **line);
 char		*ft_strdup2(const char *s1);

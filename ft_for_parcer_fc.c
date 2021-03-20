@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:18:37 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 02:25:00 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 10:42:12 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int			ft_check_max_int(char *color)
 		return (0);
 	if (check > ft_strlen(MAX_INT))
 		ft_perror("Error\n");
+	return (0);
 }
 
 void		ft_check_colorf(char *color)

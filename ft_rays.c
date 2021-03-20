@@ -6,7 +6,7 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:50:30 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 02:25:40 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/13 13:01:15 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void				ft_draw_player2(t_all *all, t_plr *pl)
 
 	plr = *all->plr;
 	i = all->win->res_x;
-	all->depthBuffer = ft_calloc(sizeof(float), all->win->res_x);
+	all->depthbuffer = ft_calloc(sizeof(float), all->win->res_x);
 	plr.start = plr.dir - FOV / 2;
 	plr.end = plr.dir + FOV / 2;
 	while (plr.start < plr.end)

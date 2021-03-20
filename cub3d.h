@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/20 02:16:23 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 09:58:41 by cmarguer         ###   ########.fr       */
+/*   Created: 2021/03/20 18:24:24 by cmarguer          #+#    #+#             */
+/*   Updated: 2021/03/20 18:24:27 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
 
-# define PI 3.14159265359
-# define PI_2 1.570796327
-# define PI_6 0.523598776
-# define PI_3 1.047197551
-# define FOV PI_3
+# define FOV  M_PI / 3
 # define SPEED 0.35
 # define VALID_MAP_SYMB " 012NESW"
 # define VALID_FC_SYMB " 0123456789,"
@@ -115,6 +111,8 @@ typedef struct	s_texture
 
 typedef struct	s_inter
 {
+	int			mm_y;
+	int			mm_x;
 	int			minus_y;
 	int			minus_x;
 	int			hit;
@@ -138,11 +136,26 @@ typedef struct	s_sprite
 	float		dist;
 }				t_sprite;
 
+typedef struct	s_shot
+{
+	int			fd;
+	int			x;
+	int			y;
+	char		*fileheader;
+	char		*infoheader;
+	char		*dst;
+	int			color;
+}				t_shot;
+
 typedef struct	s_plr
 {
-	int			map_x;
-	int			map_y;
-	int			map_check;
+	int			l_hold;
+	int			r_hold;
+	int			x_m;
+	int			y_m;
+	int			check;
+	int			i;
+	int			j;
 	float		x;
 	float		y;
 	float		dir;
@@ -188,7 +201,7 @@ void			pixel_put(t_win *win, int x, int y, int color);
 void			ft_draw_player2(t_all *all, t_plr *pl);
 void			vert_intersaction(t_all *all, float curr_ray, t_inter *inter);
 void			horizontal_intersaction(t_all *all,
-					float curr_ray, t_inter *inter);
+	float curr_ray, t_inter *inter);
 int				get_color(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
 char			**make_map(t_list **head, int size);
@@ -222,11 +235,15 @@ void			ft_parcer_map(t_all *all, int i);
 void			ft_freemap(char **map);
 void			ft_count_2(t_all *all);
 void			mlx_get_screen_size(int *width, int *height);
-void			ft_check_r(char *r, int j);
-void			ft_parcer_r(t_all *all, char *str, int j);
-void			ft_preparcer(t_all *all);
-void			ft_afterparcer(t_all *all, int parametr);
+void			ft_freemap(char **map);
 void			ft_init_plr(char **map, t_plr *plr);
 int				key_press(int key, t_all *all);
-
+void			ft_freeall(t_all *all);
+void			ft_check_argv2(const char *argv2);
+void			draw_screen(t_all *all);
+int				mouse(int key, t_all *all);
+void			ft_preparcer(t_all *all);
+void			ft_afterparcer(t_all *all, int parametr);
+void			ft_parcer_r(t_all *all, char *str, int j);
+void			ft_qsort(t_all *all, int left, int right);
 #endif

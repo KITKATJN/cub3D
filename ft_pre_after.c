@@ -1,22 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parcer_r.c                                      :+:      :+:    :+:   */
+/*   ft_pre_after.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/20 01:27:23 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 01:28:27 by cmarguer         ###   ########.fr       */
+/*   Created: 2021/03/20 17:10:43 by cmarguer          #+#    #+#             */
+/*   Updated: 2021/03/20 17:10:46 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
-void		ft_check_r(char *r, int j)
+void			ft_preparcer(t_all *all)
 {
-	int		i;
-	int		check;
-	int		amount;
+	all->win->res_x = 0;
+	all->win->res_y = 0;
+	all->map = 0;
+	all->win->c_color = -1;
+	all->win->f_color = -1;
+	all->win->s_path = 0;
+	all->win->ea_path = 0;
+	all->win->so_path = 0;
+	all->win->we_path = 0;
+	all->win->no_path = 0;
+	all->plr->x = -1;
+}
+
+void			ft_afterparcer(t_all *all, int parametr)
+{
+	if (all->win->res_x == 0 || all->win->res_y == 0)
+		ft_perror("Error\n");
+	if (all->map == 0)
+		ft_perror("Error\n");
+	if (all->win->c_color == 0)
+		ft_perror("Error\n");
+	if (all->win->f_color == 0)
+		ft_perror("Error\n");
+	if (all->win->s_path == 0)
+		ft_perror("Error\n");
+	if (all->win->ea_path == 0)
+		ft_perror("Error\n");
+	if (all->win->so_path == 0)
+		ft_perror("Error\n");
+	if (all->win->we_path == 0)
+		ft_perror("Error\n");
+	if (parametr != 8)
+		ft_perror("Error\n");
+}
+
+static	void	ft_check_r(char *r, int j)
+{
+	int			i;
+	int			check;
+	int			amount;
 
 	i = j;
 	while (r[++i] != '\0')
@@ -41,7 +78,7 @@ void		ft_check_r(char *r, int j)
 		ft_perror("Error\n");
 }
 
-void		ft_parcer_r(t_all *all, char *str, int j)
+void			ft_parcer_r(t_all *all, char *str, int j)
 {
 	char	*ptr;
 	char	*res_x;

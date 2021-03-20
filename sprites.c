@@ -6,79 +6,11 @@
 /*   By: cmarguer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:02:42 by cmarguer          #+#    #+#             */
-/*   Updated: 2021/03/20 02:25:53 by cmarguer         ###   ########.fr       */
+/*   Updated: 2021/03/18 22:49:03 by cmarguer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	ft_swap(t_all *all, int i, int j)
-{
-	t_sprite *sp;
-
-	sp = all->spr[i];
-	all->spr[i] = all->spr[j];
-	all->spr[j] = sp;
-}
-
-void ft_qsort(t_all *all,int left, int right)
-{
-	t_sprite *pivot;
-	int l_hold = left;
-	int r_hold = right;
-	int tmp;
-
-	l_hold = left;
-	r_hold = right;
-	pivot = all->spr[left];
-	while (left < right)
-	{
-		while ((all->spr[right]->dist <= pivot->dist) && (left < right))
-			right--;
-		if (left != right)
-		{
-			all->spr[left] = all->spr[right];
-			left++;
-		}
-		while ((all->spr[left]->dist >= pivot->dist) && (left < right))
-			left++;
-		if (left != right)
-		{
-			all->spr[right] = all->spr[left];
-			right--;
-		}
-	}
-	all->spr[left] = pivot;
-	tmp = left;
-	left = l_hold;
-	right = r_hold;
-	if (left < tmp)
-		ft_qsort(all, left, tmp - 1);
-	if (right > tmp)
-		ft_qsort(all, tmp + 1, right);
-}
-
-static	void		ft_sort_sprite2(t_all *all, t_sprite *sp)
-{
-	int				k;
-	int				i;
-
-	k = -1;
-	while (all->spr[++k + 1])
-	{
-		i = -1;
-		while (all->spr[++i + 1])
-		{
-			if (all->spr[i]->dist < all->spr[i + 1]->dist)
-			{
-				sp = all->spr[i];
-				all->spr[i] = all->spr[i + 1];
-				all->spr[i + 1] = sp;
-				i = -1;
-			}
-		}
-	}
-}
 
 void				ft_sort_sprite(t_all *all)
 {
@@ -92,7 +24,7 @@ void				ft_sort_sprite(t_all *all)
 		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x))
 			* (cosf(all->plr->dir))
 			+ ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
-		if (all->spr[k]->dist < 3.5)
+		if (all->spr[k]->dist < 0.7)
 			all->spr[k]->dist = sqrtf((all->spr[k]->x
 				- all->plr->x) * (all->spr[k]->x - all->plr->x)
 					+ (all->plr->y - all->spr[k]->y)
@@ -112,8 +44,9 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 		drspr->color_spr = get_color_s(all->win, drspr->fsamplex *
 			all->win->s_height, drspr->fsampley * all->win->s_width);
 		if (drspr->color_spr > 1907485 &&
-			(all->depthBuffer[all->win->res_x
-				- drspr->nobjcolumn]) >= (all->spr[i]->dist) && all->spr[i]->dist < 20)
+			(all->depthbuffer[all->win->res_x
+				- drspr->nobjcolumn]) >=
+					(all->spr[i]->dist) && all->spr[i]->dist < 20)
 		{
 			if (drspr->fobjceil + drspr->ly < all->win->res_y)
 				my_mlx_pixel_put(all->win, all->win->res_x
@@ -123,20 +56,29 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 	}
 }
 
-void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
+static	void		ft_pnt_sprite2(t_all *all, t_drawsprite *drspr, int i)
 {
-	drspr->res_x = all->win->res_x;
-	drspr->res_y = all->win->res_y;
 	if (all->win->res_x < all->win->res_y)
 	{
 		drspr->res_x = all->win->res_y;
 		drspr->res_y = all->win->res_x;
-		drspr->kef = (float)((float)all->win->res_x / (float)all->win->res_y) + 0.23 + 0.1 * (int)((float)all->win->res_y / (float)all->win->res_x / 2);
+		drspr->kef = (float)((float)all->win->res_x /
+			(float)all->win->res_y) + 0.23 + 0.1 *
+				(int)((float)all->win->res_y / (float)all->win->res_x / 2);
 	}
 	else
-		drspr->kef = (float)((float)drspr->res_x / (float)all->win->res_y) / 10 + 0.74 + 0.2 * (int)((float)all->win->res_x / (float)all->win->res_y / 2);
+		drspr->kef = (float)((float)drspr->res_x / (float)all->win->res_y) /
+			10 + 0.74 + 0.2 * (int)((float)all->win->res_x /
+				(float)all->win->res_y / 2);
+}
+
+void				ft_paint_sprite(t_all *all, t_drawsprite *drspr, int i)
+{
+	drspr->res_x = all->win->res_x;
+	drspr->res_y = all->win->res_y;
+	ft_pnt_sprite2(all, drspr, i);
 	drspr->fobjceil = (float)(drspr->res_y / 2.0)
-		- drspr->res_y/ ((float)(all->spr[i]->dist));
+		- drspr->res_y / ((float)(all->spr[i]->dist));
 	drspr->fobjfloor = drspr->res_y - drspr->fobjceil;
 	drspr->fobjheight = (drspr->fobjfloor - drspr->fobjceil) * drspr->kef;
 	drspr->fobjaspectratio = (float)all->win->s_height
