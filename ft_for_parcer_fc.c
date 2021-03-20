@@ -65,7 +65,6 @@ void		ft_check_colorf(char *color)
 
 	if (!color)
 		ft_perror("Error\n");
-	printf("her2 %d \n", ft_atoi(color));
 	if (ft_atoi(color) < 0 || ft_atoi(color) > 255 || ft_check_max_int(color))
 		ft_perror("Error\n");
 	i = 0;

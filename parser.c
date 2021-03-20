@@ -30,6 +30,8 @@ static	void	ft_set_img2(t_all *all, t_win *win)
 		ft_perror("Error\n");
 	win->s_addr = mlx_get_data_addr(win->s_img,
 		&win->s_bpp, &win->s_line_length, &win->en);
+	if (win->we_addr == 0 || win->s_addr == 0 || win->ea_addr == 0)
+		ft_perror("Error\n");
 }
 
 static	void	ft_set_img(t_all *all, t_win *win)
@@ -48,6 +50,8 @@ static	void	ft_set_img(t_all *all, t_win *win)
 		&win->so_bpp, &win->so_line_length, &win->en);
 	win->ea_img = mlx_xpm_file_to_image(win->mlx,
 		all->win->ea_path, &win->ea_width, &win->ea_height);
+	if (win->no_addr == 0 || win->so_addr == 0)
+		ft_perror("Error\n");
 	ft_set_img2(all, win);
 }
 
@@ -55,6 +59,14 @@ static	void	main2(char *argv, t_all *all)
 {
 	ft_check_argv2(argv);
 	ft_screen_shot(all);
+}
+
+static	void	ft_init_all_part(t_all *all)
+{
+	all->parcer_map = 0;
+	all->depthbuffer = 0;
+	all->spr = 0;
+	all->map = 0;
 }
 
 int				main(int argc, char **argv)
@@ -65,10 +77,12 @@ int				main(int argc, char **argv)
 
 	all.plr = &plr;
 	all.win = &win;
+	ft_init_all_part(&all);
 	if (argc > 1)
 		all.parcer_map = ft_read_map(argv[1]);
 	else
 		ft_perror("Error\n");
+	ft_check_argv1(argv[1]);
 	ft_parcer(&all);
 	ft_init_plr(all.map, &plr);
 	win.mlx = mlx_init();

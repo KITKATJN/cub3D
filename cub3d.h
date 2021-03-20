@@ -246,4 +246,7 @@ void			ft_preparcer(t_all *all);
 void			ft_afterparcer(t_all *all, int parametr);
 void			ft_parcer_r(t_all *all, char *str, int j);
 void			ft_qsort(t_all *all, int left, int right);
+void			ft_freespr(t_sprite **spr);
+void			ft_check_argv1(const char *argv1);
+void			ft_check_argv2(const char *argv2);
 #endif

@@ -25,6 +25,16 @@ int				mouse(int key, t_all *all)
 	exit(0);
 }
 
+void			ft_check_argv1(const char *argv1)
+{
+	if (ft_strlen(argv1) < 4)
+		ft_perror("Error\n");
+	if (argv1[ft_strlen(argv1) - 4] != '.' || argv1[ft_strlen(argv1) - 3] !=
+		'c' || argv1[ft_strlen(argv1) - 2] !=
+			'u' || argv1[ft_strlen(argv1) - 1] != 'b')
+		ft_perror("Error\n");
+}
+
 void			ft_check_argv2(const char *argv2)
 {
 	if (ft_strlen(argv2) != 6)
