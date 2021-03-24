@@ -24,7 +24,7 @@ void				ft_sort_sprite(t_all *all)
 		all->spr[k]->dist = fabsf(((all->spr[k]->x - all->plr->x))
 			* (cosf(all->plr->dir))
 			+ ((all->plr->y - all->spr[k]->y)) * (sinf(all->plr->dir)));
-		if (all->spr[k]->dist < 0.7)
+		if (all->spr[k]->dist < 0.005)
 			all->spr[k]->dist = sqrtf((all->spr[k]->x
 				- all->plr->x) * (all->spr[k]->x - all->plr->x)
 					+ (all->plr->y - all->spr[k]->y)
@@ -39,7 +39,7 @@ void				ft_paint_spr(t_all *all, t_drawsprite *drspr, int i)
 	drspr->fsampley = drspr->ly / drspr->fobjheight;
 	drspr->nobjcolumn = (int)(drspr->fmiddleobj + drspr->lx -
 		(drspr->fobjwidth / 2.0f));
-	if (drspr->nobjcolumn >= 0 && drspr->nobjcolumn < all->win->res_x)
+	if (drspr->nobjcolumn >= 0 && drspr->nobjcolumn <= all->win->res_x)
 	{
 		drspr->color_spr = get_color_s(all->win, drspr->fsamplex *
 			all->win->s_height, drspr->fsampley * all->win->s_width);
@@ -68,7 +68,7 @@ static	void		ft_pnt_sprite2(t_all *all, t_drawsprite *drspr, int i)
 	}
 	else
 		drspr->kef = (float)((float)drspr->res_x / (float)all->win->res_y) /
-			10 + 0.74 + 0.2 * (int)((float)all->win->res_x /
+			10 + 0.7 + 0.2 * (int)((float)all->win->res_x /
 				(float)all->win->res_y / 2);
 }
 

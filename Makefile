@@ -11,17 +11,14 @@ SRCS		= parser.c ft_rays.c \
 		ft_for_parcer_fc.c ft_parcer_fc.c \
 		ft_parcermap.c ft_free.c ft_plr.c \
 		ft_key_move.c parser2.c ft_pre_after.c \
-		ft_sort.c \
+		ft_sort.c ft_set_heiwidth.c \
 
 
-#BONUS_S		= movin_bonus.c
-
-
-OBJ		= $(SRCS:.c=.o)
+OBJ			= $(SRCS:.c=.o)
 OBJS		= $(addprefix $(OBJRID), $(OBJ))
 
 
-CFLAGS		= size_monitor.m -Wall -Werror -Wextra #-g -fsanitize=address
+CFLAGS		= mlx/size_monitor.m -Wall -Werror -Wextra #-g -fsanitize=address
 MLX_FLAGS	= -framework OpenGL -framework AppKit
 #MLX_FLAGS = -lXext -lX11 -lm #linux
 OPTFLAGS	= -O3
@@ -40,13 +37,25 @@ MLXD		= mlx/#mac
 GNLD		= get_next_line/
 OBJRID		= objs/
 
-CUB_H		= -I cub3d.h
+CUB_H		= cub3d.h
+LIBFT_H		= libft/libft.h
+GNL_H		= get_next_line/get_next_line.h
+LIBSS		= $(GNLD)$(GNL_A) $(LIBFTD)$(LIBFT_A)
 LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(LIBFTD)$(LIBFT_A) #mac
 #LIBS		= $(GNLD)$(GNL_A) $(MLXD)$(MLX_A) $(MLXD)$(MLX_LINUX) $(LIBFTD)$(LIBFT_A) #linux
 
-all:	$(NAME)
+all:	mlx lib gnl $(NAME)
 
-$(NAME): $(OBJS) cub3d.h
+gnl:
+	@make -C $(GNLD)
+
+lib:
+	@make -C $(LIBFTD)
+
+mlx:
+	@make -C $(MLXD)
+
+$(NAME): $(OBJS) $(LIBSS)
 	@make -C $(MLXD)
 	@make -C $(LIBFTD)
 	@make -C $(LIBFTD) bonus
@@ -54,9 +63,9 @@ $(NAME): $(OBJS) cub3d.h
 	gcc $(CFLAGS) $(OBJS) $(LIBS) $(MLX_FLAGS) -o $(NAME)
 	@echo "\n\tcub3D created\t\n"
 
-$(OBJRID)%.o: %.c
+$(OBJRID)%.o: %.c $(CUB_H) Makefile
 	@mkdir -p $(OBJRID)
-	gcc $(OPTFLAGS) -c $< -o $@ $(CUB_H)
+	gcc $(OPTFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJRID)
@@ -75,4 +84,3 @@ re:	fclean all
 
 .PHONY:	fclean all re clean
 
-.SILENT: fclean clean all re $(NAME) $(OBJS) $(OBJRID)

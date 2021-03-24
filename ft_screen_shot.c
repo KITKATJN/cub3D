@@ -19,7 +19,7 @@ char		*ft_fileheader(t_all *all)
 
 	fileheader = ft_calloc(14, sizeof(char));
 	if (!fileheader)
-		ft_perror("Error\n");
+		ft_perror("Error\n with malloc for file header\n", all);
 	fileheader[0] = (unsigned char)('B');
 	fileheader[1] = (unsigned char)('M');
 	fileheader[2] = (unsigned char)(filesize);
@@ -36,7 +36,7 @@ char		*ft_infoheader(t_all *all)
 
 	infoheader = ft_calloc(40, sizeof(char));
 	if (!infoheader)
-		ft_perror("Error\n");
+		ft_perror("Error\n with malloc for infoheader\n", all);
 	infoheader[0] = (unsigned char)(40);
 	infoheader[4] = (unsigned char)(all->win->res_x);
 	infoheader[5] = (unsigned char)(all->win->res_x >> 8);
@@ -59,7 +59,7 @@ void		ft_paintshot(t_all *all, int fd, int y, int x)
 	dst = all->win->addr + (x * (all->win->bpp / 8) + y * all->win->line_l);
 	color = *(unsigned int*)dst;
 	if (write(fd, &color, 4) == -1)
-		ft_perror("Error\n");
+		ft_perror("Error\n with write to file screenshot\n", all);
 }
 
 void		ft_screen_shot(t_all *all)
@@ -72,12 +72,12 @@ void		ft_screen_shot(t_all *all)
 
 	if ((fd = open("screenshottest.bmp", O_CREAT
 		| O_WRONLY | O_TRUNC, 0666)) < 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n with open file for screenshot\n", all);
 	fileheader = ft_fileheader(all);
 	infoheader = ft_infoheader(all);
 	if (write(fd, fileheader, 14) == -1 || write(fd, infoheader, 40) == -1)
-		ft_perror("Error\n");
-	y = all->win->res_y;
+		ft_perror("Error\n with write in file screenshot\n", all);
+	y = all->win->res_y - 1;
 	while (y >= 0)
 	{
 		x = 0;
@@ -88,5 +88,5 @@ void		ft_screen_shot(t_all *all)
 	free(infoheader);
 	free(fileheader);
 	if ((close(fd)) < 0)
-		ft_perror("Error\n");
+		ft_perror("Error\nwith close file for screen shot\n", all);
 }

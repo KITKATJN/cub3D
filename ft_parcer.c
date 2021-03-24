@@ -26,7 +26,7 @@ static	void	ft_co_2(t_all *all, t_sprite *sprite, int i, int j)
 			{
 				sprite = malloc(sizeof(t_sprite));
 				if (!sprite)
-					ft_perror("Error\n");
+					ft_perror("Error\n with malloc buf for sprite\n", all);
 				sprite->x = j + 0.5f;
 				sprite->y = i + 0.5f;
 				all->spr[k++] = sprite;
@@ -58,6 +58,8 @@ void			ft_count_2(t_all *all)
 		i++;
 	}
 	all->spr = ft_calloc(all->win->count_2, sizeof(t_sprite));
+	if (all->spr == 0)
+		ft_perror("Error\nwith malloc ft count 2", all);
 	ft_co_2(all, sprite, 0, 0);
 }
 

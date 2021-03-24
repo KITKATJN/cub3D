@@ -26,7 +26,7 @@
 # include "get_next_line/get_next_line.h"
 
 # define FOV  M_PI / 3
-# define SPEED 0.35
+# define SPEED 0.358
 # define VALID_MAP_SYMB " 012NESW"
 # define VALID_FC_SYMB " 0123456789,"
 # define VALID_R_SYMB " 0123456789"
@@ -172,6 +172,7 @@ typedef struct	s_all
 	char		**parcer_map;
 	float		*depthbuffer;
 	int			map_height;
+	int			map_width;
 }				t_all;
 
 typedef struct	s_drawsprite
@@ -204,10 +205,10 @@ void			horizontal_intersaction(t_all *all,
 	float curr_ray, t_inter *inter);
 int				get_color(t_win *win, int x, int y);
 void			my_mlx_pixel_put(t_win *win, int x, int y, int color);
-char			**make_map(t_list **head, int size);
-char			**ft_read_map(char *argv1);
+char			**make_map(t_all *all, t_list **head, int size);
+char			**ft_read_map(char *argv1, t_all *all);
 void			ft_parcer(t_all *all);
-void			ft_perror(char *error);
+void			ft_perror(char *error, t_all *all);
 void			ft_screen_shot(t_all *all);
 void			ft_draw_wall(t_all *all, t_inter *inter, int cor_x, float ray);
 void			ft_set_hor_param(t_all *all, t_inter *inter, float ray);
@@ -224,11 +225,11 @@ void			ft_parcer_so(t_all *all, char *str, int start);
 void			ft_parcer_we(t_all *all, char *str, int start);
 void			ft_parcer_ea(t_all *all, char *str, int start);
 void			ft_parcer_s(t_all *all, char *str, int start);
-void			ft_check_colorf2(char *color);
-int				ft_check_max_int(char *color);
-void			ft_check_colorf(char *color);
-void			ft_check_f(char *f);
-void			ft_check_number_of_digit(char *f);
+void			ft_check_colorf2(char *color, t_all *all);
+int				ft_check_max_int(char *color, t_all *all);
+void			ft_check_colorf(char *color, t_all *all);
+void			ft_check_f(char *f, t_all *all);
+void			ft_check_number_of_digit(char *f, t_all *all);
 void			ft_parcer_f(t_all *all, char *str, int start);
 void			ft_parcer_c(t_all *all, char *str, int start);
 void			ft_parcer_map(t_all *all, int i);
@@ -236,17 +237,18 @@ void			ft_freemap(char **map);
 void			ft_count_2(t_all *all);
 void			mlx_get_screen_size(int *width, int *height);
 void			ft_freemap(char **map);
-void			ft_init_plr(char **map, t_plr *plr);
+void			ft_init_plr(char **map, t_plr *plr, t_all *all);
 int				key_press(int key, t_all *all);
 void			ft_freeall(t_all *all);
-void			ft_check_argv2(const char *argv2);
 void			draw_screen(t_all *all);
-int				mouse(int key, t_all *all);
+int				mouse(t_all *all);
 void			ft_preparcer(t_all *all);
 void			ft_afterparcer(t_all *all, int parametr);
 void			ft_parcer_r(t_all *all, char *str, int j);
 void			ft_qsort(t_all *all, int left, int right);
 void			ft_freespr(t_sprite **spr);
-void			ft_check_argv1(const char *argv1);
-void			ft_check_argv2(const char *argv2);
+void			ft_check_argv1(const char *argv1, t_all *all);
+void			ft_check_argv2(const char *argv2, t_all *all);
+void			ft_setheiwifth(t_all *all, int height, int width);
+void			ft_checkamountaft(t_all *all, int check, int amount);
 #endif

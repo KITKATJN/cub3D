@@ -21,7 +21,8 @@ static	void	ft_hor(t_all *all, float curr_ray, t_inter *inter)
 	inter->x_hor = all->plr->x + inter->minus_x *
 		fabsf(all->plr->y - (float)inter->mm_y) / fabsf(tanf(curr_ray));
 	while ((int)inter->x_hor > 0 &&
-		(int)inter->x_hor < (int)ft_strlen(all->map[0]))
+			(int)inter->x_hor < all->map_width &&
+				(int)inter->x_hor < (int)ft_strlen(all->map[(int)all->plr->y]))
 	{
 		if (all->map[(int)(inter->y_hor +
 			inter->y_error)][(int)inter->x_hor] == '1')

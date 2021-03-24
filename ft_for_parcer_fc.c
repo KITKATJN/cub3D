@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void		ft_check_colorf2(char *color)
+void		ft_check_colorf2(char *color, t_all *all)
 {
 	int		i;
 	int		check;
@@ -28,7 +28,7 @@ void		ft_check_colorf2(char *color)
 			if (check == 0)
 				check = 1;
 			if (check == 2)
-				ft_perror("Error\n");
+				ft_perror("Error\n with amount of num in f or c\n", all);
 		}
 		if (check == 1 && !ft_isdigit(color[i]))
 			check = 2;
@@ -36,7 +36,7 @@ void		ft_check_colorf2(char *color)
 	}
 }
 
-int			ft_check_max_int(char *color)
+int			ft_check_max_int(char *color, t_all *all)
 {
 	int		i;
 	size_t	check;
@@ -54,19 +54,20 @@ int			ft_check_max_int(char *color)
 	if (ft_strlen(color) < ft_strlen(MAX_INT))
 		return (0);
 	if (check > ft_strlen(MAX_INT))
-		ft_perror("Error\n");
+		ft_perror("Error\n parametr in f or c over big\n", all);
 	return (0);
 }
 
-void		ft_check_colorf(char *color)
+void		ft_check_colorf(char *color, t_all *all)
 {
 	int		i;
 	int		check;
 
 	if (!color)
-		ft_perror("Error\n");
-	if (ft_atoi(color) < 0 || ft_atoi(color) > 255 || ft_check_max_int(color))
-		ft_perror("Error\n");
+		ft_perror("Error\n with  malloc for color f or c\n", all);
+	if (ft_atoi(color) < 0 || ft_atoi(color) > 255 ||
+		ft_check_max_int(color, all))
+		ft_perror("Error\n wrong parametr for f or c\n", all);
 	i = 0;
 	check = 0;
 	while (color[i] != 0)
@@ -81,10 +82,10 @@ void		ft_check_colorf(char *color)
 		i++;
 	}
 	if (!check)
-		ft_perror("Error\n");
+		ft_perror("Error\n with f or c\n", all);
 }
 
-void		ft_check_f(char *f)
+void		ft_check_f(char *f, t_all *all)
 {
 	int		i;
 	int		check;
@@ -93,7 +94,7 @@ void		ft_check_f(char *f)
 	while (f[i] != '\0')
 	{
 		if (!ft_strrchr(VALID_FC_SYMB, f[i]))
-			ft_perror("Error\n");
+			ft_perror("Error\n invalid symb in f or c\n", all);
 		i++;
 	}
 	check = 0;
@@ -101,14 +102,14 @@ void		ft_check_f(char *f)
 	while (i > 0)
 	{
 		if (f[i] == ',' && check == 0)
-			ft_perror("Error\n");
+			ft_perror("Error\n with , in f or c\n", all);
 		if (ft_isdigit(f[i]))
 			check = 1;
 		i--;
 	}
 }
 
-void		ft_check_number_of_digit(char *f)
+void		ft_check_number_of_digit(char *f, t_all *all)
 {
 	int		i;
 	int		check1;
@@ -131,5 +132,5 @@ void		ft_check_number_of_digit(char *f)
 	if (check1)
 		amount++;
 	if (amount != 3)
-		ft_perror("Error\n");
+		ft_perror("Error\n with amount of numbers in f or c\n", all);
 }

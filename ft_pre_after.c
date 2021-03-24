@@ -30,35 +30,37 @@ void			ft_preparcer(t_all *all)
 void			ft_afterparcer(t_all *all, int parametr)
 {
 	if (all->win->res_x == 0 || all->win->res_y == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n wrong res x or res y\n", all);
 	if (all->map == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n no  map\n", all);
 	if (all->win->c_color == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n errot with c color\n", all);
 	if (all->win->f_color == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n error with f color\n", all);
 	if (all->win->s_path == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n error with s path\n", all);
 	if (all->win->ea_path == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n error with ea pth\n", all);
 	if (all->win->so_path == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n error with so path\n", all);
 	if (all->win->we_path == 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n error with we path\n", all);
 	if (parametr != 8)
-		ft_perror("Error\n");
+		ft_perror("Error\n wrong numbers of parametr before map\n", all);
 }
 
-static	void	ft_check_r(char *r, int j)
+static	void	ft_check_r(char *r, int j, t_all *all)
 {
 	int			i;
 	int			check;
 	int			amount;
 
 	i = j;
+	if (r[j] != ' ')
+		ft_perror("Error\nwith R\n", all);
 	while (r[++i] != '\0')
 		if (!ft_strrchr(VALID_R_SYMB, r[i]))
-			ft_perror("Error\n");
+			ft_perror("Error\n invalid symbol in r\n", all);
 	check = 0;
 	amount = 0;
 	i = 0;
@@ -72,10 +74,7 @@ static	void	ft_check_r(char *r, int j)
 			check = 0;
 		}
 	}
-	if (check == 1)
-		amount++;
-	if (amount != 2)
-		ft_perror("Error\n");
+	ft_checkamountaft(all, check, amount);
 }
 
 void			ft_parcer_r(t_all *all, char *str, int j)
@@ -85,22 +84,21 @@ void			ft_parcer_r(t_all *all, char *str, int j)
 	int		height;
 	int		width;
 
-	ft_check_r(str, j);
+	ft_check_r(str, j, all);
 	ptr = str;
 	all->win->res_x = ft_atoi(ptr + j);
-	if (all->win->res_x <= 0)
-		ft_perror("Error\n");
+	if (all->win->res_x == -1)
+		ft_perror("Error\n res x wrong over int\n", all);
 	res_x = ft_itoa(all->win->res_x);
+	if (!res_x)
+		ft_perror("Error\n error with maloc in parcer r\n", all);
 	ptr = ft_strnstr(str, res_x, ft_strlen(str));
+	if (!ptr)
+		ft_perror("Error\n error with maloc in parcer r\n", all);
 	all->win->res_y = ft_atoi(ptr + ft_strlen(res_x));
 	if (all->win->res_y <= 0)
-		ft_perror("Error\n");
+		ft_perror("Error\n res y wrong\n", all);
 	free(res_x);
 	mlx_get_screen_size(&width, &height);
-	if (all->win->res_y > height)
-		all->win->res_y = height - 1;
-	if (all->win->res_x > width)
-		all->win->res_x = width - 1;
-	if (all->win->res_x == 60 || all->win->res_x == 40)
-		all->win->res_x++;
+	ft_setheiwifth(all, height, width);
 }

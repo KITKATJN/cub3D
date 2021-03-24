@@ -15,18 +15,43 @@
 int				ft_wall_collision1(t_all *all, float start_y,
 	float start_x, float back_or_forward)
 {
-	float	dist;
-	t_inter	inter;
+	float		dist;
+	t_inter		inter;
+	float		dir;
 
 	dist = sqrtf((start_x - all->plr->x) * (start_x - all->plr->x)
 		+ (start_y - all->plr->y) * (start_y - all->plr->y));
-	all->plr->dir += back_or_forward;
+	dir = all->plr->dir + back_or_forward;
 	horizontal_intersaction(all, all->plr->dir, &inter);
 	vert_intersaction(all, all->plr->dir, &inter);
-	all->plr->dir -= back_or_forward;
-	if (dist < inter.hor_dist && dist < inter.vert_dist)
-		return (0);
-	return (1);
+	if (dist >= fabsf(inter.hor_dist) || dist >= fabsf(inter.vert_dist))
+		return (1);
+	horizontal_intersaction(all, dir + FOV / 4, &inter);
+	vert_intersaction(all, dir + FOV / 4, &inter);
+	if (dist >= fabsf(inter.hor_dist) || dist >= fabsf(inter.vert_dist))
+		return (1);
+	horizontal_intersaction(all, dir - FOV / 4, &inter);
+	vert_intersaction(all, dir - FOV / 4, &inter);
+	if (dist >= fabsf(inter.hor_dist) || dist >= fabsf(inter.vert_dist))
+		return (1);
+	return (0);
+}
+
+int				ft_wall_collision2(t_all *all, float start_y,
+	float start_x, float back_or_forward)
+{
+	float	dist;
+	t_inter	inter;
+	float	dir;
+
+	dist = sqrtf((start_x - all->plr->x) * (start_x - all->plr->x)
+		+ (start_y - all->plr->y) * (start_y - all->plr->y));
+	dir = all->plr->dir + back_or_forward;
+	horizontal_intersaction(all, all->plr->dir, &inter);
+	vert_intersaction(all, all->plr->dir, &inter);
+	if (dist >= fabsf(inter.hor_dist) || dist >= fabsf(inter.vert_dist))
+		return (1);
+	return (0);
 }
 
 static	void	key1_2(int key, t_all *all)
@@ -35,8 +60,9 @@ static	void	key1_2(int key, t_all *all)
 	{
 		all->plr->y += sin(all->plr->dir) * SPEED;
 		all->plr->x -= cos(all->plr->dir) * SPEED;
-		if (ft_wall_collision1(all, (all->plr->y - sin(all->plr->dir) * SPEED),
-			(all->plr->x + cos(all->plr->dir) * SPEED), M_PI))
+		if (ft_wall_collision1(all, all->plr->y - sin(all->plr->dir) *
+			SPEED, all->plr->x + cos(all->plr->dir) * SPEED, M_PI)
+				|| all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
 			all->plr->y -= sin(all->plr->dir) * SPEED;
 			all->plr->x += cos(all->plr->dir) * SPEED;
@@ -46,7 +72,9 @@ static	void	key1_2(int key, t_all *all)
 	{
 		all->plr->x += sin(all->plr->dir) * SPEED;
 		all->plr->y += cos(all->plr->dir) * SPEED;
-		if (all->map[(int)all->plr->y][(int)all->plr->x] == '1')
+		if (ft_wall_collision2(all, (all->plr->y - cos(all->plr->dir) * SPEED),
+			(all->plr->x - sin(all->plr->dir) * SPEED), 3 * M_PI_2)
+				|| all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
 			all->plr->x -= sin(all->plr->dir) * SPEED;
 			all->plr->y -= cos(all->plr->dir) * SPEED;
@@ -72,8 +100,9 @@ static	void	key123(int key, t_all *all)
 	{
 		all->plr->y -= sin(all->plr->dir) * SPEED;
 		all->plr->x += cos(all->plr->dir) * SPEED;
-		if (ft_wall_collision1(all, (all->plr->y + sin(all->plr->dir) * SPEED),
-			(all->plr->x - cos(all->plr->dir) * SPEED), 0))
+		if (ft_wall_collision2(all, (all->plr->y + sin(all->plr->dir) * SPEED),
+			(all->plr->x - cos(all->plr->dir) * SPEED), 0) ||
+				all->map[(int)all->plr->y][(int)all->plr->x] == '1')
 		{
 			all->plr->y += sin(all->plr->dir) * SPEED;
 			all->plr->x -= cos(all->plr->dir) * SPEED;

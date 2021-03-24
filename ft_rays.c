@@ -19,11 +19,10 @@ void				ft_draw_player2(t_all *all, t_plr *pl)
 	int				i;
 
 	plr = *all->plr;
-	i = all->win->res_x;
-	all->depthbuffer = ft_calloc(sizeof(float), all->win->res_x);
+	i = all->win->res_x - 1;
 	plr.start = plr.dir - FOV / 2;
 	plr.end = plr.dir + FOV / 2;
-	while (plr.start < plr.end)
+	while (plr.start < plr.end && i >= 0)
 	{
 		plr.x = pl->x;
 		plr.y = pl->y;
@@ -32,5 +31,6 @@ void				ft_draw_player2(t_all *all, t_plr *pl)
 		ft_draw_wall(all, &inter, i--, plr.start);
 		plr.start += FOV / all->win->res_x;
 	}
-	ft_draw_sprite(all, plr.dir);
+	if (all->win->count_2 > 0)
+		ft_draw_sprite(all, plr.dir);
 }
