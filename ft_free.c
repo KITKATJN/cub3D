@@ -23,15 +23,15 @@ void			ft_freeall(t_all *all)
 	}
 	if (all->win->count_2 > 0)
 		ft_freespr(all->spr);
-	if (!all->win->so_path)
+	if (all->win->so_path != 0)
 		free(all->win->so_path);
-	if (!all->win->no_path)
+	if (all->win->no_path != 0)
 		free(all->win->no_path);
-	if (!all->win->ea_path)
+	if (all->win->ea_path != 0)
 		free(all->win->ea_path);
-	if (!all->win->we_path)
+	if (all->win->we_path != 0)
 		free(all->win->we_path);
-	if (!all->win->s_path)
+	if (all->win->s_path != 0)
 		free(all->win->s_path);
 	all->win->we_path = 0;
 	all->win->no_path = 0;
