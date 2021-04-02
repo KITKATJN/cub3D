@@ -16,7 +16,7 @@ void			ft_freeall(t_all *all)
 {
 	ft_freemap(all->map);
 	ft_freemap(all->parcer_map);
-	if (!all->depthbuffer)
+	if (all->depthbuffer != 0)
 	{
 		free(all->depthbuffer);
 		all->depthbuffer = 0;
